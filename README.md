@@ -44,3 +44,22 @@ const settings = {
   longTipDuration: 4000
 }
 ```
+
+* 按照下面说明修改微信云开发配置
+```javascript
+const settings = {
+  cloudenv: '', // 微信云开发环境名称
+  app_id: '', // 微信小程序appid
+  app_secret: '', // 微信小程序appsecret
+  wechat_access_token_record_id: '', // 在微信云数据库里配置的wechat_token表第一条记录的id
+  // 微信支付
+  wechat: {
+    appid: "", // 微信支付appid
+    mch_id: "", // 微信支付商户号
+    ip: "", // 填写任意ip地址
+    notify_url: "", // 微信支付通知Url
+    key: "", 微信支付Key
+    url: "https://api.mch.weixin.qq.com/pay/unifiedorder" // 微信统一下单接口地址
+  }
+}
+```
