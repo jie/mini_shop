@@ -1,7 +1,7 @@
 # mini_shop
 
 ### 配置文件说明
-```
+```javascript
 const settings = {
   app_id: '', // 微信小程序appid
   app_secret: '' // 微信小程序appsecret,
