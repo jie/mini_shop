@@ -1,0 +1,26 @@
+@import '../base/style.wxss';
+
+.item {
+  display: flex;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.item .details {
+  padding-left: 20px;
+  flex: 1;
+  display: block;
+}
+
+.item .name {
+  color: #666;
+  display: block;
+}
+
+.item .balance {
+  font-size: 120%;
+  font-weight: bold;
+  color:tomato;
+  display: block;
+}

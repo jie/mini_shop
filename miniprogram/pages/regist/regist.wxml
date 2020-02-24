@@ -1,0 +1,7 @@
+<wux-dialog id="wux-dialog" />
+<view class="container">
+  <view class="note">
+    为了更好的为您服务，我们需要获取您的手机号
+  </view>
+  <button class="userinfo-nickname" open-type="getPhoneNumber" bindgetphonenumber="onGetPhoneNumber">获取手机号</button>
+</view>

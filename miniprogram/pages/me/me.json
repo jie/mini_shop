@@ -1,0 +1,8 @@
+{
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "myList": "../../components/list/list",
+    "avatar": "../../components/avatar/avatar",
+    "wux-dialog": "../../components/wux-weapp/dialog/index"
+  }
+}

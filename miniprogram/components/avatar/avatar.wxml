@@ -1,0 +1,7 @@
+<view class="avatar {{bordered?'bordered':''}}" wx:if="{{avatarInfo}}" style="width: {{size}}px; height: {{size}}px; border-radius: {{isCube?0:size/2}}px">
+  <image src="{{avatarInfo.filePath}}" mode="aspectFit" style="width: {{size}}px; height: {{size}}px;"></image>
+</view>
+
+<view class="avatar {{bordered?'bordered':''}}" wx:else style="width: {{size}}px; height: {{size}}px; border-radius: {{isCube?0:size/2}}px">
+  <open-data type="userAvatarUrl"></open-data>
+</view>

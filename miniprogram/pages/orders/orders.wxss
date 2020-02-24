@@ -1,0 +1,2 @@
+@import '../base/style.wxss';
+@import '../user_orders/user_orders.wxss';

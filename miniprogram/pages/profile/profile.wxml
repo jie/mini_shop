@@ -1,0 +1,14 @@
+<wux-dialog id="wux-dialog" />
+<view class="container">
+
+  <view class="list-title">个人资料</view>
+  <view class="list">
+    <list-item title="名字" isLink="true" url="/pages/name_form/name_form" value="{{userInfo.realName || '未设置'}}" />
+    <picker bindchange="bindGenderChange" value="{{index}}" range="{{genderTypes}}" range-key="label">
+      <list-item title="性别" isLink="true" value="{{genderName || '未设置'}}" />
+    </picker>
+    <picker mode="date" value="{{date}}" start="1900-01-01" end="{{birthEndDay}}" bindchange="bindDateChange">
+      <list-item title="生日" isLink="true" value="{{ userInfo.birthday || '未设置'}}" borderWidth="0" />
+    </picker>
+  </view>
+</view>

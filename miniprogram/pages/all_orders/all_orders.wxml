@@ -1,0 +1,50 @@
+<wux-calendar id="wux-calendar" />
+<wux-dialog id="wux-dialog" />
+<view class="container">
+<view class="datebar">
+  <view class="date-label">{{target_date}}</view>
+  <view class="date-btn-wrapper">
+    <view class="date-button" bindtap="showCalendar">选择日期</view>
+  </view>
+</view>
+  <view class="orders" style="padding-top: 50px;">
+    <view class="order" wx:for="{{entities}}" wx:key="{{item.id}}">
+      <view class="controls" bindtap="onControlOrder" data-orderid="{{item._id}}" wx:if="{{item.type == 'pay' && admin}}">设置</view>
+      <view class="order-type">
+        <text class="iconfont icon-gouwucheman" wx:if="{{item.type == 'pay'}}"></text>
+        <text class="iconfont icon-zhanghuchongzhi-copy" wx:else></text>
+      </view>
+      <view class="order-detail">
+        <view class="order-title ellipsis">{{item.title}}</view>
+        <view class="order-cate">{{item.orderNo}}</view>
+        <view class="order-cate">{{statuses[item.status].name}} {{deliveryStatus[item.delivery_status] ? deliveryStatus[item.delivery_status].name:''}}</view>
+        <view class="order-date">{{item.create_at}}</view>
+        <view class="order-all-details">
+          <view class="order-entities" wx:if="{{item.orderInfo && item.orderInfo.entities && item.orderInfo.entities.length !==0}}">
+            <view class="entity" wx:for="{{item.orderInfo.entities}}" wx:for-item="entity" wx:key="{{entity.id}}">
+              <view class="entity-name">{{entity.name}}</view>
+              <view class="entity-price">{{entity.price}} x {{entity.count}}</view>
+            </view>
+          </view>
+        </view>
+        <view class="order-delivery" wx:if="{{item.addressInfo && item.addressInfo.cityName && item.addressInfo.detailInfo}}">
+          <view class="order-delivery-title">收货地址: </view>
+          <view class="area">{{item.addressInfo.provinceName}} {{item.addressInfo.cityName}} {{item.addressInfo.countyName}} {{item.addressInfo.detailInfo}}</view>
+          <view class="tel" wx:if="{{item.addressInfo.telNumber}}">电话：{{item.addressInfo.telNumber}}</view>
+          <view class="postcode" wx:if="{{item.addressInfo.postalCode}}">邮编：{{item.addressInfo.postalCode}}</view>
+        </view>
+
+        <view class="delivery-info" wx:if="{{item.deliveryInfo}}">
+          <view class="delivery-info-company" wx:if="{{item.deliveryInfo.company_name}}">快递公司：{{item.deliveryInfo.company_name||'本店御用快递小哥'}}</view>
+          <view class="delivery-info-orderno" wx:if="{{item.deliveryInfo.orderno}}">订单编号：{{item.deliveryInfo.orderno}}</view>
+          <view class="delivery-info-datetime" wx:if="{{item.deliveryInfo.will_received_date}}">送达时间：<text>{{item.deliveryInfo.will_received_date}} {{item.deliveryInfo.will_received_time}}</text></view>
+        </view>
+
+        <view class="order-remarks" wx:if="{{item.remarks}}">用户备注: {{item.remarks}}</view>
+        <view class="order-admin_remarks" wx:if="{{item.admin_remarks && admin}}">管理员备注: {{item.admin_remarks}}</view>
+      </view>
+      <view class="order-total {{item.type}}" wx:if="{{item.type!=='pay'}}">{{itemFlags[item.type]}} {{ item.orderInfo.total}}</view>
+      <view class="order-total {{item.type}}" wx:else>{{itemFlags[item.type]}} {{ item.orderInfo.display_total}} {{ item.orderInfo.display_total !== item.orderInfo.total ?  item.orderInfo.total : ''}}</view>
+    </view>
+  </view>
+</view>

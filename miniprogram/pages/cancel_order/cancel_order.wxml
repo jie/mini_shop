@@ -1,0 +1,11 @@
+<view class="container">
+  <view class="section">
+    <view class="section__title">* 退款金额</view>
+    <view class="section__field">
+      <input bindinput="bindInputChange" type="number" placeholder="请填写取消订单并且需要退款金额" value="{{refund_amount}}" />
+    </view>
+  </view>
+  <view class="section">
+    <view class="round-button" style="width: 100%" bindtap="submitForm">取消订单</view>
+  </view>
+</view>

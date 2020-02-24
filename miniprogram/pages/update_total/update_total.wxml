@@ -1,0 +1,11 @@
+<view class="container">
+  <view class="section">
+    <view class="section__title">* 调整后的订单总金额</view>
+    <view class="section__field">
+      <input bindinput="bindInputChange" type="number" placeholder="请填写调整后的订单总金额" value="{{total}}" />
+    </view>
+  </view>
+  <view class="section">
+    <view class="round-button" style="width: 100%" bindtap="submitForm">保存</view>
+  </view>
+</view>

@@ -1,0 +1,102 @@
+@import '../base/style.wxss';
+
+.order {
+  display: flex;
+  min-height: 120px;
+  padding: 10px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #eee;
+  width: 100%;
+}
+
+.order:last-child {
+  border-bottom: 0;
+}
+
+.order .order-type {
+  flex-basis: 60px;
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+.order .order-type text {
+  font-size: 30px;
+  color: #e67774;
+}
+
+.order .order-detail {
+  flex-basis: 100%;
+  min-width: 0;
+}
+
+.order .order-total {
+  flex-basis: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  flex-grow: 0;
+  font-size: 120%;
+}
+
+.order .order-total.pay {
+  color: green;
+}
+
+.order .order-total.deposit {
+  color: red;
+}
+
+.order .order-date {
+  font-size: 80%;
+  color: #999;
+  margin-top: 5px;
+}
+
+.order .order-cate {
+  font-size: 80%;
+  color: #666;
+  margin-top: 5px;
+}
+
+.order .entity {
+  display: flex;
+}
+
+.entity-name {
+  width: 50%;
+}
+
+.entity-price {
+  width: 50%;
+}
+
+.collapse-button {
+  font-size: 80%;
+  color: #333;
+}
+
+.order-entities {
+  color: #666;
+  margin-top: 10px;
+}
+
+
+.order-all-details, .order-delivery, .order-remarks, .order-admin_remarks, .delivery-info {
+  font-size: 80%;
+  color: #666;
+}
+
+.order-delivery, .order-remarks, .order-admin_remarks, .delivery-info {
+  margin-top: 20px;
+}
+
+
+.controls {
+  position: absolute;
+  right: 20px;
+  font-size: 80%;
+  color: #999;
+}

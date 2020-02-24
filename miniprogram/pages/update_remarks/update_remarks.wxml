@@ -1,0 +1,17 @@
+<view class="container">
+  <view class="section">
+    <view class="section__title">* 管理员备注</view>
+    <view class="section__field">
+      <textarea bindinput="bindAdminRemarksChange" style="height: 150px" placeholder="请填写管理员备注，仅管理员可见" value="{{admin_remarks}}" />
+    </view>
+  </view>
+  <view class="section">
+    <view class="section__title">* 用户备注</view>
+    <view class="section__field">
+      <textarea bindinput="bindUserRemarksChange" style="height: 150px" placeholder="请填写用户备注，用户和管理员都可见" value="{{remarks}}" />
+    </view>
+  </view>
+  <view class="section">
+    <view class="round-button" style="width: 100%" bindtap="submitForm">保存</view>
+  </view>
+</view>

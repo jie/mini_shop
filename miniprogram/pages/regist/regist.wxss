@@ -1,0 +1,37 @@
+page {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+    background-color: #e67774;
+}
+
+
+.userinfo-nickname {
+  font-size: 32rpx;
+  color: white;
+  background-color: #7dd3da;
+  background-size: cover;
+  height: 40px;
+  line-height: 40px;
+  width: 120px;
+  border-radius: 20px;
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  margin-left: -60px;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.3);
+}
+
+.userinfo-nickname::after {
+  border: none;
+}
+
+.note {
+  padding: 40px;
+  margin: 40px;
+  background-color: #fb5655;
+  text-align: center;
+  color: #fff;
+  font-size: 120%;
+  border-radius: 20px;
+}

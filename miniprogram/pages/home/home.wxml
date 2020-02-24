@@ -1,0 +1,22 @@
+<wux-dialog id="wux-dialog" />
+<view class="container">
+
+  <view class="slide" wx:if="{{images}}">
+    <image mode="widthFix" style="width: 100%" src="{{targetImage}}"></image>
+  </view>
+
+  <view class="header" wx:if="{{entities && entities.length !== 0}}">
+    <view class="">购买充值卡</view>
+  </view>
+  <view class="cards">
+    <view class="grid">
+      <view class="item item-{{item.style}}" wx:for="{{entities}}" bindtap="ontapCard" wx:key="{{item.id}}" data-card="{{item}}">
+        <text class="card-label" data-card="{{item}}">{{item.name}}</text>
+        <text class="card-note" data-card="{{item}}" wx-if="{{item.style == 'a'}}">买{{item.value}}元得{{item.real_value}}元</text>
+      </view>
+      <!-- <view class="item item-g">
+        <text class="card-label">充值任意金额</text>
+      </view> -->
+    </view>
+  </view>
+</view>

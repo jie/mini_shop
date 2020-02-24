@@ -1,0 +1,7 @@
+{
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "wux-calendar": "../../components/wux-weapp/calendar/index",
+    "wux-dialog": "../../components/wux-weapp/dialog/index"
+  }
+}

@@ -1,0 +1,271 @@
+@import '../base/style.wxss';
+
+.container {
+  /* background-color: #e67774; */
+  position: relative;
+  padding-bottom: 100px
+}
+
+.body {
+  padding: 5px;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
+}
+
+.header {
+  padding: 20px;
+  background-color: #e67774;
+  color: #fff;
+}
+
+.buycart-title text {
+  display: inline-block;
+  font-size: 140%;
+}
+
+.buycart-meta {
+  font-size: 90%;
+  color: #ccc;
+}
+
+.item {
+  display: flex;
+  height: 90px;
+  padding: 10px;
+  box-sizing: border-box;
+  border-top: 1px solid #f5f5f5;
+}
+
+.item:last-child {
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.goods-cover {
+  width: 90px;
+  height: 100%;
+}
+
+.goods-info {
+  flex: 1;
+  height: 100%;
+}
+
+.goods-cover image {
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
+}
+
+.title {
+  display: flex;
+  font-weight: bold;
+}
+
+.title .price {
+  width: 80px;
+  justify-content: center;
+  align-items: center;
+  text-align: right;
+  color: #333;
+  font-size: 90%;
+}
+
+.title .name {
+  flex: 1;
+  color: #333;
+}
+
+.info {
+  display: flex;
+  padding-top: 10px;
+}
+
+.info .count {
+  flex: 1;
+}
+
+.info .total {
+  width: 80px;
+}
+
+.count-wrapper {
+  width: 120px;
+}
+
+.foot-wrapper {
+  display: flex;
+  padding-right: 10px;
+}
+
+.goods-agree {
+  width: 80px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.goods-agree-info {
+  flex: 1;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.agree-button {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #ddd;
+  border-radius: 20px;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.agree-button-inner {
+  height: 30px;
+  width: 30px;
+  border-radius: 15px;
+  background-color: #fff;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  border: 2px solid #ddd;
+  box-sizing: border-box;
+}
+
+.agree-button-inner.agreed {
+  background-color: #333;
+}
+
+.goods-note {
+  font-size: 80%;
+  color: #666;
+}
+
+.goods-total {
+  display: flex;
+  padding-bottom: 5px;
+}
+
+.total-label {
+  font-size: 80%;
+}
+
+.total-line {
+  flex: 1;
+  border-bottom: 1px dotted #ddd;
+}
+
+.total-amount {
+  font-size: 80%;
+}
+
+.submit-button {
+  height: 50px;
+  width: 120px;
+  line-height: 50px;
+  border-radius: 25px;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  background-color: #ddd;
+  position: fixed;
+  right: 20px;
+  bottom: 30px;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
+}
+
+.submit-button.agreed {
+  background-color: #fa8282;
+}
+
+.return-buy {
+  height: 30px;
+  width: 120px;
+  line-height: 30px;
+  border-radius: 15px;
+  color: #333;
+  font-weight: bold;
+  text-align: center;
+  background-color: #f5f5f5;
+  position: fixed;
+  right: 150px;
+  bottom: 40px;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
+}
+
+.body-header {
+  padding-bottom: 5px;
+}
+
+.body-header-wrapper {
+  height: 30px;
+  line-height: 30px;
+  display: flex;
+  padding-left: 10px;
+  padding-right: 10px;
+  box-sizing: border-box;
+  font-size: 80%;
+  color: #666;
+}
+
+.body-header-wrapper label {
+  width: 80px;
+}
+
+.body-header-wrapper .clear {
+  flex: 1;
+  text-align: right;
+}
+
+.address {
+  position: relative;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.address-wrapper {
+  margin-right: 60px;
+}
+
+.address .icon-gengduo {
+  position: absolute;
+  top: 30px;
+  right: 20px;
+}
+
+.address .address-detail {
+  color: #333;
+  font-size: 110%;
+}
+
+.address .address-name {
+  color: #666;
+  font-size: 90%;
+  margin-top: 5px;
+}
+
+
+.delivery-method {
+  padding-left: 10px;
+  padding-bottom: 10px;
+  padding-right: 10px;
+  text-align: right;
+}
+
+.delivery-method .method-name {
+  display: inline-block;
+  font-size: 80%;
+  padding-left: 8px;
+  padding-right: 8px;
+  background-color: #ddd;
+  margin-right: 5px;
+  color: #fff;
+  border-radius: 15px;
+  height: 30px;
+  line-height: 30px;
+  box-sizing: border-box;
+}
+
+.delivery-method .method-name.selected {
+  color: #fff;
+  background-color: #e67774;
+}

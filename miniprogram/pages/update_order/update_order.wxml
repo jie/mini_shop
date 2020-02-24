@@ -1,0 +1,5 @@
+<view class="container">
+  <view class="section">
+    <view class="round-button" style="width: 100%" bindtap="setOrderStatus">设置订单状态</view>
+  </view>
+</view>

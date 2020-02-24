@@ -1,0 +1,50 @@
+<wux-calendar id="wux-calendar" />
+<view class="container">
+  <view wx:if="status && status != 'prepeare'"></view>
+  <view class="section">
+    <view class="section__title">快递公司</view>
+    <view class="section__field">
+      <picker bindchange="bindDeliveryCompanyChange" value="{{index}}" range="{{companies}}" range-key="name">
+        <input bindchange="bindDeliveryCompanyInputChange" placeholder="请选择快递公司" value="{{deliveryInfo.company_name}}" readonly/>
+      </picker>
+    </view>
+
+  </view>
+
+  <view class="section">
+    <view class="section__title">订单号</view>
+    <view class="section__field">
+      <input bindchange="bindOrdernoChange" placeholder="请填写订单号" value="{{deliveryInfo.orderno}}" />
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section__title">运费(元)</view>
+    <view class="section__field">
+      <input type="number" bindchange="bindOrdeFeeChange" placeholder="请填写运费" value="{{deliveryInfo.fee}}" />
+    </view>
+  </view>
+
+
+  <view class="section">
+    <view class="section__title">预计送达日期</view>
+    <view class="section__field">
+      <input bindfocus="openCalendar" placeholder="请选设置预计送达日期" value="{{deliveryInfo.will_received_date}}" readonly/>
+    </view>
+  </view>
+
+
+  <view class="section">
+    <view class="section__title">预计送达时间</view>
+    <view class="section__field">
+      <picker mode="time" value="{{time}}" start="08:00" end="00:00" bindchange="bindTimeChange">
+        <input bindfocus="bindTimeChange" placeholder="请选设置预计送达时间" value="{{deliveryInfo.will_received_time}}" readonly/>
+      </picker>
+    </view>
+
+  </view>
+
+  <view class="section">
+    <view class="round-button" style="width: 100%" bindtap="setOrderStatus">设置发货状态</view>
+  </view>
+</view>

@@ -1,0 +1,15 @@
+<view class="list">
+  <view class="item" wx:for="{{entities}}" wx:key="{{item.key}}" data-index="{{index}}" bindtap="onClickItem">
+    <view class="wrapper">
+      <view class="icon" wx:if="{{item.icon}}">
+      </view>
+      <slot wx:if="{{useSlot}}"></slot>
+      <view class="title ellipsis" wx:if="{{!item.openType}}" style="color: {{item.titleColor?item.titleColor:'#999'}}">{{item.title}}</view>
+      <button class="title ellipsis" open-type="{{item.openType}}" style="color: {{item.titleColor?item.titleColor:'#999'}}" wx:else>{{item.title}}</button>
+      <view class="value ellipsis" wx:if="{{item.value}}">{{item.value}}</view>
+      <view class="arraw" wx:if="{{item.isLink}}">
+        <text class="iconfont icon-gengduo" style="color: {{arrowColor?arrowColor:'#999'}}"></text>
+      </view>
+    </view>
+  </view>
+</view>

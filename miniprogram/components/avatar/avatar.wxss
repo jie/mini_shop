@@ -1,0 +1,9 @@
+.avatar {
+  overflow: hidden;
+  box-sizing: border-box;
+  z-index: 2
+}
+
+.bordered {
+  border: 4px solid #eee;
+}

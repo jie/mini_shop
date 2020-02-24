@@ -1,0 +1,118 @@
+@import '../base/style.wxss';
+
+page {
+  background-color: #fff;
+}
+
+.container {
+  background-color: #fff;
+}
+
+.header {
+  padding: 40rpx;
+  /* background-color: #d9262f; */
+  position: relative;
+  height: 120rpx;
+  box-sizing: border-box;
+  /* border: solid 5px #000; */
+  /* border-color: transparent transparent #000 transparent;
+  border-radius: 0 0 1000rpx 90%/120rpx; */
+  width: 100%;
+  background-color: #E67774
+}
+
+.lucky-index-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  z-index: 1;
+}
+
+.lucky-index-round {
+  position: fixed;
+  top: 9999rpx;
+  left: 0;
+  /* position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%; */
+}
+
+.avatarWrap {
+  position: absolute;
+  left: 30px;
+  z-index: 2;
+}
+
+.userinfo {
+  position: absolute;
+  font-size: 13px;
+  color: #880e4f;
+  background-color: #fef1e6;
+  text-align: center;
+  max-width: 100px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, 0.2) 2rpx 2rpx 4rpx 2rpx;
+  right: 30px;
+  top: 35px;
+  padding-left: 10px;
+  padding-right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.username {
+  position: absolute;
+  font-size: 15px;
+  color: #333;
+  font-weight: bold;
+  top: 30px;
+  left: 100px;
+  max-width: 180px;
+  z-index: 2;
+}
+
+.nickname open-data {
+  font-size: 36rpx;
+  color: #333;
+  font-weight: bold;
+}
+.nickname {
+  color: #fff;
+}
+.nickname {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.nickname wux-icon {
+  margin-left: 24rpx;
+}
+
+.body {
+  margin-top: 100rpx;
+}
+
+.round-button {
+  position: relative !important;
+  width: 100%;
+  right: 0;
+  bottom: 0;
+}
+
+.menuTitle {
+  margin-top: 30px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+  margin-left: 20px;
+  margin-right: 20px;
+  color: #666;
+}

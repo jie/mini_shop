@@ -1,0 +1,23 @@
+<view class="container">
+  <view class="section">
+    <view class="section__title">* 手机号或用户名</view>
+    <view class="section__field">
+      <input bindinput="bindInputSearchText" value="{{search_text}}" />
+    </view>
+  </view>
+  <view class="section">
+    <view class="round-button" style="width: 100%" bindtap="getUsers">提交</view>
+  </view>
+  <view class="section" wx:if="{{users && users.length !== 0}}">
+    <view class="item" wx:for="{{users}}" wx:key="{{item._id}}">
+      <view class="avatar" wx:if="{{item.avatar}}" bindtap="goOrdes" data-userid="{{item._id}}">
+        <image src="{{item.avatar}}" style="width: 60px; height: 60px; border-radius: 30px"></image>
+      </view>
+      <view class="details">
+        <text class="name">{{item.nickname}} {{item.realName}}</text>
+        <text class="mobile_phone">{{item.mobile_phone}}</text>
+        <text class="balance">{{item.balance}}</text>
+      </view>
+    </view>
+  </view>
+</view>

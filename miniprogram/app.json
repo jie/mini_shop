@@ -1,0 +1,59 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/home/home",
+    "pages/goods/goods",
+    "pages/me/me",
+    "pages/regist/regist",
+    "pages/orders/orders",
+    "pages/profile/profile",
+    "pages/buycart/buycart",
+    "pages/name_form/name_form",
+    "pages/order_details/order_details",
+    "pages/users/users",
+    "pages/user_orders/user_orders",
+    "pages/update_address/update_address",
+    "pages/update_delivery/update_delivery",
+    "pages/update_order/update_order",
+    "pages/update_remarks/update_remarks",
+    "pages/update_total/update_total",
+    "pages/cancel_order/cancel_order",
+    "pages/all_orders/all_orders",
+    "pages/admin_message/admin_message"
+  ],
+  "window": {
+    "backgroundColor": "#e67774",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#e67774",
+    "navigationBarTitleText": "Jing Studio",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "selectedColor": "#333",
+    "color": "#999",
+    "backgroundColor": "#fff",
+    "borderStyle": "black",
+    "position": "bottom",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "首页",
+        "iconPath": "./assets/images/tabs/home.png",
+        "selectedIconPath": "./assets/images/tabs/home-selected.png"
+      },
+      {
+        "pagePath": "pages/goods/goods",
+        "text": "商城",
+        "iconPath": "./assets/images/tabs/cake.png",
+        "selectedIconPath": "./assets/images/tabs/cake-selected.png"
+      },
+      {
+        "pagePath": "pages/me/me",
+        "text": "我的",
+        "iconPath": "./assets/images/tabs/me.png",
+        "selectedIconPath": "./assets/images/tabs/me-selected.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}

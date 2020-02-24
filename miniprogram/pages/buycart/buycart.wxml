@@ -1,0 +1,107 @@
+<wux-dialog id="wux-dialog" />
+<view class="container">
+
+  <view class="header">
+    <view class="buycart-title">
+      <text>购物车</text>
+      <text class="iconfont icon-gouwucheman"></text>
+      <text>({{buycart.count}})</text>
+    </view>
+    <view class="buycart-meta">
+      <view class="shop-address"></view>
+      <view class="prepare-time">
+        <view class="label">预计准备时间</view>
+        <view class="time">40分钟</view>
+      </view>
+    </view>
+  </view>
+  <view class="delivery">
+    <view class="address" wx:if="{{buycart.isDelivery}}">
+      <view class="address-wrapper">
+        <view class="address-me" wx:if="{{address}}" bindtap="ontapAddress">
+          <view class="address-detail ellipsis">{{address.detailInfo}}</view>
+          <view class="address-name">
+            <span class="address-name-label ellipsis">{{address.userName}}</span>
+            <span class="address-phone-label">{{address.telNumber}}</span>
+          </view>
+        </view>
+        <view class="address-me" style="padding-top: 20px" bindtap="ontapAddress" wx:else>
+          <text>请选择您的收货地址</text>
+        </view>
+      </view>
+      <text class="iconfont icon-gengduo"></text>
+    </view>
+
+    <view class="address" wx:if="{{!buycart.isDelivery}}">
+      <view class="address-wrapper">
+        <view class="address-me">
+          <view class="address-detail ellipsis">新龙路1333弄108号211室</view>
+          <view class="address-name">
+            <span class="address-name-label">上海市</span>
+            <span class="address-phone-label">闵行区七宝镇</span>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="delivery-method">
+      <view class="method-name {{!buycart.isDelivery?'selected':null}}" bindtap="onSelectNotDelivery">到店自提</view>
+      <view class="method-name {{ buycart.isDelivery?'selected':null}}" bindtap="onSelectDelivery">周边外送</view>
+    </view>
+  </view>
+
+  <view class="body">
+    <view class="body-header">
+      <view class="body-header-wrapper">
+        <view class="label">我的订单</view>
+        <view class="clear" bindtap="ontapClearBuycart">清空购物车</view>
+        <text class="iconfont icon-shanchu"></text>
+      </view>
+    </view>
+    <view class="goods">
+      <view class="item" wx:for="{{buycart.entities}}" wx:key="{{item.id}}">
+        <view class="goods-cover">
+          <image src="{{item.cover}}" mode="aspectFill"></image>
+        </view>
+        <view class="goods-info">
+          <view class="title">
+            <view class="name">{{item.name}}</view>
+            <view class="price">¥ {{item.price}}</view>
+          </view>
+          <view class="info">
+            <view class="count">
+              <view class="count-wrapper">
+                <counter bind:action="counterUpdate" initvalue="{{item.count}}" optId="{{item.id}}" maxCount="100" />
+              </view>
+            </view>
+            <view class="total">¥ {{item.total}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="body-foot">
+      <view class="foot-wrapper">
+        <view class="goods-agree">
+          <view class="agree-button" bindtap="ontapAgree">
+            <view class="agree-button-inner {{isAgree?'agreed':''}}"></view>
+          </view>
+        </view>
+        <view class="goods-agree-info">
+          <view class="goods-total">
+            <view class="total-label">产品小计</view>
+            <view class="total-line"></view>
+            <view class="total-amount">¥ {{buycart.total}}</view>
+          </view>
+          <view class="goods-note">我已阅读、理解并同意接受《服务条款》。请您特别注意，上述使用条款不仅适用于您的本次订单服务，还适用于以后通过本站使用的所有购物服务</view>
+        </view>
+      </view>
+
+    </view>
+  </view>
+  <view class="submit-button {{isAgree?'agreed':''}}" bindtap="ontapSubmit">
+    提交
+  </view>
+  <view class="return-buy" bindtap="goCake">
+    继续购物
+  </view>
+</view>

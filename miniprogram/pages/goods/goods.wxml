@@ -1,0 +1,30 @@
+<view class="container">
+
+  <view class="header">
+  </view>
+  <view class="goods">
+    <view class="goods-wrapper {{item.style}}" wx:for="{{entities}}" wx:key="{{item.id}}">
+      <view class="goods-item" bindtap="ontapgoods" style="background-color: {{colors[item.style]}}; color: #fff;">
+
+        <view class="goods-image">
+          <image mode="aspectFill" src="{{item.cover}}"></image>
+        </view>
+        <view class="goods-meta">
+          <view class="goods-label ellipsis">{{item.name}}</view>
+          <view class="goods-button" catchtap="onCatchTap" data-index="{{index}}">
+            <span class="goods-price" data-index="{{index}}">¥{{item.display_price}}</span>
+            <span class="goods-buycart" data-index="{{index}}">购买</span>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="display-total" wx:if="{{entities.length!==0&&buycart.entities.length !== 0}}" bindtap="ontapBuycart">
+    <text style="font-size: 18px;">¥{{buycart.display_total}}</text>
+    <text style="font-size: 12px;">{{buycart.count}}件商品</text>
+  </view>
+  <view class="buycart" bindtap="ontapBuycart" wx:if="{{entities.length!==0&&buycart.entities.length !== 0}}">
+    <text class="iconfont icon-gouwuchekong" wx:if="{{buycart.entities.length === 0}}"></text>
+    <text class="iconfont icon-gouwucheman" wx:else></text>
+  </view>
+</view>

@@ -1,0 +1,83 @@
+@import '../base/style.wxss';
+
+.cards {
+  padding: 20px;
+  box-sizing: border-box;
+}
+.card-note {
+  font-size: 120%;
+  color: #333;
+}
+
+.card-label {
+  font-size: 120%;
+  color: #fff;
+  font-weight: bold;
+}
+
+.header {
+  padding: 10px;
+  border-bottom: 1px solid #f9f9f9;
+}
+
+.grid {
+  width: 100%;
+  display: grid;
+  grid-gap: 20px 20px;
+  grid-template-rows: repeat(6, 1fr);
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-areas: "a a a a b b" "a a a a c c" "f f f f c c" "d d e e c c" "g g g g g g" "g g g g g g";
+}
+
+.grid .item, .card-free {
+  min-height: 60px;
+  border-radius: 20px;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.grid .item-a {
+  grid-area: a;
+  background: skyblue;
+  flex-direction: column;
+}
+
+.grid .item-b {
+  grid-area: b;
+  background: mediumaquamarine;
+}
+
+.grid .item-c {
+  grid-area: c;
+  background: wheat;
+}
+
+.grid .item-d {
+  grid-area: d;
+  background: lightcoral;
+}
+
+.grid .item-e {
+  grid-area: e;
+  background: plum;
+}
+
+.grid .item-f {
+  grid-area: f;
+  background: pink;
+}
+
+.grid .item-g {
+  grid-area: g;
+  background-color: lavender;
+}
+
+
+.grid .item-a .card-note {
+  color: #fff;
+  font-size: 100%;
+}
+

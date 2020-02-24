@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "openapi": [
+      "wxacode.get",
+      "templateMessage.send",
+      "logistics.getAllDelivery"
+    ]
+  },
+  "triggers": [
+    {
+      "name": "wechat_triggers.update_access_token",
+      "type": "timer",
+      "config": "0 */5 * * * * *"
+    },
+    {
+      "name": "wechat_triggers.send_notification",
+      "type": "timer",
+      "config": "0 */2 * * * * *"
+    }
+  ]
+}

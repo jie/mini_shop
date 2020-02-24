@@ -1,0 +1,47 @@
+<view class="container">
+  <view class="section">
+    <view class="section__title">* 收货人姓名</view>
+    <view class="section__field">
+      <input bindinput="bindInputChange" data-field="userName" placeholder="请填写收货人姓名" value="{{addressInfo.userName}}" />
+    </view>
+  </view>
+  <view class="section">
+    <view class="section__title">* 联系电话</view>
+    <view class="section__field">
+      <input bindinput="bindInputChange" data-field="telNumber" placeholder="请填写联系电话" value="{{addressInfo.telNumber}}" />
+    </view>
+  </view>
+  <view class="section">
+    <view class="section__title">* 所在省份或直辖市</view>
+    <view class="section__field">
+      <input bindinput="bindInputChange" data-field="provinceName" placeholder="请填写所在省份或直辖市" value="{{addressInfo.provinceName}}" />
+    </view>
+  </view>
+  <view class="section">
+    <view class="section__title">* 所在城市或辖区</view>
+    <view class="section__field">
+      <input bindinput="bindInputChange" data-field="cityName" placeholder="请填写所在城市或辖区" value="{{addressInfo.cityName}}" />
+    </view>
+  </view>
+  <view class="section">
+    <view class="section__title">所在区</view>
+    <view class="section__field">
+      <input bindinput="bindInputChange" data-field="countyName"  placeholder="请填写所在区" value="{{addressInfo.countyName}}" />
+    </view>
+  </view>
+  <view class="section">
+    <view class="section__title">邮编</view>
+    <view class="section__field">
+      <input bindinput="bindInputChange" data-field="postalCode" placeholder="请填写邮编" value="{{addressInfo.postalCode}}" />
+    </view>
+  </view>
+  <view class="section">
+    <view class="section__title">* 详细地址</view>
+    <view class="section__field">
+      <input bindinput="bindInputChange" data-field="detailInfo" placeholder="请填写详细地址" value="{{addressInfo.detailInfo}}" />
+    </view>
+  </view>
+  <view class="section">
+    <view class="round-button" style="width: 100%" bindtap="submitForm">保存</view>
+  </view>
+</view>

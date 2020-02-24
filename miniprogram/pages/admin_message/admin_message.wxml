@@ -1,0 +1,16 @@
+<view class="container">
+  <view class="section" style="padding-top: 50px">
+    <view class="total" style="text-align:center;">
+      当前Token数量: {{total}}
+    </view>
+  </view>
+  <view class="section">
+    <view class="help">请在每天检查token的数量，只有在token数量不为0的情况下才能保证管理员能收到新订单的通知。</view>
+    <view class="help">token不足时请点击下方按钮获取token。</view>
+  </view>
+  <view class="section">
+    <form report-submit="true" bindsubmit="submitForm">
+      <button class="round-button" style="width: 100%" formType="submit">增加推送数量</button>
+    </form>
+  </view>
+</view>

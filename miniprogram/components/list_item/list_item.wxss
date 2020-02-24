@@ -1,0 +1,2 @@
+@import '../list/list.wxss';
+@import '../../assets/icons/iconfont.wxss';

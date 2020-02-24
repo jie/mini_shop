@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "counter": "../../components/counter/counter",
+    "wux-dialog": "../../components/wux-weapp/dialog/index"
+  }
+}

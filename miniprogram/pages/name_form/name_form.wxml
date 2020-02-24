@@ -1,0 +1,17 @@
+<view class="container">
+  <view class="section">
+    <view class="section__title">* 姓名</view>
+    <view class="section__field">
+      <input bindinput="bindInputRealName" placeholder="请填写真实姓名" value="{{userInfo.realName}}" />
+    </view>
+  </view>
+  <view class="section">
+    <view class="section__title">* 昵称</view>
+    <view class="section__field">
+      <input bindinput="bindInputNickName" placeholder="请填写您的昵称" value="{{userInfo.nickName}}" />
+    </view>
+  </view>
+  <view class="section">
+    <view class="round-button" style="width: 100%" bindtap="submitForm">提交</view>
+  </view>
+</view>

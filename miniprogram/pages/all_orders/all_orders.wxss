@@ -1,0 +1,43 @@
+@import '../base/style.wxss';
+@import '../user_orders/user_orders.wxss';
+
+
+.datebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  display: flex;
+  font-size: 12px;
+  padding-top: 10px;
+  box-sizing: border-box;
+  padding-bottom: 10px;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #ddd;
+}
+
+
+.datebar .date-label {
+  flex: 1;
+  padding-left: 10px;
+  height: 30px;
+  line-height:30px;
+}
+
+
+
+.datebar .date-btn-wrapper {
+  width: 160px;
+}
+
+.date-button {
+  width: 80px;
+  background-color: #E67774;
+  height: 30px;
+  color: #fff;
+  line-height: 30px;
+  border-radius: 10px;
+  text-align: center;
+  float: right;
+  margin-right: 10px;
+}

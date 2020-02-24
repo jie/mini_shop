@@ -1,0 +1,7 @@
+{
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "wux-dialog": "../../components/wux-weapp/dialog/index",
+    "list-item": "../../components/list_item/list_item"
+  }
+}

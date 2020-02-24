@@ -1,0 +1,9 @@
+@import '../base/style.wxss';
+
+.list-title {
+  padding-left: 20px;
+  padding-top: 40px;
+  padding-bottom: 10px;
+  font-size: 16px;
+  color: #333;
+}

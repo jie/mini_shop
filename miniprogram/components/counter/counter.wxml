@@ -1,0 +1,7 @@
+<view class="counter-controls">
+  <view bindtap="onTapSub" bindlongpress="onLongTapSub" bindtouchend="onSubTapEnd" class="counter-sub {{ (counter === 0)?'disabled': '' }}">-</view>
+  <view class="counter-input">
+    <input value="{{counter}}" type="number" bindinput="onInputChange"></input>
+  </view>
+  <view bindtap="onTapAdd" bindlongpress="onLongTapAdd" bindtouchend="onAddTapEnd" class="counter-add {{ ((counter + 1) > maxCount)?'disabled': ''}}">+</view>
+</view>

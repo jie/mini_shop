@@ -1,0 +1,20 @@
+<wux-dialog id="wux-dialog" />
+<view class="container" wx:if="{{userInfo}}">
+  <view class="header">
+    <!-- <canvas class="lucky-index-round" canvas-id="canvas"></canvas> -->
+    <image src="{{imagePath}}" class="lucky-index-img"></image>
+    <view class="avatarWrap">
+      <avatar bordered="true" />
+    </view>
+    <view class="username">
+      <open-data type="userNickName" class="nickname"></open-data>
+    </view>
+    <view class="userinfo" bindtap="goQrcodePage">
+      <image src="../../assets/images/vip.png" style="width:24px; height: 24px;"></image> VIP会员
+    </view>
+  </view>
+  <view class="body">
+    <myList entities="{{myList}}" bind:onTapListItem="onTapListItem" />
+    <myList wx:if="{{admin}}" entities="{{staffList}}" bind:onTapListItem="onTapStaffListItem" />
+  </view>
+</view>
