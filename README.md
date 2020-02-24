@@ -1,8 +1,8 @@
 # mini_shop
 
 ### 配置文件说明
-
-`const settings = {
+```
+const settings = {
   app_id: '', // 微信小程序appid
   app_secret: '' // 微信小程序appsecret,
   enviroment: 'pro' // 当前环境,
@@ -27,4 +27,5 @@
   shortTipDuration: 2000,
   // 提示信息固定时间（长）
   longTipDuration: 4000
-};`
+}
+```
