@@ -14,7 +14,7 @@ const ApiRequest = async function(apiName, data, withSession=true) {
   if (apiName.includes('http')) {
     url = apiName
   } else {
-    url = `${settings.server_addr}${settings.apis[apiName].addr}`
+    url = `${settings.config.server_addr}${settings.config.apis[apiName].addr}`
   }
   res = await wxRequest(url, {data: data})
   return res

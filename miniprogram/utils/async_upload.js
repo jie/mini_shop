@@ -20,7 +20,7 @@ const UploadAPI = async (apiName, params = {}, withSession = true) => {
   if (apiName.includes('http')) {
     url = apiName
   } else {
-    url = `${settings.server_addr}${settings.apis[apiName].addr}`
+    url = `${settings.config.server_addr}${settings.config.apis[apiName].addr}`
   }
 
   let ReqData = {

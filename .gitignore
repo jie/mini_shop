@@ -104,6 +104,6 @@ dist
 .tern-port
 
 # settings
-miniprogram/settings/settings.pro.js
+miniprogram/settings/config.txt
 # cloud dev settings
-cloudfunctions/main/settings.js
+cloudfunctions/main/config.txt

@@ -21,7 +21,7 @@
 	},
 	"appid": "wxcc12aa97f16b2ade",
 	"projectname": "cake_wxapp",
-	"libVersion": "2.8.3",
+	"libVersion": "2.10.2",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
 	"cloudfunctionTemplateRoot": "cloudfunctionTemplate",

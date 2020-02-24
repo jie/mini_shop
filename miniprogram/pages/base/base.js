@@ -11,7 +11,7 @@ module.exports = {
     language: {},
     locale: null,
     systemInfo: null,
-    settings: settings
+    settings: settings.config
   },
   checkSession() {
     let sessionid = wx.getStorageSync('sessionid')
@@ -19,11 +19,11 @@ module.exports = {
       let current_url = this.getCurrentPath()
       if (!current_url.includes('home/home')) {
         wx.reLaunch({
-          url: `${settings.HomePage}?nextpage=${encodeURIComponent(current_url)}`,
+          url: `${settings.config.HomePage}?nextpage=${encodeURIComponent(current_url)}`,
         })
       } else {
         wx.reLaunch({
-          url: settings.HomePage,
+          url: settings.config.HomePage,
         })
       }
     }
@@ -38,7 +38,7 @@ module.exports = {
     }
     let myOptions = {
       icon: 'none',
-      duration: settings.shortTipDuration,
+      duration: settings.config.shortTipDuration,
       ...options
     }
     myOptions.title = title
@@ -111,7 +111,7 @@ module.exports = {
   },
   isTab: function (url) {
     let flag = false;
-    for (let item of settings.TAB_URLS) {
+    for (let item of settings.config.TAB_URLS) {
       if (url.includes(item)) {
         return true
       }

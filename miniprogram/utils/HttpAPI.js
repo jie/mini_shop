@@ -4,7 +4,7 @@ const toastDuration = 3000
 
 export default function HttpAPI(options) {
   console.log(options)
-  let addr = `${settings.server_addr}${settings.apis[options.addr].addr}`
+  let addr = `${settings.config.server_addr}${settings.config.apis[options.addr].addr}`
   console.log(addr)
   let req = {
     url: addr,
