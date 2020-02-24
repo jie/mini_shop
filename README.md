@@ -4,9 +4,8 @@
 ```javascript
 const settings = {
   app_id: '', // 微信小程序appid
-  app_secret: '' // 微信小程序appsecret,
   enviroment: 'pro' // 当前环境,
-  cloudenv: 'cake-dev-rlbcr' // 云开发环境名称,
+  cloudenv: '' // 云开发环境名称,
   HomePage: '/pages/home/home' // 首页路径,
   // tabs页面
   TAB_URLS: [
