@@ -16,6 +16,7 @@ cd mini_shop
 wget https://github.com/jie/mini_shop/releases/latest
 ```
 2. **按照下面说明修改小程序配置**
+
 创建文件: miniprogram/settings/settings.pro.js
 ```javascript
 const settings = {
