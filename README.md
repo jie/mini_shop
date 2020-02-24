@@ -2,9 +2,9 @@
 
 使用微信云开发制作的微信小程序商城，无需单独部署接口，支持微信支付
 
-## 安装说明
+## 使用说明
 
-* 使用git下载项目到本地或直接下载文件到本地
+1. 使用git下载项目到本地或直接下载文件到本地
 
 git下载
 ```
@@ -15,8 +15,8 @@ cd mini_shop
 ```
 wget https://github.com/jie/mini_shop/releases/latest
 ```
-* 按照下面说明修改小程序配置
-
+2. 按照下面说明修改小程序配置
+创建文件: miniprogram/settings/settings.pro.js
 ```javascript
 const settings = {
   app_id: '', // 微信小程序appid
@@ -43,9 +43,11 @@ const settings = {
   // 提示信息固定时间（长）
   longTipDuration: 4000
 }
+export default settings;
 ```
 
-* 按照下面说明修改微信云开发配置
+3. 按照下面说明修改微信云开发配置
+创建文件: cloudfunction/main/settings.js
 ```javascript
 const settings = {
   cloudenv: '', // 微信云开发环境名称
@@ -62,4 +64,6 @@ const settings = {
     url: "https://api.mch.weixin.qq.com/pay/unifiedorder" // 微信统一下单接口地址
   }
 }
+
+module.exports = settings
 ```
