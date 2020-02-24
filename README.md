@@ -4,7 +4,7 @@
 
 ## 使用说明
 
-1. *使用git下载项目到本地或直接下载文件到本地*
+1. **使用git下载项目到本地或直接下载文件到本地
 
 git下载
 ```
@@ -15,7 +15,7 @@ cd mini_shop
 ```
 wget https://github.com/jie/mini_shop/releases/latest
 ```
-2. 按照下面说明修改小程序配置
+2. **按照下面说明修改小程序配置
 创建文件: miniprogram/settings/settings.pro.js
 ```javascript
 const settings = {
@@ -46,7 +46,7 @@ const settings = {
 export default settings;
 ```
 
-3. 按照下面说明修改微信云开发配置
+3. **按照下面说明修改微信云开发配置
 创建文件: cloudfunction/main/settings.js
 ```javascript
 const settings = {
