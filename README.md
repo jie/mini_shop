@@ -48,7 +48,9 @@ export default settings;
 ```
 
 3. **按照下面说明修改微信云开发配置**
+
 创建文件: cloudfunction/main/settings.js
+
 ```javascript
 const settings = {
   cloudenv: '', // 微信云开发环境名称
