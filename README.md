@@ -1,4 +1,4 @@
-# mini_shop
+# Miniprogram Shop
 
 使用微信云开发制作的微信小程序商城，无需单独部署接口，支持微信支付
 
