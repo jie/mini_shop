@@ -28,9 +28,17 @@ cd mini_shop
 ```
 wget https://github.com/jie/mini_shop/releases/latest
 ```
-2. **调用命令行初始化数据库**
+2. **安装命令行并调用命令行初始化项目**
 
-TODO
+没有nodejs的话需要首先安装nodejs
+
+然后
+
+```bash
+cd mini_shop/cmd
+npm install
+
+```
 
 3. **按照下面说明修改小程序配置**
 
