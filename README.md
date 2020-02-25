@@ -34,54 +34,53 @@ TODO
 
 3. **按照下面说明修改小程序配置**
 
-创建文件: miniprogram/settings/settings.pro.js
-```javascript
-const settings = {
-  app_id: '', // 微信小程序appid
-  enviroment: 'pro' // 当前环境,
-  cloudenv: '' // 云开发环境名称,
-  HomePage: '/pages/home/home' // 首页路径,
+创建文件: miniprogram/settings/config.txt
+```json
+{
+  "app_id": "", // 微信小程序appid
+  "enviroment": "pro" // 当前环境,
+  "cloudenv": "" // 云开发环境名称,
+  "HomePage": "/pages/home/home" // 首页路径,
   // tabs页面
-  TAB_URLS: [
-    '/pages/home/home',
-    '/pages/me/me',
-    '/pages/goods/goods',
+  "TAB_URLS": [
+    "/pages/home/home",
+    "/pages/me/me",
+    "/pages/goods/goods",
   ],
   // 主题颜色
-  Theme: {
-    BgColor: '#d9262f',
-    lightColor: '#F0f0f2',
-    lightColor2: '#f4f4f2',
-    blueColor: '#7dd3da',
-    redColor: '#e67774',
-    greenColor: '#8dbb6a'
+  "Theme": {
+    "BgColor": "#d9262f",
+    "lightColor": "#F0f0f2",
+    "lightColor2": "#f4f4f2",
+    "blueColor": "#7dd3da",
+    "redColor": "#e67774",
+    "greenColor": "#8dbb6a"
   },
   // 提示信息固定时间（短）
-  shortTipDuration: 2000,
+  "shortTipDuration": 2000,
   // 提示信息固定时间（长）
-  longTipDuration: 4000
+  "longTipDuration": 4000
 }
-export default settings;
 ```
 
 4. **按照下面说明修改微信云开发配置**
 
-创建文件: cloudfunction/main/settings.js
+创建文件: cloudfunction/main/config.txt
 
-```javascript
-const settings = {
-  cloudenv: '', // 微信云开发环境名称
-  app_id: '', // 微信小程序appid
-  app_secret: '', // 微信小程序appsecret
-  wechat_access_token_record_id: '', // 在微信云数据库里配置的wechat_token表第一条记录的id
+```json
+{
+  "cloudenv": "", // 微信云开发环境名称
+  "app_id": "", // 微信小程序appid
+  "app_secret": "", // 微信小程序appsecret
+  "wechat_access_token_record_id": '', // 在微信云数据库里配置的wechat_token表第一条记录的id
   // 微信支付
-  wechat_pay: {
-    appid: "", // 微信支付appid
-    mch_id: "", // 微信支付商户号
-    ip: "", // 填写任意ip地址
-    notify_url: "", // 微信支付通知Url
-    key: "", 微信支付Key
-    url: "https://api.mch.weixin.qq.com/pay/unifiedorder" // 微信统一下单接口地址
+  "wechat_pay": {
+    "appid": "", // 微信支付appid
+    "mch_id": "", // 微信支付商户号
+    "ip": "", // 填写任意ip地址
+    "notify_url": "", // 微信支付通知Url
+    "key": "", // 微信支付Key
+    "url": "https://api.mch.weixin.qq.com/pay/unifiedorder" // 微信统一下单接口地址
   }
 }
 
