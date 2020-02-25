@@ -1,3 +1,4 @@
+var fs = require('fs')
 function writeFile(filepath, data, callback) {
   fs.writeFile(filepath, data, 'utf8', function (error) {
     if (error) {
