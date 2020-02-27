@@ -82,7 +82,7 @@ miniprogram/settings/config.txt
 
 4. **按照下面说明修改微信云开发配置**
 
-创建文件: cloudfunction/main/config.txt
+cloudfunction/main/config.txt
 
 ```json
 {
