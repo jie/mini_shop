@@ -32,7 +32,7 @@ wget https://github.com/jie/mini_shop/releases/latest
 
 没有nodejs的话需要首先安装nodejs
 
-然后
+然后执行
 
 ```bash
 cd mini_shop/cmd
@@ -40,9 +40,18 @@ npm install
 
 ```
 
+开始创建项目
+
+```
+npm run init_project
+```
+
+按照提示填写微信小程序的相关配置
+
 3. **按照下面说明修改小程序配置**
 
-创建文件: miniprogram/settings/config.txt
+miniprogram/settings/config.txt
+
 ```json
 {
   "app_id": "", // 微信小程序appid
