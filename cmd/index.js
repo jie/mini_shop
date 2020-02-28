@@ -4,7 +4,7 @@ const wechat = require('./wechat')
 const writeFile = require('./libs').writeFile
 const settings = require('./settings')
 var appConfigPath = '../miniprogram/settings/config.txt';
-var apiConfigPath = '../cloudfunctions/main/config.txt';
+var apiConfigPath = '../cloudfunctions/main/cloud_settings.json';
 var projectConfigPath = '../project.config.json';
 
 var questions2 = [{
