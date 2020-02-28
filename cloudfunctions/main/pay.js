@@ -61,7 +61,6 @@ const orderPay = async (event, wxContext, user) => {
       type: constant.PayType.pay,
       balance: balance - parseFloat(orderInfo.total),
       is_admin_notified: false
-
     }
 
     let orderResult = null

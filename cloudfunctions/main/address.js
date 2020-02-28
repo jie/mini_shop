@@ -142,7 +142,7 @@ const setDefaultAddress = async (event, wxContext, user) => {
 
 module.exports = {
   queryAddress: queryAddress,
-  getAddress: getAddres,
+  getAddress: getAddress,
   saveAddress: saveAddress,
   deleteAddress: deleteAddress,
   setDefaultAddress: setDefaultAddress
