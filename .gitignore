@@ -106,6 +106,6 @@ dist
 # settings
 miniprogram/settings/config.txt
 # cloud dev settings
-cloudfunctions/main/config.txt
+cloudfunctions/main/cloud_settings.json
 # project settings
 project.config.json

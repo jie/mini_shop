@@ -1,4 +1,4 @@
-const settings = require('./settings')
+const settings = require('./cloud_settings.json')
 
 const cloud = require('wx-server-sdk')
 cloud.init({

@@ -1,7 +1,6 @@
 import moment from './utils/moment.min.js'
 import settings from './settings/index'
 moment.locale('zh-cn');
-console.log(settings)
 
 App({
   onLaunch: function (e) {

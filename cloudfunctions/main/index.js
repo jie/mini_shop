@@ -1,3 +1,4 @@
+const settings = require('./cloud_settings.json')
 const db = require('./db')
 const userAPI = require('./user')
 const orderAPI = require('./orders')
