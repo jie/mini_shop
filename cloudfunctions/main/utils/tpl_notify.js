@@ -1,7 +1,6 @@
 const axios = require('axios');
 const db = require('../db');
 const sendTemplateMsg = async (msgid, msgData, openid, formid, page) => {
-
   let tokenResult = null
   try {
     tokenResult = await db.collection('wechat_token').doc(settings.wechat_access_token_record_id).get()
@@ -40,7 +39,6 @@ const sendTemplateMsg = async (msgid, msgData, openid, formid, page) => {
       data: result
     }
   }
-
 }
 
 module.exports = {

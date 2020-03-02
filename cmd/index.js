@@ -135,6 +135,9 @@ async function initApp(config) {
       app_id: config.appid, // 微信小程序appid
       app_secret: config.appsecret, // 微信小程序appsecret
       wechat_access_token_record_id: '', // 在微信云数据库里配置的wechat_token表第一条记录的id
+      task: {
+        period: 5 // 每隔5秒检查一次是否有新任务
+      },
       // 微信支付
       wechat_pay: {
         appid: config.wxpay_appid, // 微信支付appid
