@@ -9,7 +9,7 @@
     ]
   },
   "triggers": [{
-      "name": "notification.sendNotification",
+      "name": "notification.subscribeMsgSend",
       "type": "timer",
       "config": "*/30 * * * * * *"
     },

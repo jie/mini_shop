@@ -11,6 +11,6 @@
   "dependencies": {
     "axios": "^0.19.2",
     "moment": "^2.24.0",
-    "wx-server-sdk": "~1.8.2"
+    "wx-server-sdk": "^1.8.2"
   }
 }

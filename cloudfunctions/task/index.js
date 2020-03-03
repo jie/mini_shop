@@ -4,27 +4,20 @@ const notification = require('./notification')
 const wechat_token = require('./wechat_token')
 // const constant = require('./constant')
 const cloud = require('wx-server-sdk')
-cloud.init()
 
 
 // 云函数入口函数
 exports.main = async (event, context) => {
+  console.log('*************')
   console.log('event:', event)
-  console.log(context)
+  console.log('typeof:', typeof event)
   const wxContext = cloud.getWXContext()
-  if(event.Type != 'Timer') {
-      return {
-        status: false,
-        message: 'task_required'
-      }
-  }
-  
-  let user = await getUser(wxContext.OPENID)
+  console.log('wxContent:', wxContext)
   switch (event.TriggerName) {
     case 'wechat_token.updateWechatAccessToken':
       await wechat_token.updateWechatAccessToken(event, wxContext)
-    case 'notification.sendNotification':
-      await notification.sendNotification(event, wxContext)
+    case 'notification.subscribeMsgSend':
+      await notification.subscribeMsgSend(event, wxContext)
     default:
       return {
         status: false,

@@ -2,7 +2,6 @@ const cloud = require('wx-server-sdk')
 const db = require('./db')
 const axios = require('axios');
 const settings = require('./cloud_settings.json')
-const tpl_notify = require('./utils/tpl_notify')
 const moment = require('moment')
 const APPID = settings.app_id;
 const APPSECRET = settings.app_secret;

@@ -1,115 +1,76 @@
-const cloud = require('wx-server-sdk')
-const db = require('./db')
-const axios = require('axios');
 const settings = require('./cloud_settings.json')
-const tpl_notify = require('./utils/tpl_notify')
-const moment = require('moment')
-const APPID = settings.app_id;
-const APPSECRET = settings.app_secret;
-const COLLNAME = 'wechat_token';
-const FIELDNAME = settings.wechat_access_token_record_id
 
 
-const sendNotification = async (event, context) => {
-  let result = null
+// 下发订阅消息
+const subscribeMsgSend = async (event, context) => {
+
+  let notificationsResult = null
   try {
-    result = await db.collection('admin').where({ is_enable: true }).get()
-    console.log('result: ', result)
-    if (!result || result.errMsg !== 'collection.get:ok') {
-      console.log(result)
-    }
+    notificationsResult = await db.collection('notification').where({
+      "status": false
+    }).limit(10).get()
   } catch (e) {
     console.error(e)
+    return
   }
 
-  let admins = []
-  for (let item of result.data) {
-    admins.push({
-      name: item.name,
-      openid: item.user_id
-    })
+  if (!notificationsResult || notificationsResult.errMsg != 'document.get.ok') {
+    console.log('fail to get notification:', notificationsResult.errMsg)
+    return
   }
-  console.log('admins:', admins)
-  let orderResult = null
+
+  let tokenResult = null
   try {
-    orderResult = await db.collection('order').where({
-      is_enable: true, is_admin_notified: false
-    }).get()
-    console.log('orderResult:', orderResult)
-    if (!orderResult || orderResult.errMsg !== 'collection.get:ok') {
-      console.log(orderResult)
+    tokenResult = await db.collection('wechat_token').where({
+      slug: "access_token"
+    }).limit(1).get()
+    if (!tokenResult || tokenResult.errMsg != 'document.get.ok') {
+      return
     }
   } catch (e) {
-    console.error(e)
+    console.log('fail to get wechat access_token:', tokenResult.errMsg)
+    return
   }
 
-  let orders = []
-  for (let item of orderResult.data) {
-    orders.push(item)
-  }
-  console.log('orders:', orders)
-  let sendResult = null
-  for (let admin of admins) {
-    for (let order of orders) {
-      var msgid;
-      var msgData = null;
-      if (order.type == 'despit') {
-        msgid = settings.depositMsgId
-        msgData = getDepositMsgData(order)
-      } else if (order.type == 'pay') {
-        msgid = settings.payMsgId
-        msgData = getPayMsgData(order)
-      }
-      if (msgid && msgData) {
-        try {
-          var tokenResult = await db.collection('admin_push_token').where({ user_id: admin.user_id }).orderBy('create_at', 'asc').limit(1).get();
-          console.log('tokenResult:', tokenResult)
-          if (tokenResult && tokenResult.errCode == 'collection.get.ok' && tokenResult.data.length !== 0) {
-            sendResult = await sendTemplateMsg(tokenResult[0], msgid, msgData, admin.user_id, tokenResult.data[0].token, `pages/user_orders/user_orders?user_id=${order.openid}`)
-            console.log('sendResult:', sendResult)
-          }
-
-        } catch (e) {
-          console.error(e)
-        }
-
-      }
-
-    }
-  }
-
-  console.log('start update orders')
-  let updateResult = null
-  let orderIds = []
-  for (let item of orders) {
-    orderIds.push(item._id)
-  }
-  console.log('orderIds:', orderIds)
-  if (orderIds.length !== 0) {
-    try {
-      updateResult = await db.collection('order').where({ _id: db.command.in(orderIds) }).update({
-        data: {
-          is_admin_notified: true
-        }
-      })
-      db.collection('todos').where({
-        done: false
-      }).update({
-          data: {
-            progress: _.inc(10)
-          },
+  notificationsResult.data.map(async (item) => {
+      item.users.map(async (user) => {
+      var result = null;
+      try {
+        result = await axios.post(`https://api.weixin.qq.com/cgi-bin/message/subscribe/send?access_token=${tokenResult.data.token}`, {
+          touser: user.openid,
+          template_id: item.templateId,
+          page: item.page,
+          form_id: item.formid,
+          data: item.msgData,
+          miniprogram_state: item.miniprogram_state,
+          lang: item.lang || "zh_CN"
         })
-      console.log('updateResult:', updateResult)
-      if (!updateResult || updateResult.errMsg !== 'collection.update:ok') {
-        console.log(updateResult)
+      } catch (e) {
+        console.error(e)
+        return
       }
-    } catch (e) {
-      console.error(e)
-    }
-  }
+      if (!result || result.errCode !== 0) {
+        console.log('fail to send subscribe msg:', result.errMsg)
+        return
+      }
+      
+      try {
+        await db.collection('notification').doc(item.id).update({
+          data: {
+            status: 'complete',
+            update_at: new Date()
+          }
+        })
+      } catch(e) {
+        console.log(e)
+        return
+      }
 
+    })
+  })
 }
 
+
 module.exports = {
-  sendNotification: sendNotification
+  subscribeMsgSend: subscribeMsgSend
 }
