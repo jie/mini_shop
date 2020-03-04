@@ -1,4 +1,4 @@
-// import axios from 'axios'
+const fs = require('fs')
 const axios = require('axios').default;
 
 async function dbHttpReq(url, data, accessToken) {
@@ -82,9 +82,61 @@ async function getAccessToken(appid, appsecret) {
   }
 }
 
+
+async function getUploadUrl(accessToken, env, path) {
+  let result = dbHttpReq('https://api.weixin.qq.com/tcb/databasecollectionadd', {
+    path: path,
+    env: env
+  }, access_token = accessToken)
+  if (result.data.errmsg && result.data.errmsg != 'ok') {
+    return {
+      status: false,
+      message: result.data.errmsg,
+      code: result.data.errcode
+    }
+  } else {
+    return {
+      status: true,
+      data: result,
+      code: 1
+    }
+  }
+}
+
+function getFilename(file_path) {
+  var splited = file_path.split('/')
+  return splited[splited.length - 1]
+}
+
+async function cloudUploadFile(accessToken, file_path, env, path) {
+  var result = await getUploadUrl(accessToken, env, path)
+  if (!result.status) {
+    return result
+  }
+
+  var filename = getFilename(file_path)
+  var file = fs.readFileSync(file_path);
+  var param = new FormData()
+  param.append('file', file, filename)
+  param.append('key', path)
+  param.append('Signature', result.data.token)
+  param.append('x-cos-security-token', result.data.file_id)
+  param.append('x-cos-meta-fileid', result.data.cos_file_id)
+  param.append('chunk', '0')
+  var config = {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  }
+  var result = await axios.post(result.data.url, param, config)
+  console.log(result)
+}
+
 module.exports = {
   dbHttpReq: dbHttpReq,
   getAccessToken: getAccessToken,
   createCollections: createCollections,
-  addRecords: addRecords
+  addRecords: addRecords,
+  getUploadUrl: getUploadUrl,
+  cloudUploadFile: cloudUploadFile
 }

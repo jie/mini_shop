@@ -92,7 +92,8 @@ async function initProject() {
   inquirer.prompt(questions).then(async function (answers) {
     settings.projectSettings.appid = answers.appid
     settings.projectSettings.projectname = answers.projectname
-    await writeFile(projectConfigPath, JSON.stringify(settings.projectSettings, null, 2))
+    
+    // await writeFile(projectConfigPath, JSON.stringify(settings.projectSettings, null, 2))
     console.log('项目创建成功， 请打开微信开发者工具导入本项目')
     console.log('然后在微信开发者工具里点击>云开发>设置>环境名称>创建新环境')
     console.log('记录生成的环境ID，然后开始生成小程序配置')
@@ -149,8 +150,8 @@ async function initApp(config) {
       }
     }
 
-    await writeFile(appConfigPath, JSON.stringify(appConfig, null, 2))
-    await writeFile(apiConfigPath, JSON.stringify(apiConfig, null, 2))
+    // await writeFile(appConfigPath, JSON.stringify(appConfig, null, 2))
+    // await writeFile(apiConfigPath, JSON.stringify(apiConfig, null, 2))
 
     console.log('正在从微信获取accessToken')
     var result = await wechat.getAccessToken(config.appid, config.appsecret)
@@ -160,7 +161,8 @@ async function initApp(config) {
     }
     var accessToken = result.data.data.access_token
     console.log('开始初始化云数据库')
-    await initDatabase(accessToken, config.cloudenv)
+    // await initDatabase(accessToken, config.cloudenv)
+    await wechat.cloudUploadFile(accessToken, "./assets/蒜香芝士软欧.jpg", "test", "assets/蒜香芝士软欧.jpg") 
   })
 }
 
@@ -170,6 +172,16 @@ async function initDatabase(accessToken, cloudenv) {
     console.error(`[FAIL]${result.code}, ${result.message}`)
     return
   }
+
+  var goodsCreateQuery = `db.collection(\"goods\").add({
+      data: ${JSON.stringify(settings.goods)}
+    })`
+  var result = await wechat.addRecords(accessToken, cloudenv, goodsCreateQuery)
+  if (!result.status) {
+    console.error(`[FAIL]${result.code}, ${result.message}`)
+    return
+  }
+
   var result = await wechat.createCollections(accessToken, "orders", cloudenv)
   if (!result.status) {
     console.error(`[FAIL]${result.code}, ${result.message}`)
@@ -185,7 +197,7 @@ async function initDatabase(accessToken, cloudenv) {
     console.error(`[FAIL]${result.code}, ${result.message}`)
     return
   }
-  var result = await wechat.createCollections(accessToken, "depositCard", cloudenv)
+  var result = await wechat.createCollections(accessToken, "deposit_card", cloudenv)
   if (!result.status) {
     console.error(`[FAIL]${result.code}, ${result.message}`)
     return
@@ -195,17 +207,30 @@ async function initDatabase(accessToken, cloudenv) {
     console.error(`[FAIL]${result.code}, ${result.message}`)
     return
   }
-  var result = await wechat.createCollections(accessToken, "admin", cloudenv)
+  var result = await wechat.createCollections(accessToken, "slide", cloudenv)
   if (!result.status) {
     console.error(`[FAIL]${result.code}, ${result.message}`)
     return
   }
 
-  var depositRecordsQuery = `db.collection(\"depositCard\").add({
+  var slideCreateQuery = `db.collection(\"slide\").add({
+      data: ${JSON.stringify(settings.slide)}
+    })`
+  var result = await wechat.addRecords(accessToken, cloudenv, slideCreateQuery)
+  if (!result.status) {
+    console.error(`[FAIL]${result.code}, ${result.message}`)
+    return
+  }
+
+  var result = await wechat.createCollections(accessToken, "admin", cloudenv)
+  if (!result.status) {
+    console.error(`[FAIL]${result.code}, ${result.message}`)
+    return
+  }
+  var depositRecordsQuery = `db.collection(\"deposit_card\").add({
       data: ${JSON.stringify(settings.depositCards)}
     })`
   var result = await wechat.addRecords(accessToken, cloudenv, depositRecordsQuery)
-  console.log(result)
   if (!result.status) {
     console.error(`[FAIL]${result.code}, ${result.message}`)
     return
@@ -213,7 +238,7 @@ async function initDatabase(accessToken, cloudenv) {
   console.log('项目创建成功')
 }
 
-async function main() {
+async function main() { 
   program.command('init').action(initProject);
   await program.parseAsync(process.argv);
 }
