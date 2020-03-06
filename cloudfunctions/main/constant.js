@@ -17,8 +17,14 @@ const DeliveryStatus = {
   'received': 'received'
 }
 
+const currentAdministrators = {
+  timestamp: null,
+  admins: []
+}
+
 module.exports = {
   PayType: PayType,
   PayStatus: PayStatus,
-  DeliveryStatus: DeliveryStatus
+  DeliveryStatus: DeliveryStatus,
+  currentAdministrators: currentAdministrators
 }

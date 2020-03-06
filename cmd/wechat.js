@@ -1,5 +1,6 @@
 const fs = require('fs')
 const axios = require('axios').default;
+const request = require('request')
 
 async function dbHttpReq(url, data, accessToken) {
   var reqUrl = url
@@ -84,22 +85,17 @@ async function getAccessToken(appid, appsecret) {
 
 
 async function getUploadUrl(accessToken, env, path) {
-  let result = dbHttpReq('https://api.weixin.qq.com/tcb/databasecollectionadd', {
+  let result = await dbHttpReq(`https://api.weixin.qq.com/tcb/uploadfile?access_token=${accessToken}`, {
     path: path,
     env: env
-  }, access_token = accessToken)
-  if (result.data.errmsg && result.data.errmsg != 'ok') {
-    return {
-      status: false,
-      message: result.data.errmsg,
-      code: result.data.errcode
-    }
-  } else {
-    return {
-      status: true,
-      data: result,
-      code: 1
-    }
+  })
+  if (!result.status) {
+    return result
+  }
+  return {
+    status: true,
+    data: result.data.data,
+    code: 1
   }
 }
 
@@ -108,28 +104,50 @@ function getFilename(file_path) {
   return splited[splited.length - 1]
 }
 
+
+
+function uploadByRequest(params, data) {
+  return new Promise((resolve, reject) => {
+    request.post(params, (err, response, body) => {
+      if (err) {
+        console.log("[FAIL]上传文件到微信云时发生错误")
+        reject(err)
+      } else {
+        resolve(response)
+      }
+    });
+  })
+}
+
 async function cloudUploadFile(accessToken, file_path, env, path) {
   var result = await getUploadUrl(accessToken, env, path)
   if (!result.status) {
     return result
   }
 
-  var filename = getFilename(file_path)
-  var file = fs.readFileSync(file_path);
-  var param = new FormData()
-  param.append('file', file, filename)
-  param.append('key', path)
-  param.append('Signature', result.data.token)
-  param.append('x-cos-security-token', result.data.file_id)
-  param.append('x-cos-meta-fileid', result.data.cos_file_id)
-  param.append('chunk', '0')
-  var config = {
-    headers: {
-      'Content-Type': 'multipart/form-data'
+  const params = {
+    method: 'POST',
+    uri: result.data.url,
+    header: {
+      'content-type': 'multipart/form-data'
+    },
+    formData: {
+      key: path,
+      Signature: result.data.authorization,
+      'x-cos-security-token': result.data.token,
+      'x-cos-meta-fileid': result.data.cos_file_id,
+      file: fs.createReadStream(file_path)
+    },
+    json: true // Automatically stringifies the body to JSON
+  }
+
+  await uploadByRequest(params)
+  return {
+    status: true,
+    data: {
+      url: result.data.file_id
     }
   }
-  var result = await axios.post(result.data.url, param, config)
-  console.log(result)
 }
 
 module.exports = {

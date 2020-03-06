@@ -10,7 +10,9 @@ const FIELDNAME = settings.wechat_access_token_record_id
 
 
 const updateWechatAccessToken = async (event, context) => {
+  console.log('===== start get wechat token =====')
   let res = null
+  let tokenResult = null
   let resUpdate = null
   try {
     res = await axios.get(
@@ -21,6 +23,18 @@ const updateWechatAccessToken = async (event, context) => {
       console.log('wechat:', res)
       return
     }
+    
+    tokenResult = await db.collection(COLLNAME).where({slug: "access_token"}).limit(1).get()
+    console.log('tokenResult:', tokenResult)
+    if(!tokenResult || tokenResult.data.length === 0) {
+      await db.collection(COLLNAME).add({
+        data: {
+          slug: "access_token",
+          update_at: new Date()
+        }
+      })
+    }
+    
     let resUpdate = await db.collection(COLLNAME).where({slug: "access_token"}).limit(1).update({
       data: {
         token: res.data.access_token,

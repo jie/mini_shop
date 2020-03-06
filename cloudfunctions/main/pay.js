@@ -3,7 +3,7 @@ const cloud = require('wx-server-sdk')
 const db = require('./db')
 const constant = require('./constant')
 const shortid = require('./utils/shortid')
-
+const notification = require('./notification')
 
 function checkOrder(orderInfo) {
   // todo: add order verifiy function
@@ -138,43 +138,10 @@ const orderPay = async (event, wxContext, user) => {
       }
     }
 
-    let buyResult = null
-    try {
-      buyResult = await db.collection('user').doc(user.openid).update({
-        data: {
-          balance: db.command.inc(-parseInt(orderInfo.total)),
-          update_at: new Date()
-        }
-      })
-      console.log('buyResult:', buyResult)
-    } catch (e) {
-      console.error(e)
-    }
-    if (!buyResult) {
-      return {
-        status: false,
-        message: 'update_balance_error'
-      }
-    }
-
-    let payResult = null
-    try {
-      payResult = await db.collection('order').doc(orderResult._id).update({
-        data: {
-          status: constant.PayStatus.pay,
-          update: new Date()
-        }
-      })
-      console.log('payResult:', payResult)
-    } catch (e) {
-      console.error(e)
-    }
-    if (!payResult) {
-      return {
-        status: false,
-        message: 'pay_order_error'
-      }
-    }
+    var admins = constant.currentAdministrators.map((item) => {
+      return {'openid': item.user_id}
+    })
+    notification.newOrderNotification(admins, orderNo)
   }
   return {
     status: true,

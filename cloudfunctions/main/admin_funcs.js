@@ -2,6 +2,7 @@ const cloud = require('wx-server-sdk')
 const db = require('./db')
 const constant = require('./constant')
 const moment = require('moment')
+const funcs = require('./utils/funcs')
 
 const _ = db.command
 
@@ -25,9 +26,21 @@ const getUsers = async (event, wxContext, user) => {
   let skip = (page - 1) * page_size
   try {
     if (event.search_text) {
-      result = await db.collection('user').orderBy('create_at', 'desc').where(_.or([{ _id: _.eq(event.search_text) }, { nickName: _.eq(event.search_text) }, { realName: _.eq(event.search_text) }, { mobile_phone: _.eq(event.search_text) }])).where({ is_enable: true }).skip(skip).limit(page_size).get()
+      result = await db.collection('user').orderBy('create_at', 'desc').where(_.or([{
+        _id: _.eq(event.search_text)
+      }, {
+        nickName: _.eq(event.search_text)
+      }, {
+        realName: _.eq(event.search_text)
+      }, {
+        mobile_phone: _.eq(event.search_text)
+      }])).where({
+        is_enable: true
+      }).skip(skip).limit(page_size).get()
     } else {
-      result = await db.collection('user').orderBy('update_at', 'desc').where({ is_enable: true }).skip(skip).limit(page_size).get()
+      result = await db.collection('user').orderBy('update_at', 'desc').where({
+        is_enable: true
+      }).skip(skip).limit(page_size).get()
     }
 
     console.log('result:', result)
@@ -59,23 +72,40 @@ const getUserOrders = async (event, wxContext, user) => {
   let result = null
   try {
     if (event.user_id) {
-      result = await db.collection('order').orderBy('create_at', 'desc').where({ openid: event.user_id, is_enable: true }).get()
+      result = await db.collection('order').orderBy('create_at', 'desc').where({
+        openid: event.user_id,
+        is_enable: true
+      }).get()
     } else if (event.orderid) {
-      result = await db.collection('order').orderBy('create_at', 'desc').where({ is_enable: true, _id: event.orderid }).get()
+      result = await db.collection('order').orderBy('create_at', 'desc').where({
+        is_enable: true,
+        _id: event.orderid
+      }).get()
     } else if (event.start_at && !event.start_at) {
       var start_at = moment(event.start_at).toDate()
-      result = await db.collection('order').orderBy('create_at', 'desc').where({ is_enable: true, create_at: _.gte(start_at) }).get()
+      result = await db.collection('order').orderBy('create_at', 'desc').where({
+        is_enable: true,
+        create_at: _.gte(start_at)
+      }).get()
     } else if (event.end_at && !event.end_at) {
       var end_at = moment(event.end_at).toDate()
-      result = await db.collection('order').orderBy('create_at', 'desc').where({ is_enable: true, create_at: _.lte(end_at) }).get()
+      result = await db.collection('order').orderBy('create_at', 'desc').where({
+        is_enable: true,
+        create_at: _.lte(end_at)
+      }).get()
     } else if (event.start_at && event.end_at) {
       var start_at = moment(event.start_at).toDate()
       var end_at = moment(event.end_at).toDate()
       console.log('start', start_at)
       console.log('end', end_at)
-      result = await db.collection('order').orderBy('create_at', 'desc').where({ is_enable: true, create_at: _.and(_.gte(start_at), _.lt(end_at)) }).get()
+      result = await db.collection('order').orderBy('create_at', 'desc').where({
+        is_enable: true,
+        create_at: _.and(_.gte(start_at), _.lt(end_at))
+      }).get()
     } else {
-      result = await db.collection('order').orderBy('create_at', 'desc').where({ is_enable: true }).get()
+      result = await db.collection('order').orderBy('create_at', 'desc').where({
+        is_enable: true
+      }).get()
     }
 
     console.log('result:', result)
@@ -483,7 +513,7 @@ const cancelOrder = async (event, wxContext, user) => {
       admin_update_at: new Date()
     }
 
-    if (event.refund_amount){
+    if (event.refund_amount) {
       status: 'refund'
     }
     if (parseFloat(event.refund_amount) > parseFloat(order.total)) {
@@ -538,71 +568,89 @@ const cancelOrder = async (event, wxContext, user) => {
       entities: result.data
     }
   }
-
 }
 
+// 接单
+const acceptOrder = async (event, wxContext, user, admin) => {
 
-
-
-// 增加管理员推送的token
-const increasePushToken = async (event, wxContext, user) => {
-  let result = null
-  let expire_date = moment().subtract(7, 'days').toDate()
+  let result = null;
   try {
-    result = await db.collection('admin_push_token').where({ user_id: user._id, create_at: _.lte(expire_date) }).remove()
-    console.log('result:', result)
+    result = await db.collection('order').doc(event.orderId).get()
+  } catch (e) {
+    console.error(e)
+    return
+  }
+
+  if (!result || result.errMsg != 'collection.get:ok' || !result.data) {
+    return {
+      status: false,
+      message: 'fail_get_order'
+    }
+  }
+
+  let order = result.data
+
+  let buyResult = null
+  try {
+    buyResult = await db.collection('user').doc(order.openid).update({
+      data: {
+        balance: db.command.inc(-parseInt(order.orderInfo.total)),
+        update_at: new Date()
+      }
+    })
+    console.log('buyResult:', buyResult)
   } catch (e) {
     console.error(e)
   }
-
-  try {
-    let record = {
-      user_id: user._id,
-      token: event.token,
-      create_at: new Date()
-    }
-    console.log(record)
-    result = await db.collection('admin_push_token').add({ data: record})
-  }catch(e) {
-    console.error(e)
-    result = null
-  }
-  console.log(result)
-  if (!result || result.errMsg !== 'collection.add:ok') {
+  if (!buyResult) {
     return {
       status: false,
-      message: 'fail_to_increase_admin_token'
+      message: 'update_balance_error'
     }
   }
 
+  let payResult = null
   try {
-    result = await db.collection('admin_push_token').where({ user_id: user._id }).count()
-    console.log('result:', result)
+    payResult = await db.collection('order').doc(event.orderId).update({
+      data: {
+        status: constant.PayStatus.pay,
+        update: new Date(),
+        accept_by: admin._id
+      }
+    })
+    console.log('payResult:', payResult)
   } catch (e) {
     console.error(e)
-    result = null
   }
-
-
-  if (!result || result.errMsg !== 'collection.count:ok') {
+  if (!payResult) {
     return {
       status: false,
-      message: 'fail_to_get_admin_token_count'
+      message: 'pay_order_error'
     }
+  }
+
+  if (result.stats && result.stats.updated !== 1) {
+    return {
+      status: false,
+      message: 'order_not_found_when_accept'
+    }
+  }
+
+  try {
+    let goodsName = funcs.getOrderSummary(order)
+    await Notification.paySuccessNotification([{openid: order.openid}], goodsName, order.orderInfo.total, "支付成功，商户已接单")
+  } catch (e) {
+    console.error(e)
   }
 
   return {
     status: true,
+    message: 'ok',
     data: {
-      total: result.total
-    },
-    message: 'ok'
+      orderNo: orderNo,
+    }
   }
-
 }
-
-
-
 
 module.exports = {
   getUsers: getUsers,
@@ -613,5 +661,5 @@ module.exports = {
   updateOrderTotal: updateOrderTotal,
   updateOrderRemarks: updateOrderRemarks,
   cancelOrder: cancelOrder,
-  increasePushToken: increasePushToken
+  acceptOrder: acceptOrder
 }

@@ -1,5 +1,6 @@
 const settings = require('./cloud_settings.json')
 const db = require('./db')
+const moment = require('moment')
 const userAPI = require('./user')
 const orderAPI = require('./orders')
 const loginAPI = require('./login')
@@ -16,7 +17,9 @@ const cloud = require('wx-server-sdk')
 const getCards = async () => {
   let cards = []
   try {
-    const result = await db.collection('deposit_card').where({ is_enable: true }).get()
+    const result = await db.collection('deposit_card').where({
+      is_enable: true
+    }).get()
     cards = result.data
   } catch (e) {
     console.error(e)
@@ -27,7 +30,9 @@ const getCards = async () => {
   }
 
   try {
-    const result = await db.collection('slide').where({ is_enable: true }).get()
+    const result = await db.collection('slide').where({
+      is_enable: true
+    }).get()
     return {
       status: true,
       data: {
@@ -47,7 +52,6 @@ const getCards = async () => {
 
 
 
-
 const getUser = async (openid) => {
   try {
     return await db.collection('user').doc(openid).get()
@@ -61,7 +65,10 @@ const getUser = async (openid) => {
 const getAdmin = async (openid) => {
   let result = null
   try {
-    result = await db.collection('admin').where({ user_id: openid, is_enable: true }).get()
+    result = await db.collection('admin').where({
+      user_id: openid,
+      is_enable: true
+    }).get()
   } catch (e) {
     // console.error(e)
     return null
@@ -96,7 +103,9 @@ const getProfile = async (event, wxContext, user) => {
     }
   }
 
-  let result = await db.collection('admin').where({ user_id: user._id }).limit(1).get()
+  let result = await db.collection('admin').where({
+    user_id: user._id
+  }).limit(1).get()
   console.log(result)
   if (result && result.errMsg == 'collection.get:ok' && result.data && result.data.length === 1) {
     if (result.data[0].is_enable) {
@@ -111,24 +120,33 @@ const getProfile = async (event, wxContext, user) => {
 }
 
 
+const getNotificationAdmins = async () => {
+  console.log('start get getNotificationAdmins')
+  let result = null
+  constant.currentAdministrators.timestamp = moment().format('YYYY-MM-DD HH:mm:ss')
+  try {
+    result = await db.collection('admin').where({
+      order_notification: true,
+      is_enable: true
+    }).get()
+  } catch (e) {
+    console.error(e)
+  }
 
+  if (result && result.errMsg == 'collection.get:ok') {
+    constant.currentAdministrators.admins = result.data
+  }
+  console.log('constant.currentAdministrators:', constant.currentAdministrators)
+}
+
+// 启动前刷新管理员
 
 // 云函数入口函数
 exports.main = async (event, context) => {
   console.log('event:', event)
   console.log(context)
   const wxContext = cloud.getWXContext()
-  if (event.Type == 'Timer' && event.TriggerName.startsWith('wechat_triggers.update_access_token')) {
-    let triggerResult = await wechat_triggers.update_access_token(event, wxContext)
-    console.log(triggerResult)
-    return
-  } else if (event.Type == 'Timer' && event.TriggerName.startsWith('wechat_triggers.send_notification')) {
-    let notificationResult = await wechat_triggers.send_notification(event, wxContext)
-    console.log(notificationResult)
-    return
-  }
 
-  
   let user = await getUser(wxContext.OPENID)
   switch (event.apiName) {
     case 'getCards':
@@ -206,7 +224,7 @@ exports.main = async (event, context) => {
       }
       return await orderAPI.getOrders(event, wxContext, user.data)
 
-    // admin API start
+      // admin API start
     case 'adminAPI.getUsers':
       if (!user || user.errMsg !== 'document.get:ok') {
         return {
@@ -331,6 +349,23 @@ exports.main = async (event, context) => {
       }
       return await adminAPI.cancelOrder(event, wxContext, user.data)
 
+    case 'adminAPI.acceptOrder':
+      if (!user || user.errMsg !== 'document.get:ok') {
+        return {
+          status: false,
+          message: 'user_not_found'
+        }
+      }
+      var admin = await getAdmin(wxContext.OPENID)
+      if (!admin || !admin._id) {
+        return {
+          status: false,
+          message: 'admin_required'
+        }
+      }
+      await getNotificationAdmins()
+      return await adminAPI.acceptOrder(event, wxContext, user.data, admin)
+
     case 'adminAPI.increasePushToken':
       if (!user || user.errMsg !== 'document.get:ok') {
         return {
@@ -346,8 +381,7 @@ exports.main = async (event, context) => {
         }
       }
       return await adminAPI.increasePushToken(event, wxContext, user.data)
-
-    // admin api end
+      // admin api end
 
     case 'loginAPI.login':
       return await loginAPI.login(event, wxContext)
@@ -360,7 +394,7 @@ exports.main = async (event, context) => {
     default:
       return {
         status: false,
-        message: 'api_not_found'
+          message: 'api_not_found'
       }
   }
 }
