@@ -29,13 +29,11 @@ module.exports = {
     }
   },
   showToast(options) {
-    console.log('options:', options)
     let title = message[options.title]
-    console.log('message:',  message)
-    console.log(title)
     if(!title) {
       title = '系统内部错误'
     }
+
     let myOptions = {
       icon: 'none',
       duration: settings.config.shortTipDuration,

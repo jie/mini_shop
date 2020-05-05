@@ -638,7 +638,9 @@ const acceptOrder = async (event, wxContext, user, admin) => {
 
   try {
     let goodsName = funcs.getOrderSummary(order)
-    await Notification.paySuccessNotification([{openid: order.openid}], goodsName, order.orderInfo.total, "支付成功，商户已接单")
+    await Notification.paySuccessNotification([{
+      openid: order.openid
+    }], goodsName, order.orderInfo.total, "支付成功，商户已接单")
   } catch (e) {
     console.error(e)
   }
@@ -652,6 +654,41 @@ const acceptOrder = async (event, wxContext, user, admin) => {
   }
 }
 
+
+const getSubscribeMessageTpls = async (event, wxContext, user, admin) => {
+  let result = null;
+  let templates = [];
+  try {
+    result = await db.collection('templateMsg').get()
+  } catch (e) {
+    console.error(e)
+    return
+  }
+
+  if (!result || result.errMsg != 'collection.get:ok') {
+    return {
+      status: false,
+      message: 'fail_message_tpls'
+    }
+  }
+
+  if(result.data) {
+    result.data.map((item) => {
+      if(item.type.includes('admin')) {
+        templates.push(item)
+      }
+    })
+  }
+
+  return {
+    status: true,
+    message: 'ok',
+    data: {
+      templates: templates,
+    }
+  }
+}
+
 module.exports = {
   getUsers: getUsers,
   getUserOrders: getUserOrders,
@@ -661,5 +698,6 @@ module.exports = {
   updateOrderTotal: updateOrderTotal,
   updateOrderRemarks: updateOrderRemarks,
   cancelOrder: cancelOrder,
-  acceptOrder: acceptOrder
+  acceptOrder: acceptOrder,
+  getSubscribeMessageTpls: getSubscribeMessageTpls
 }

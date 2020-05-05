@@ -381,8 +381,15 @@ exports.main = async (event, context) => {
         }
       }
       return await adminAPI.increasePushToken(event, wxContext, user.data)
+    case 'adminAPI.getSubscribeMessageTpls':
+      if (!user || user.errMsg !== 'document.get:ok') {
+        return {
+          status: false,
+          message: 'user_not_found'
+        }
+      }
+      return await adminAPI.getSubscribeMessageTpls(event, wxContext, user.data)
       // admin api end
-
     case 'loginAPI.login':
       return await loginAPI.login(event, wxContext)
     case 'registAPI.regist':

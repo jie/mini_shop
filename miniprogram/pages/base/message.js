@@ -1,5 +1,6 @@
 const message = {
   ok: "成功",
+  subscribe_success: "订阅成功",
   address_not_found: "地址不存在",
   update_address_error: "更新地址时发生错误",
   setdefault_address_error: "设置默认地址时发生错误",
