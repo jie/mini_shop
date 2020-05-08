@@ -7,7 +7,7 @@ const xml2js = require('xml2js');
 const uuid = require('./uuid.js')
 const constant = require('./constant')
 const shortid = require('./utils/shortid')
-const settings = require('./cloud_settings.json')
+var settings = require('./cloud_settings.json')
 const wechat = settings.wechat
 
 function non_str_random() {

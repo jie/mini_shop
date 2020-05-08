@@ -101,9 +101,43 @@ const updateAddress = async (event, wxContext, user) => {
   }
 }
 
+
+const getSubscribeMsg = async (event, wxContext, user) => {
+  try {
+    result = await db.collection('templateMsg').where({
+      slug: db.command.in(event.slugs)
+    }).get()
+    console.log('result:', result)
+  } catch (e) {
+    console.error(e)
+  }
+  if (!result) {
+    return {
+      status: false,
+      message: 'get_subscribe_msg_error'
+    }
+  }
+
+  if(result.errCode !== 0) {
+    return {
+      status: false,
+      message: result.errMsg
+    }
+  }
+
+  return {
+    status: true,
+    message: 'ok',
+    data: {
+      entities: result.data
+    }
+  }
+}
+
 module.exports = {
   updateBirthday: updateBirthday,
   updateGender: updateGender,
   updateUserName: updateUserName,
-  updateAddress, updateAddress
+  updateAddress: updateAddress,
+  getSubscribeMsg: getSubscribeMsg
 }

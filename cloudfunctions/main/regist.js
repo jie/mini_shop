@@ -1,7 +1,7 @@
 const cloud = require('wx-server-sdk')
 const db = require('./db')
 const WXBizDataCrypt = require('./utils/WXBizDataCrypt')
-const settings = require('./cloud_settings.json')
+// var settings = require('./cloud_settings.json')
 
 const getUser = async (openid) => {
   try {

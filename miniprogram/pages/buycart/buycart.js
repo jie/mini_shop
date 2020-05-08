@@ -24,6 +24,7 @@ const PageObject = mergePages({}, BaseMixin, BuycartMixin, {
     this.loadBuycart()
     this.loadAgreeStatus()
     this.loadDeliveryStatus()
+    this.getUserSubscribeMsg(["custom_pay_success", "order_reject"])
   },
   loadDeliveryStatus() {
     let isDelivery = wx.getStorageSync('isDelivery')

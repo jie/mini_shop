@@ -11,6 +11,9 @@ const PageObject = mergePages({}, BaseMixin, {
     total: 0
   },
   onInited(options) {
+    // CallCloudFuncAPI(
+    //   "admin", {}
+    // )
     let push_token_total = wx.getStorageSync('push_token_total')
     if(!push_token_total) {
       this.setData({

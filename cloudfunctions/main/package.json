@@ -13,7 +13,7 @@
     "crypto": "^1.0.1",
     "moment": "^2.24.0",
     "request": "^2.88.0",
-    "wx-server-sdk": "^0.8.1",
+    "wx-server-sdk": "^1.8.2",
     "xml2js": "^0.4.19",
     "xmlreader": "^0.2.3"
   },

@@ -3,6 +3,7 @@ import settings from '../../settings/index'
 import moment from '../../utils/moment.min.js'
 import message from './message'
 import { $wuxDialog } from '../../components/wux-weapp/index'
+import {requestSubscribeMessage} from '../../utils/async_tools/async_subscribemsg'
 const app = getApp()
 
 module.exports = {
@@ -140,5 +141,47 @@ module.exports = {
   },
   onShareAppMessage: function () {
 
+  },
+  async getSubscribeMsg(slugs) {
+    console.log('getSubscribeMsg')
+    this.showLoading()
+    let res = null
+    try {
+      res = await CallCloudFuncAPI('main', {
+        apiName: 'user.getSubscribeMsg',
+        slugs: slugs
+      })
+    } catch (e) {
+      console.error(e)
+      this.hideLoading()
+      this.showToast({
+        title: e.message
+      })
+      return
+    }
+
+    this.hideLoading()
+    if (!res.result.status) {
+      this.showToast({
+        title: res.result.message,
+      })
+      return
+    }
+  },
+  async getUserSubscribeMsg(slugs) {
+    let result = null
+    try {
+      result = await this.getSubscribeMsg(slugs)
+    } catch(e) {
+      console.error(e)
+      return
+    }
+
+    let targetTplIds = []
+    result.data.entities.map((item) => {
+      targetTplIds.push(item.templateId)
+    })
+
+    await requestSubscribeMessage(targetTplIds)
   }
 }

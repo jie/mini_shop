@@ -423,8 +423,6 @@ const updateOrderTotal = async (event, wxContext, user) => {
       entities: result.data
     }
   }
-
-
 }
 
 // 修改订单备注

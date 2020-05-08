@@ -1,4 +1,5 @@
-const settings = require('./cloud_settings.json')
+var cloud = require('wx-server-sdk')
+
 const db = require('./db')
 const moment = require('moment')
 const userAPI = require('./user')
@@ -8,10 +9,9 @@ const registAPI = require('./regist')
 const goodsAPI = require('./goods')
 const depositAPI = require('./deposit')
 const payAPI = require('./pay')
-const adminAPI = require('./admin_funcs')
-const wechat_triggers = require('./wechat_triggers')
+// const adminAPI = require('./admin_funcs')
 const constant = require('./constant')
-const cloud = require('wx-server-sdk')
+
 
 
 const getCards = async () => {
@@ -82,8 +82,6 @@ const getAdmin = async (openid) => {
 
 
 const getProfile = async (event, wxContext, user) => {
-
-
   let data = {
     status: true,
     data: {
@@ -139,262 +137,265 @@ const getNotificationAdmins = async () => {
   console.log('constant.currentAdministrators:', constant.currentAdministrators)
 }
 
-// 启动前刷新管理员
-
 // 云函数入口函数
 exports.main = async (event, context) => {
-  console.log('event:', event)
-  console.log(context)
+  console.log("=======================================")
+  var settings = require('./cloud_settings.json')
+  console.log('settings:')
+  console.log(settings)
   const wxContext = cloud.getWXContext()
+  console.log('version: 0001')
+  console.log("--------------------------------------")
 
   let user = await getUser(wxContext.OPENID)
   switch (event.apiName) {
-    case 'getCards':
-      return await getCards()
-    case 'depositAPI.deposit':
-      if (!user || user.errMsg !== 'document.get:ok') {
-        return {
-          status: false,
-          message: 'user_not_found'
+      case 'getCards':
+        return await getCards()
+      case 'depositAPI.deposit':
+        if (!user || user.errMsg !== 'document.get:ok') {
+          return {
+            status: false,
+            message: 'user_not_found'
+          }
         }
-      }
-      return await depositAPI.deposit(event, wxContext, user.data)
-    case 'depositAPI.depositSuccess':
-      if (!user || user.errMsg !== 'document.get:ok') {
-        return {
-          status: false,
-          message: 'user_not_found'
+        return await depositAPI.deposit(event, wxContext, user.data)
+      case 'depositAPI.depositSuccess':
+        if (!user || user.errMsg !== 'document.get:ok') {
+          return {
+            status: false,
+            message: 'user_not_found'
+          }
         }
-      }
-      return await depositAPI.depositSuccess(event, wxContext, user.data)
-    case 'payAPI.orderPay':
-      if (!user || user.errMsg !== 'document.get:ok') {
-        return {
-          status: false,
-          message: 'user_not_found'
+        return await depositAPI.depositSuccess(event, wxContext, user.data)
+      case 'payAPI.orderPay':
+        if (!user || user.errMsg !== 'document.get:ok') {
+          return {
+            status: false,
+            message: 'user_not_found'
+          }
         }
-      }
-      return await payAPI.orderPay(event, wxContext, user.data)
-    case 'getProfile':
-      if (!user || user.errMsg !== 'document.get:ok') {
-        return {
-          status: false,
-          message: 'user_not_found'
+        return await payAPI.orderPay(event, wxContext, user.data)
+      case 'getProfile':
+        if (!user || user.errMsg !== 'document.get:ok') {
+          return {
+            status: false,
+            message: 'user_not_found'
+          }
         }
-      }
-      return await getProfile(event, wxContext, user.data)
-    case 'userAPI.updateBirthday':
-      if (!user || user.errMsg !== 'document.get:ok') {
-        return {
-          status: false,
-          message: 'user_not_found'
+        return await getProfile(event, wxContext, user.data)
+      case 'userAPI.updateBirthday':
+        if (!user || user.errMsg !== 'document.get:ok') {
+          return {
+            status: false,
+            message: 'user_not_found'
+          }
         }
-      }
-      return await userAPI.updateBirthday(event, wxContext, user.data)
-    case 'userAPI.updateUserName':
-      if (!user || user.errMsg !== 'document.get:ok') {
-        return {
-          status: false,
-          message: 'user_not_found'
+        return await userAPI.updateBirthday(event, wxContext, user.data)
+      case 'userAPI.updateUserName':
+        if (!user || user.errMsg !== 'document.get:ok') {
+          return {
+            status: false,
+            message: 'user_not_found'
+          }
         }
-      }
-      return await userAPI.updateUserName(event, wxContext, user.data)
-    case 'userAPI.updateGender':
-      if (!user || user.errMsg !== 'document.get:ok') {
-        return {
-          status: false,
-          message: 'user_not_found'
+        return await userAPI.updateUserName(event, wxContext, user.data)
+      case 'userAPI.updateGender':
+        if (!user || user.errMsg !== 'document.get:ok') {
+          return {
+            status: false,
+            message: 'user_not_found'
+          }
         }
-      }
-      return await userAPI.updateGender(event, wxContext, user.data)
-    case 'userAPI.updateAddress':
-      if (!user || user.errMsg !== 'document.get:ok') {
-        return {
-          status: false,
-          message: 'user_not_found'
+        return await userAPI.updateGender(event, wxContext, user.data)
+      case 'userAPI.updateAddress':
+        if (!user || user.errMsg !== 'document.get:ok') {
+          return {
+            status: false,
+            message: 'user_not_found'
+          }
         }
-      }
-      return await userAPI.updateAddress(event, wxContext, user.data)
-    case 'orderAPI.getOrders':
-      if (!user || user.errMsg !== 'document.get:ok') {
-        return {
-          status: false,
-          message: 'user_not_found'
+        return await userAPI.updateAddress(event, wxContext, user.data)
+      case 'orderAPI.getOrders':
+        if (!user || user.errMsg !== 'document.get:ok') {
+          return {
+            status: false,
+            message: 'user_not_found'
+          }
         }
-      }
-      return await orderAPI.getOrders(event, wxContext, user.data)
+        return await orderAPI.getOrders(event, wxContext, user.data)
+      case 'user.getSubscribeMsg':
+        if (!user || user.errMsg !== 'document.get:ok') {
+          return {
+            status: false,
+            message: 'user_not_found'
+          }
+        }
+        return await userAPI.getSubscribeMsg(event, wxContext, user.data)
+      // case 'adminAPI.getUsers':
+      //   if (!user || user.errMsg !== 'document.get:ok') {
+      //     return {
+      //       status: false,
+      //       message: 'user_not_found'
+      //     }
+      //   }
+      //   var admin = await getAdmin(wxContext.OPENID)
+      //   if (!admin || !admin._id) {
+      //     return {
+      //       status: false,
+      //       message: 'admin_required'
+      //     }
+      //   }
+      //   return await adminAPI.getUsers(event, wxContext, user.data)
+      // case 'adminAPI.getUserOrders':
+      //   if (!user || user.errMsg !== 'document.get:ok') {
+      //     return {
+      //       status: false,
+      //       message: 'user_not_found'
+      //     }
+      //   }
+      //   var admin = await getAdmin(wxContext.OPENID)
+      //   if (!admin || !admin._id) {
+      //     return {
+      //       status: false,
+      //       message: 'admin_required'
+      //     }
+      //   }
+      //   return await adminAPI.getUserOrders(event, wxContext, user.data)
+      // case 'adminAPI.updateOrderAddress':
+      //   if (!user || user.errMsg !== 'document.get:ok') {
+      //     return {
+      //       status: false,
+      //       message: 'user_not_found'
+      //     }
+      //   }
+      //   var admin = await getAdmin(wxContext.OPENID)
+      //   if (!admin || !admin._id) {
+      //     return {
+      //       status: false,
+      //       message: 'admin_required'
+      //     }
+      //   }
+      //   return await adminAPI.updateOrderAddress(event, wxContext, user.data)
+      // case 'adminAPI.updateOrderStatus':
+      //   if (!user || user.errMsg !== 'document.get:ok') {
+      //     return {
+      //       status: false,
+      //       message: 'user_not_found'
+      //     }
+      //   }
+      //   var admin = await getAdmin(wxContext.OPENID)
+      //   if (!admin || !admin._id) {
+      //     return {
+      //       status: false,
+      //       message: 'admin_required'
+      //     }
+      //   }
+      //   return await adminAPI.updateOrderStatus(event, wxContext, user.data)
+      // case 'adminAPI.updateDeliveryStatus':
+      //   if (!user || user.errMsg !== 'document.get:ok') {
+      //     return {
+      //       status: false,
+      //       message: 'user_not_found'
+      //     }
+      //   }
+      //   var admin = await getAdmin(wxContext.OPENID)
+      //   if (!admin || !admin._id) {
+      //     return {
+      //       status: false,
+      //       message: 'admin_required'
+      //     }
+      //   }
+      //   return await adminAPI.updateDeliveryStatus(event, wxContext, user.data)
+      // case 'adminAPI.updateOrderTotal':
+      //   if (!user || user.errMsg !== 'document.get:ok') {
+      //     return {
+      //       status: false,
+      //       message: 'user_not_found'
+      //     }
+      //   }
+      //   var admin = await getAdmin(wxContext.OPENID)
+      //   if (!admin || !admin._id) {
+      //     return {
+      //       status: false,
+      //       message: 'admin_required'
+      //     }
+      //   }
+      //   return await adminAPI.updateOrderTotal(event, wxContext, user.data)
+      // case 'adminAPI.updateOrderRemarks':
+      //   if (!user || user.errMsg !== 'document.get:ok') {
+      //     return {
+      //       status: false,
+      //       message: 'user_not_found'
+      //     }
+      //   }
+      //   var admin = await getAdmin(wxContext.OPENID)
+      //   if (!admin || !admin._id) {
+      //     return {
+      //       status: false,
+      //       message: 'admin_required'
+      //     }
+      //   }
+      //   return await adminAPI.updateOrderRemarks(event, wxContext, user.data)
+      // case 'adminAPI.cancelOrder':
+      //   if (!user || user.errMsg !== 'document.get:ok') {
+      //     return {
+      //       status: false,
+      //       message: 'user_not_found'
+      //     }
+      //   }
+      //   var admin = await getAdmin(wxContext.OPENID)
+      //   if (!admin || !admin._id) {
+      //     return {
+      //       status: false,
+      //       message: 'admin_required'
+      //     }
+      //   }
+      //   return await adminAPI.cancelOrder(event, wxContext, user.data)
 
-      // admin API start
-    case 'adminAPI.getUsers':
-      if (!user || user.errMsg !== 'document.get:ok') {
-        return {
-          status: false,
-          message: 'user_not_found'
-        }
-      }
+      // case 'adminAPI.acceptOrder':
+      //   if (!user || user.errMsg !== 'document.get:ok') {
+      //     return {
+      //       status: false,
+      //       message: 'user_not_found'
+      //     }
+      //   }
+      //   var admin = await getAdmin(wxContext.OPENID)
+      //   if (!admin || !admin._id) {
+      //     return {
+      //       status: false,
+      //       message: 'admin_required'
+      //     }
+      //   }
+      //   await getNotificationAdmins()
+      //   return await adminAPI.acceptOrder(event, wxContext, user.data, admin)
 
-      var admin = await getAdmin(wxContext.OPENID)
-      if (!admin || !admin._id) {
-        return {
-          status: false,
-          message: 'admin_required'
-        }
-      }
-
-      return await adminAPI.getUsers(event, wxContext, user.data)
-    case 'adminAPI.getUserOrders':
-      if (!user || user.errMsg !== 'document.get:ok') {
-        return {
-          status: false,
-          message: 'user_not_found'
-        }
-      }
-
-      var admin = await getAdmin(wxContext.OPENID)
-      if (!admin || !admin._id) {
-        return {
-          status: false,
-          message: 'admin_required'
-        }
-      }
-      return await adminAPI.getUserOrders(event, wxContext, user.data)
-    case 'adminAPI.updateOrderAddress':
-      if (!user || user.errMsg !== 'document.get:ok') {
-        return {
-          status: false,
-          message: 'user_not_found'
-        }
-      }
-      var admin = await getAdmin(wxContext.OPENID)
-      if (!admin || !admin._id) {
-        return {
-          status: false,
-          message: 'admin_required'
-        }
-      }
-      return await adminAPI.updateOrderAddress(event, wxContext, user.data)
-    case 'adminAPI.updateOrderStatus':
-      if (!user || user.errMsg !== 'document.get:ok') {
-        return {
-          status: false,
-          message: 'user_not_found'
-        }
-      }
-      var admin = await getAdmin(wxContext.OPENID)
-      if (!admin || !admin._id) {
-        return {
-          status: false,
-          message: 'admin_required'
-        }
-      }
-      return await adminAPI.updateOrderStatus(event, wxContext, user.data)
-    case 'adminAPI.updateDeliveryStatus':
-      if (!user || user.errMsg !== 'document.get:ok') {
-        return {
-          status: false,
-          message: 'user_not_found'
-        }
-      }
-      var admin = await getAdmin(wxContext.OPENID)
-      if (!admin || !admin._id) {
-        return {
-          status: false,
-          message: 'admin_required'
-        }
-      }
-      return await adminAPI.updateDeliveryStatus(event, wxContext, user.data)
-    case 'adminAPI.updateOrderTotal':
-      if (!user || user.errMsg !== 'document.get:ok') {
-        return {
-          status: false,
-          message: 'user_not_found'
-        }
-      }
-      var admin = await getAdmin(wxContext.OPENID)
-      if (!admin || !admin._id) {
-        return {
-          status: false,
-          message: 'admin_required'
-        }
-      }
-      return await adminAPI.updateOrderTotal(event, wxContext, user.data)
-    case 'adminAPI.updateOrderRemarks':
-      if (!user || user.errMsg !== 'document.get:ok') {
-        return {
-          status: false,
-          message: 'user_not_found'
-        }
-      }
-      var admin = await getAdmin(wxContext.OPENID)
-      if (!admin || !admin._id) {
-        return {
-          status: false,
-          message: 'admin_required'
-        }
-      }
-      return await adminAPI.updateOrderRemarks(event, wxContext, user.data)
-    case 'adminAPI.cancelOrder':
-      if (!user || user.errMsg !== 'document.get:ok') {
-        return {
-          status: false,
-          message: 'user_not_found'
-        }
-      }
-      var admin = await getAdmin(wxContext.OPENID)
-      if (!admin || !admin._id) {
-        return {
-          status: false,
-          message: 'admin_required'
-        }
-      }
-      return await adminAPI.cancelOrder(event, wxContext, user.data)
-
-    case 'adminAPI.acceptOrder':
-      if (!user || user.errMsg !== 'document.get:ok') {
-        return {
-          status: false,
-          message: 'user_not_found'
-        }
-      }
-      var admin = await getAdmin(wxContext.OPENID)
-      if (!admin || !admin._id) {
-        return {
-          status: false,
-          message: 'admin_required'
-        }
-      }
-      await getNotificationAdmins()
-      return await adminAPI.acceptOrder(event, wxContext, user.data, admin)
-
-    case 'adminAPI.increasePushToken':
-      if (!user || user.errMsg !== 'document.get:ok') {
-        return {
-          status: false,
-          message: 'user_not_found'
-        }
-      }
-      var admin = await getAdmin(wxContext.OPENID)
-      if (!admin || !admin._id) {
-        return {
-          status: false,
-          message: 'admin_required'
-        }
-      }
-      return await adminAPI.increasePushToken(event, wxContext, user.data)
-      // admin api end
-
-    case 'loginAPI.login':
-      return await loginAPI.login(event, wxContext)
-    case 'registAPI.regist':
-      return await registAPI.regist(event, wxContext)
-    case 'registAPI.registByCloudID':
-      return await registAPI.registByCloudID(event, wxContext)
-    case 'goodsAPI.getGoods':
-      return await goodsAPI.getGoods(event, wxContext)
+      // case 'adminAPI.increasePushToken':
+      //   if (!user || user.errMsg !== 'document.get:ok') {
+      //     return {
+      //       status: false,
+      //       message: 'user_not_found'
+      //     }
+      //   }
+      //   var admin = await getAdmin(wxContext.OPENID)
+      //   if (!admin || !admin._id) {
+      //     return {
+      //       status: false,
+      //       message: 'admin_required'
+      //     }
+      //   }
+      //   return await adminAPI.increasePushToken(event, wxContext, user.data)
+      case 'loginAPI.login':
+        return await loginAPI.login(event, wxContext)
+      case 'registAPI.regist':
+        return await registAPI.regist(event, wxContext)
+      case 'registAPI.registByCloudID':
+        return await registAPI.registByCloudID(event, wxContext)
+      case 'goodsAPI.getGoods':
+        return await goodsAPI.getGoods(event, wxContext)
     default:
       return {
         status: false,
-          message: 'api_not_found'
+        message: 'api_not_found'
       }
   }
 }
