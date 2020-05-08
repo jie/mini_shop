@@ -16,7 +16,6 @@ const getGoods = async (event, wxContext) => {
       message: e.message
     }
   }
-
 }
 
 

@@ -3,7 +3,7 @@ const program = require('commander');
 const wechat = require('./wechat')
 const writeFile = require('./libs').writeFile
 const settings = require('./settings')
-var appConfigPath = '../miniprogram/settings/config.txt';
+var appConfigPath = '../miniprogram/settings/appConfig.js';
 var apiConfigPath = '../cloudfunctions/main/cloud_settings.json';
 var projectConfigPath = '../project.config.json';
 
@@ -106,10 +106,10 @@ async function initProject() {
 
 async function initApp(config) {
   inquirer.prompt(questions2).then(async function (answers) {
-    var appConfig = {
-      app_id: config.appid, // 微信小程序appid
-      enviroment: 'pro', // 当前环境
-      cloudenv: answers.cloudenv, // 云开发环境名称
+    var appConfig = `var appConfig = {
+      app_id: "${config.appid}", // 微信小程序appid
+      enviroment: "pro", // 当前环境
+      cloudenv: "${answers.cloudenv}", // 云开发环境名称
       HomePage: "/pages/home/home", // 首页路径
       // tabs页面
       TAB_URLS: [
@@ -131,6 +131,8 @@ async function initApp(config) {
       // 提示信息固定时间（长）
       longTipDuration: 4000
     }
+    export default appConfig
+    `
 
     var apiConfig = {
       cloudenv: answers.cloudenv, // 微信云开发环境名称
@@ -151,7 +153,7 @@ async function initApp(config) {
       }
     }
 
-    await writeFile(appConfigPath, JSON.stringify(appConfig, null, 2))
+    await writeFile(appConfigPath, appConfig)
     await writeFile(apiConfigPath, JSON.stringify(apiConfig, null, 2))
 
     console.log('正在从微信获取accessToken')

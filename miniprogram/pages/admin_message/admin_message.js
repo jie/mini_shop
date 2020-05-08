@@ -1,51 +1,35 @@
-
 import regeneratorRuntime from '../../utils/regenerator-runtime/runtime'
 import BaseMixin from '../base/base'
 import mergePages from '../../utils/objectUtils'
+import {asyncSubscribeMsg} from '../../utils/async_tools/async_subscribe_msg.js'
 const moment = require('../../utils/moment.min.js')
-import { CallCloudFuncAPI } from '../../utils/async_cloudfunc.js'
-import { $wuxDialog } from '../../components/wux-weapp/index'
+import {
+  CallCloudFuncAPI
+} from '../../utils/async_cloudfunc.js'
+import {
+  $wuxDialog
+} from '../../components/wux-weapp/index'
 
 const PageObject = mergePages({}, BaseMixin, {
   data: {
-    total: 0
+    total: 0,
+    templates: []
   },
   onInited(options) {
-    // CallCloudFuncAPI(
-    //   "admin", {}
-    // )
-    let push_token_total = wx.getStorageSync('push_token_total')
-    if(!push_token_total) {
-      this.setData({
-        total: 0
-      })
-    } else {
-      this.setData({
-        total: parseInt(push_token_total)
-      })
-    }
+    this.getTemplates()
   },
-  async submitForm(e) {
-    console.log(e)
+  async getTemplates() {
     this.showLoading()
     let res = null
     try {
       res = await CallCloudFuncAPI(
-        "main",
-        {
-          apiName: "adminAPI.increasePushToken",
-          token: e.detail.formId
+        "main", {
+          apiName: "adminAPI.getSubscribeMessageTpls",
         }
       )
     } catch (e) {
       console.error(e)
       this.hideLoading()
-      this.showToast({
-        title: e.message
-      })
-      setTimeout(() => {
-        wx.navigateBack()
-      }, this.data.settings.shortTipDuration)
       return
     }
 
@@ -56,15 +40,25 @@ const PageObject = mergePages({}, BaseMixin, {
       })
     } else {
       this.setData({
-        total: res.result.data.total
-      })
-      wx.setStorageSync('push_token_total', res.result.data.total)
-      this.showToast({
-        icon: 'success',
-        title: 'ok'
+        templates: res.result.data.templates
       })
     }
 
+  },
+  async submitForm(e) {
+    console.log(e)
+    let tpl = this.data.templates[parseInt(e.detail.value.index)]
+    wx.requestSubscribeMessage({
+      tmplIds: [tpl.templateId],
+      success: (res) => {
+        this.showToast({
+          title: 'subscribe_success'
+        })
+      }, 
+      fail: (err)=>{
+        console.log(err)
+      }
+    })
   }
 })
 

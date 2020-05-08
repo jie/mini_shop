@@ -1,5 +1,6 @@
 import moment from './utils/moment.min.js'
 import settings from './settings/index'
+import appConfig from './settings/appConfig'
 moment.locale('zh-cn');
 
 App({
@@ -59,8 +60,7 @@ App({
     }
   },
   loadSettings() {
-      var configData = wx.getFileSystemManager().readFileSync('settings/config.txt', 'utf8')
-      settings.loadConfig(JSON.parse(configData))
+      settings.loadConfig(appConfig)
   },
   globalData: {
     userInfo: null,
