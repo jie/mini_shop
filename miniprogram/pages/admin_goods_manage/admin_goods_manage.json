@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "wux-dialog": "../../components/wux-weapp/dialog/index",
+    "images-selector": "../../components/images-selector/images-selector"
+  }
+}

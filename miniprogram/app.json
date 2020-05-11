@@ -19,7 +19,9 @@
     "pages/update_total/update_total",
     "pages/cancel_order/cancel_order",
     "pages/all_orders/all_orders",
-    "pages/admin_message/admin_message"
+    "pages/admin_message/admin_message",
+    "pages/admin_goods/admin_goods",
+    "pages/admin_goods_manage/admin_goods_manage"
   ],
   "window": {
     "backgroundColor": "#e67774",

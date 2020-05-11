@@ -129,7 +129,9 @@ async function initApp(config) {
       // 提示信息固定时间（短）
       shortTipDuration: 2000,
       // 提示信息固定时间（长）
-      longTipDuration: 4000
+      longTipDuration: 4000,
+      // 云存储商品图片目录
+      cloud_goods_image_base_path: 'goods'
     }
     export default appConfig
     `
@@ -150,7 +152,9 @@ async function initApp(config) {
         notify_url: config.wxpay_notify_url, // 微信支付通知Url
         key: config.wxpay_key, // 微信支付Key
         url: "https://api.mch.weixin.qq.com/pay/unifiedorder" // 微信统一下单接口地址
-      }
+      },
+      // 云存储商品图片目录
+      cloud_goods_image_base_path: 'goods'
     }
 
     await writeFile(appConfigPath, appConfig)

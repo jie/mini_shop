@@ -1,0 +1,117 @@
+@import '../base/style.wxss';
+
+.container {
+  /* background-color: #e67774; */
+  position: relative;
+}
+
+.goods-wrapper {
+  box-sizing: border-box;
+  padding: 12px;
+}
+
+.goods .goods-item {
+  background-color: #f9f9f9;
+  box-sizing: border-box;
+  font-size: 12px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  position: relative;
+  height: 220px;
+}
+
+.goods-item .goods-image image {
+  width: 100%;
+  height: 220px;
+}
+
+.goods-item .goods-meta {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  background-color: rgba(255, 255, 255, 0.7);
+  line-height: 50px;
+  display: flex;
+}
+
+.goods-label {
+  font-size: 160%;
+  color: #333;
+  /* font-weight: bold; */
+  flex: 1;
+  text-align: left;
+  padding-left: 20px;
+}
+
+.goods-button {
+  height: 30px;
+  line-height: 30px;
+  border-radius: 15px;
+  background-color: #fa8282;
+  margin-top: 10px;
+  margin-right: 5px;
+}
+
+.goods-button .goods-price {
+  padding-left: 10px;
+  padding-right: 5px;
+  font-size: 120%;
+}
+
+.goods-button .goods-buycart {
+  padding-right: 10px;
+}
+
+.header {
+  padding: 10px;
+  /* border-bottom: 1px solid #f9f9f9; */
+}
+
+.buycart {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fa8282;
+  border-radius: 30px;
+  box-sizing: border-box;
+  background-color: #fae3d9;
+  border: 3px solid #fff;
+  z-index: 20;
+}
+
+.buycart text {
+  font-size: 30px;
+}
+
+.display-total {
+  position: fixed;
+  bottom: 20px;
+  left: 50px;
+  height: 60px;
+  width: 120px;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+  padding-left: 15px;
+  box-sizing: border-box;
+  z-index: 10;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
+}
+
+.display-total text {
+  display: block;
+  font-size: 13px;
+}

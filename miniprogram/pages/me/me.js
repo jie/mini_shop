@@ -84,13 +84,23 @@ const PageObject = mergePages({}, BaseMixin, {
       {
         key: 'admin_message',
         isLink: true,
-        title: '消息推送',
+        title: '订阅消息',
         value: '',
         color: '#07C160',
         iconColor: '#07C160',
         titleColor: '#07C160',
         // icon: 'ios-log-out'
         url: "/pages/admin_message/admin_message"
+      },
+      {
+        key: 'admin_goods',
+        isLink: true,
+        title: '商品管理',
+        value: '',
+        color: '#07C160',
+        iconColor: '#07C160',
+        titleColor: '#07C160',
+        url: "/pages/admin_goods/admin_goods"
       }
     ]
   },

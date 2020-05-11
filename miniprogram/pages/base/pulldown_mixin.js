@@ -76,7 +76,7 @@ export default {
         })
       }
 
-      if (this.data.lastId === null) {
+      if (this.data.lastId === null && this.data.entities.length !== 0) {
         this.setData({
           lastId: this.data.entities[this.data.entities.length - 1][this.data.entityIdField],
           'reqData.page': this.data.reqData.page + 1

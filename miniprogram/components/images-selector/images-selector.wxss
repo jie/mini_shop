@@ -1,0 +1,22 @@
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.image {
+  width: 80px;
+  height: 80px;
+  border: 1px solid #ddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image .img {
+  width: 60px;
+  height: 60px;
+}
+
+.image.image-plus {
+  border: 1px dashed #ddd;
+}

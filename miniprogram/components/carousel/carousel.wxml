@@ -1,0 +1,25 @@
+<swiper 
+  class="home-swiper" 
+  style="height: {{height}}px"
+  indicator-dots="true"
+  indicator-color="{{indicatorColor}}"
+  indicator-active-color="{{indicatorActiveColor}}"
+  circular="{{circular}}"
+  autoplay="{{autoplay}}" 
+  interval="{{interval}}" 
+  duration="{{duration}}">
+  <block 
+    wx:for-items="{{images}}"
+    wx:key="{{item.id}}">
+    <swiper-item 
+      bindtap="ontapItem" 
+      style="height: {{height}}px" 
+      data-itemid="{{item.itemid}}">
+        <image 
+          src="{{item.url}}" 
+          class="slide-image" 
+          mode="aspectFill"
+          data-itemid="{{item.itemid}}" />
+    </swiper-item>
+  </block>
+</swiper>
