@@ -106,7 +106,7 @@ dist
 # settings
 miniprogram/settings/appConfig.js
 # cloud dev settings
-cloudfunctions/main/cloud_settings.json
-cloudfunctions/task/cloud_settings.json
+cloudfunctions/*/cloud_settings.json
 # project settings
 project.config.json
+.DS_Store
