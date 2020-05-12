@@ -6,7 +6,7 @@ import BuycartMixin from '../base/buycart'
 import { CallCloudFuncAPI } from '../../utils/async_cloudfunc'
 import {cloudUploadAPI} from '../../utils/async_tools/async_cloud_upload'
 import {asyncCallFunc} from '../../utils/async_tools/async_wx'
-import shortid from '../../utils/shortid'
+import {getGoodsImageName} from '../../utils/util'
 const PageObject = mergePages({}, BaseMixin, {
 
   data: {
@@ -31,8 +31,8 @@ const PageObject = mergePages({}, BaseMixin, {
     this.showLoading()
     let result = null
     try {
-      result = await CallCloudFuncAPI('main', {
-        apiName: 'goodsAPI.getGoods'
+      result = await CallCloudFuncAPI('admin', {
+        apiName: 'goods.getGoods'
       })
     } catch(e) {
       console.error(e)
@@ -83,7 +83,7 @@ const PageObject = mergePages({}, BaseMixin, {
 
     let imagesUpload = []
     for(let item of result.tempFiles) {
-      let cloudPath = this.getGoodsImageName(item.path)
+      let cloudPath = getGoodsImageName(item.path, this.data.settings.cloud_goods_image_base_path)
       var uploadResult = await cloudUploadAPI(cloudPath, item.path)
       imagesUpload.push(uploadResult.fileID)
     }
@@ -94,11 +94,11 @@ const PageObject = mergePages({}, BaseMixin, {
       })
     }
   },
-  getGoodsImageName(path) {
-    let paths = path.split('.')
-    let extname = paths[paths.length - 1]
-    let filename = shortid(10)
-    return `${this.data.settings.cloud_goods_image_base_path}/${filename}.${extname}`
+  onClickGoods: function(e) {
+    console.log(e)
+    wx.navigateTo({
+      url: `/pages/admin_goods_manage/admin_goods_manage?goods_id=${e.currentTarget.dataset.goodsid}`,
+    })
   }
 })
 

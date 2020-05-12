@@ -1,0 +1,9 @@
+{
+    "components": [
+        "actionsheet",
+        "animation-group",
+        "backdrop",
+        "calendar",
+        "dialog"
+    ]
+}

@@ -1,1 +1,56 @@
-"use strict";function debounce(t,n,u){function r(){var e=+new Date-i;e<n&&0<=e?l=setTimeout(r,n-e):(l=null,u||(s=t.apply(a,o),l||(o=a=null)))}var l,o,a,i,s;return function(){a=this,o=arguments,i=+new Date;var e=u&&!l;return l=l||setTimeout(r,n),e&&(s=t.apply(a,o),o=a=null),s}}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=debounce;
+export default function debounce(func, wait, immediate) {
+    let timeout,
+        args,
+        context,
+        timestamp,
+        result
+
+    function later() {
+        const last = +(new Date()) - timestamp
+        if (last < wait && last >= 0) {
+            timeout = setTimeout(later, wait - last)
+        } else {
+            timeout = undefined
+            if (!immediate) {
+                result = func.apply(context, args)
+                if (!timeout) {
+                    context = undefined
+                    args = undefined
+                }
+            }
+        }
+    }
+
+    function debounced() {
+        context = this
+        args = arguments
+        timestamp = +(new Date())
+
+        const callNow = immediate && !timeout
+        if (!timeout) {
+            timeout = setTimeout(later, wait)
+        }
+
+        if (callNow) {
+            result = func.apply(context, args)
+            context = undefined
+            args = undefined
+        }
+
+        return result
+    }
+
+    function cancel() {
+        if (timeout !== undefined) {
+            clearTimeout(timeout)
+            timeout = undefined
+        }
+
+        context = undefined
+        args = undefined
+    }
+
+    debounced.cancel = cancel
+
+    return debounced
+}

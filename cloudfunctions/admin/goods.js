@@ -1,8 +1,7 @@
 const cloud = require('wx-server-sdk')
 const db = require('./db')
-const constant = require('./constant')
 const moment = require('moment')
-const funcs = require('./utils/funcs')
+// const funcs = require('./utils/funcs')
 
 
 function makeGoods(event, admin) {
@@ -280,11 +279,55 @@ const offShelfGoods = async (event, wxContext, admin) => {
   }
 }
 
+const getGoods = async (event, wxContext, admin) => {
+  let result = null
+
+  if(event.goods_id) {
+    try {
+      result = await db.collection('goods').doc(event.goods_id).get()
+      if(!result.data.is_enable) {
+        return {
+          status: false,
+          message: 'goods_not_found'
+        }
+      }
+      return {
+        status: true,
+        data: {
+          entities: [result.data]
+        }
+      }
+    } catch (e) {
+      console.error(e)
+      return {
+        status: false,
+        message: e.message
+      }
+    }
+  } else {
+    try {
+      result = await db.collection('goods').where({ is_enable: true }).get()
+      return {
+        status: true,
+        data: {
+          entities: result.data
+        }
+      }
+    } catch (e) {
+      console.error(e)
+      return {
+        status: false,
+        message: e.message
+      }
+    }
+  }
+}
 
 
 module.exports = {
   createGoods: createGoods,
   updateGoods: updateGoods,
   offShelfGoods: offShelfGoods,
-  upShelfGoods: upShelfGoods
+  upShelfGoods: upShelfGoods,
+  getGoods: getGoods
 }

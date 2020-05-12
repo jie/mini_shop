@@ -9,6 +9,4 @@
       <button class="round-button" style="width: 100%" formType="submit">订阅</button>
     </form>
   </view>
-
-
 </view>

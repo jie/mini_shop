@@ -6,10 +6,12 @@
 .image {
   width: 80px;
   height: 80px;
-  border: 1px solid #ddd;
+  border: 1px dashed #999;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-right: 15px;
+  margin-bottom: 15px;
 }
 
 .image .img {
@@ -18,5 +20,5 @@
 }
 
 .image.image-plus {
-  border: 1px dashed #ddd;
+  border: 1px border #999;
 }

@@ -4,7 +4,9 @@ const wechat = require('./wechat')
 const writeFile = require('./libs').writeFile
 const settings = require('./settings')
 var appConfigPath = '../miniprogram/settings/appConfig.js';
-var apiConfigPath = '../cloudfunctions/main/cloud_settings.json';
+var mainConfigPath = '../cloudfunctions/main/cloud_settings.json';
+var adminConfigPath = '../cloudfunctions/admin/cloud_settings.json';
+var taskConfigPath = '../cloudfunctions/task/cloud_settings.json';
 var projectConfigPath = '../project.config.json';
 
 var questions2 = [{
@@ -158,7 +160,9 @@ async function initApp(config) {
     }
 
     await writeFile(appConfigPath, appConfig)
-    await writeFile(apiConfigPath, JSON.stringify(apiConfig, null, 2))
+    await writeFile(mainConfigPath, JSON.stringify(apiConfig, null, 2))
+    await writeFile(adminConfigPath, JSON.stringify(apiConfig, null, 2))
+    await writeFile(taskConfigPath, JSON.stringify(apiConfig, null, 2))
 
     console.log('正在从微信获取accessToken')
     var result = await wechat.getAccessToken(config.appid, config.appsecret)

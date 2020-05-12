@@ -1,44 +1,49 @@
+<wux-actionsheet id="wux-actionsheet" />
 <view class="container">
-  <view class="selector" wx:if="{{formatedImages}}">
-    <images-selector images="{{formatedImages}}" />
-  </view>
-  <view class="section">
-    <view class="section__title">* 商品名称</view>
-    <view class="section__field">
-      <input bindinput="bindInputGoodsName" placeholder="请填商品名称" value="{{goods.name}}" />
-    </view>
-  </view>
-  <view class="section">
-    <view class="section__title">英文名称</view>
-    <view class="section__field">
-      <input bindinput="bindInputGoodsNameEn" placeholder="请填商品英文名称" value="{{goods.name_en}}" />
-    </view>
-  </view>
-  <view class="section">
-    <view class="section__title">* 显示价格</view>
-    <view class="section__field">
-      <input bindinput="bindInputDisplayPrice" placeholder="请填写商品显示价格" value="{{goods.display_price}}" />
-    </view>
-  </view>
-  <view class="section">
-    <view class="section__title">* 实际价格</view>
-    <view class="section__field">
-      <input bindinput="bindInputPrice" placeholder="请填写实际价格" value="{{goods.price}}" />
-    </view>
-  </view>
-  <view class="section">
-    <view class="section__title">* 库存数量</view>
-    <view class="section__field">
-      <input bindinput="bindInputNickName" placeholder="请填写商品库存数量" value="{{goods.num}}" />
-    </view>
-  </view>
-  <view class="section">
-    <view class="section__title">* 已售出数量</view>
-    <view class="section__field">
-      <input bindinput="bindInputSellNum" placeholder="请填写商品已售出数量" value="{{goods.sell_num}}" />
-    </view>
-  </view>
-  <view class="section">
-    <view class="round-button" style="width: 100%" bindtap="submitForm">提交</view>
-  </view>
+	<view class="section">
+		<view class="section__title">商品图片</view>
+		<view class="image-selector">
+			<images-selector bind:selectorSetCover="selectorSetCover" bind:selectorUpdateImages="selectorUpdateImages" bucket="{{settings.cloud_goods_image_base_path}}" images="{{goods.images}}" wx:if="{{goods.images}}" />
+		</view>
+	</view>
+
+	<view class="section">
+		<view class="section__title">* 商品名称</view>
+		<view class="section__field">
+			<input bindinput="bindInputGoodsName" placeholder="请填商品名称" value="{{goods.name}}" />
+		</view>
+	</view>
+	<view class="section">
+		<view class="section__title">英文名称</view>
+		<view class="section__field">
+			<input bindinput="bindInputGoodsNameEn" placeholder="请填商品英文名称" value="{{goods.name_en}}" />
+		</view>
+	</view>
+	<view class="section">
+		<view class="section__title">* 显示价格</view>
+		<view class="section__field">
+			<input bindinput="bindInputDisplayPrice" placeholder="请填写商品显示价格" value="{{goods.display_price}}" />
+		</view>
+	</view>
+	<view class="section">
+		<view class="section__title">* 实际价格</view>
+		<view class="section__field">
+			<input bindinput="bindInputPrice" placeholder="请填写实际价格" value="{{goods.price}}" />
+		</view>
+	</view>
+	<view class="section">
+		<view class="section__title">* 库存数量</view>
+		<view class="section__field">
+			<input bindinput="bindInputNickName" placeholder="请填写商品库存数量" value="{{goods.num}}" />
+		</view>
+	</view>
+	<view class="section">
+		<view class="section__title">* 已售出数量</view>
+		<view class="section__field">
+			<input bindinput="bindInputSellNum" placeholder="请填写商品已售出数量" value="{{goods.sell_num}}" />
+		</view>
+	</view>
+	<view class="section">
+		<view class="round-button" style="width: 100%" bindtap="submitForm">提交</view>
+	</view>
 </view>

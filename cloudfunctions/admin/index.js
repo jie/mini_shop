@@ -37,23 +37,27 @@ exports.main = async (event, context) => {
     }
   }
 
-  switch (event.TriggerName) {
+  console.log(event)
+  switch (event.apiName) {
     case 'goods.createGoods':
       console.log('goods.createGoods')
-      await goods.createGoods(event, wxContext, admin)
+      return await goods.createGoods(event, wxContext, admin)
     case 'goods.updateGoods':
       console.log('goods.updateGoods')
-      await goods.updateGoods(event, wxContext, admin)
+      return await goods.updateGoods(event, wxContext, admin)
     case 'goods.offShelfGoods':
       console.log('goods.offShelfGoods')
-      await goods.offShelfGoods(event, wxContext, admin)
+      return await goods.offShelfGoods(event, wxContext, admin)
     case 'goods.upShelfGoods':
       console.log('goods.upShelfGoods')
-      await goods.upShelfGoods(event, wxContext, admin)
+      return await goods.upShelfGoods(event, wxContext, admin)
+    case 'goods.getGoods':
+      console.log('goods.getGoods')
+      return await goods.getGoods(event, wxContext, admin)
     default:
       return {
         status: false,
-        message: 'task_not_found'
+        message: 'api_not_found'
       }
   }
 }

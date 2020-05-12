@@ -15,37 +15,89 @@ const PageObject = mergePages({}, BaseMixin, {
       display_price: '',
       price: '',
       num: '',
-      sell_num: ''
-    },
-    formatedImages: []
+      sell_num: '',
+      images: [],
+      cover: null,
+      media: []
+    }
   },
   onInited(options) {
-    let images = [];
-    if(options.images) {
-      images = JSON.parse(options.images)
-    }
-    let formatedImages = []
-    images.map((item, index) => {
-      formatedImages.push({
-        id: index,
-        url: item
+    if(options.goods_id) {
+      this.getGoods(options.goods_id)
+    } else {
+      let images = [];
+      if(options.images) {
+        images = JSON.parse(options.images)
+      }
+      this.setData({
+        "goods.images": images
       })
-    })
+
+      if(images.length === 1) {
+        this.setData({
+          "goods.cover": images[0]
+        })
+      }
+      console.log(this.data.goods)
+    }
+  },
+  async getGoods (goodsId) {
+    this.showLoading()
+    let result = null
+    try {
+      result = await CallCloudFuncAPI('admin', {
+        apiName: 'goods.getGoods',
+        goods_id: goodsId
+      })
+    } catch(e) {
+      console.error(e)
+      this.showToast({
+        title: e.message
+      })
+      this.hideLoading()
+      return
+    }
+
+    if (result.result.status !== true) {
+      this.showToast({
+        title: result.result.message
+      })
+      this.hideLoading()
+      return
+    }
+    let goods = result.result.data.entities[0]
+    let images = []
+    if(goods.media) {
+      goods.map((item) => {
+        images.push(item.url)
+      })
+    }
+    goods.images = images
+    console.log('images:', images)
     this.setData({
-      formatedImages: formatedImages
+      goods: goods
     })
+    this.hideLoading()
   },
   async getProfile() {
     this.showLoading()
   },
   async submitForm() {
     this.showLoading()
+    console.log('goods:', this.data.goods)
     let res = null
+    let apiName;
+    if(this.data.goods._id) {
+      apiName = "goods.updateGoods"
+    } else {
+      apiName = "goods.createGoods"
+    }
     try {
       res = await CallCloudFuncAPI(
-        "main",
+        "admin",
         {
-          apiName: "adminAPI.createGoods"
+          apiName: apiName,
+          goods: this.data.goods
         }
       )
     } catch (e) {
@@ -71,6 +123,26 @@ const PageObject = mergePages({}, BaseMixin, {
         title: 'ok'
       })
     }
+  },
+  selectorSetCover: function(e) {
+    this.setData({
+      "goods.cover": e.detail.cover
+    })
+  },
+  selectorUpdateImages: function(e) {
+    console.log(e)
+    let media = []
+    e.detail.images.map((item)=>{
+      media.push({
+        url: item,
+        type: "image",
+        summary: "",
+        summary_en: ""
+      })
+    })
+    this.setData({
+      "goods.media": media
+    })
   },
   bindInputGoodsName(e) {
     this.setData({

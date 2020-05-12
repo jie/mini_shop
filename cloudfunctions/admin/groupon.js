@@ -1,8 +1,7 @@
 const cloud = require('wx-server-sdk')
 const db = require('./db')
-const constant = require('./constant')
 const moment = require('moment')
-const funcs = require('./utils/funcs')
+// const funcs = require('./utils/funcs')
 
 // 创建团购
 const createGroupon = async (event, wxContext, admin) => {
