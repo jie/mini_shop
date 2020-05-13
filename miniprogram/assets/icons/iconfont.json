@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1221715",
+      "name": "拼团购",
+      "font_class": "pintuangou",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    },
+    {
+      "icon_id": "5879222",
+      "name": "团购",
+      "font_class": "tuangou",
+      "unicode": "e649",
+      "unicode_decimal": 58953
+    },
+    {
       "icon_id": "5979994",
       "name": "增加",
       "font_class": "zengjia",

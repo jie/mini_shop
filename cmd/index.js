@@ -116,6 +116,7 @@ async function initApp(config) {
       // tabs页面
       TAB_URLS: [
         "/pages/home/home",
+        "/pages/groupon/groupon",
         "/pages/me/me",
         "/pages/goods/goods"
       ],

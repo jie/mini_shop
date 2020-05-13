@@ -10,7 +10,7 @@ function makeGoods(event, admin) {
     on_shelve: false
   }
 
-  if(admin) {
+  if (admin) {
     goods.admin_id = admin._id
   }
 
@@ -115,9 +115,35 @@ function makeGoods(event, admin) {
     })
   }
   goods.parameters = parameters
-  return {
-    status: true,
-    data: goods
+
+  if(event.goods.seq) {
+    goods.seq = parseInt(event.goods.seq)
+  } else {
+    goods.seq = 0
+  }
+
+  // 团购设置
+  goods.is_groupon = event.goods.is_groupon ? true : false
+  if (goods.is_groupon !== true) {
+    return {
+      status: true,
+      data: goods
+    }
+  }
+
+  if (event.goods.groupon_start_at) {
+    goods.groupon_start_at = event.goods.groupon_start_at
+  }
+  if (event.goods.groupon_end_at) {
+    goods.groupon_end_at = event.goods.groupon_end_at
+  }
+  if (event.goods.groupon_regulation) {
+    goods.groupon_regulation = event.goods.groupon_regulation
+  }
+  if (event.goods.groupon_limit_count) {
+    goods.groupon_limit_count = event.goods.groupon_limit_count
+  } else {
+    goods.groupon_limit_count = 0
   }
 }
 
@@ -125,7 +151,7 @@ function makeGoods(event, admin) {
 // 创建商品
 const createGoods = async (event, wxContext, admin) => {
   let result = makeGoods(event)
-  if(!result.status) {
+  if (!result.status) {
     return result
   }
 
@@ -171,7 +197,7 @@ const updateGoods = async (event, wxContext, admin) => {
   } catch (e) {
     console.error(e)
   }
-  if(!getGoodsResult) {
+  if (!getGoodsResult) {
     return {
       status: false,
       message: 'fail_to_get_goods'
@@ -179,7 +205,7 @@ const updateGoods = async (event, wxContext, admin) => {
   }
 
   let result = makeGoods(event)
-  if(!result.status) {
+  if (!result.status) {
     return result
   }
 
@@ -215,24 +241,43 @@ const updateGoods = async (event, wxContext, admin) => {
 }
 
 
-// 上架商品
-const upShelfGoods = async (event, wxContext, admin) => {
+// 更新商品某个属性
+const updateGoodsProperties = async (event, wxContext, admin) => {
+  let properties = event.goods
+  properties.update_at = new Date()
   let result = null
   try {
-    result = await getOrder(event.orderId)
+    result = await db.collection('goods').doc(event.goods_id).update({
+      data: properties
+    })
     console.log('result:', result)
   } catch (e) {
     console.error(e)
   }
-
-  if (!result || !result.data) {
-    return {
-      status: false,
-      message: 'order_not_found'
+  return {
+    status: true,
+    message: 'ok',
+    data: {
+      entity: result.data
     }
   }
 
+}
 
+// 上架商品
+const upShelfGoods = async (event, wxContext, admin) => {
+  let result = null
+  try {
+    result = await db.collection('goods').doc(event.goods_id).update({
+      data: {
+        on_shelve: true,
+        update_at: new Date()
+      }
+    })
+    console.log('result:', result)
+  } catch (e) {
+    console.error(e)
+  }
   return {
     status: true,
     message: 'ok',
@@ -247,23 +292,19 @@ const upShelfGoods = async (event, wxContext, admin) => {
 const offShelfGoods = async (event, wxContext, admin) => {
   let result = null
   try {
-    result = await getOrder(event.orderId)
+    result = await db.collection('goods').doc(event.goods_id).update({
+      data: {
+        on_shelve: false,
+        update_at: new Date()
+      }
+    })
     console.log('result:', result)
   } catch (e) {
     console.error(e)
   }
-
-  if (!result || !result.data) {
-    return {
-      status: false,
-      message: 'order_not_found'
-    }
-  }
-
-
   return {
     status: true,
-    message: 'ok',
+    message: 'setting_success',
     data: {
       entity: result.data
     }
@@ -273,10 +314,10 @@ const offShelfGoods = async (event, wxContext, admin) => {
 const getGoods = async (event, wxContext, admin) => {
   let result = null
 
-  if(event.goods_id) {
+  if (event.goods_id) {
     try {
       result = await db.collection('goods').doc(event.goods_id).get()
-      if(!result.data.is_enable) {
+      if (!result.data.is_enable) {
         return {
           status: false,
           message: 'goods_not_found'
@@ -297,7 +338,9 @@ const getGoods = async (event, wxContext, admin) => {
     }
   } else {
     try {
-      result = await db.collection('goods').where({ is_enable: true }).get()
+      result = await db.collection('goods').where({
+        is_enable: true
+      }).orderBy('seq', 'asc').get()
       return {
         status: true,
         data: {
@@ -315,10 +358,35 @@ const getGoods = async (event, wxContext, admin) => {
 }
 
 
+const deleteGoods = async (event, wxContext, admin) => {
+  let result = null
+  try {
+    result = await db.collection('goods').doc(event.goods_id).update({
+      data: {
+        is_enable: false,
+        on_shelve: false,
+        update_at: new Date()
+      }
+    })
+    console.log('result:', result)
+  } catch (e) {
+    console.error(e)
+  }
+  return {
+    status: true,
+    message: 'ok',
+    data: {
+      entity: result.data
+    }
+  }
+}
+
 module.exports = {
   createGoods: createGoods,
   updateGoods: updateGoods,
+  updateGoodsProperties: updateGoodsProperties,
   offShelfGoods: offShelfGoods,
   upShelfGoods: upShelfGoods,
-  getGoods: getGoods
+  getGoods: getGoods,
+  deleteGoods: deleteGoods
 }

@@ -10,7 +10,7 @@
   bottom: 20px;
   right: 30px;
   height: 50px;
-  width: 180px;
+  width: 140px;
   border-radius: 30px;
   box-sizing: border-box;
   z-index: 10;
@@ -37,6 +37,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 15px;
 }
 
 .goods-item .img {
@@ -63,4 +64,13 @@
   text-align: center;
   font-size: 80%;
   color: #666
+}
+
+.gray {
+  filter:grayscale(100%); 
+}
+
+.gray .goods-desc {
+  color: #fff;
+  background-color: #ccc;
 }

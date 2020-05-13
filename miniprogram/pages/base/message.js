@@ -1,6 +1,8 @@
 const message = {
   ok: "成功",
   subscribe_success: "订阅成功",
+  setting_success: "设置成功",
+  api_not_found: "未适配到接口",
   address_not_found: "地址不存在",
   update_address_error: "更新地址时发生错误",
   setdefault_address_error: "设置默认地址时发生错误",
@@ -12,7 +14,8 @@ const message = {
   update_gender_error: "更新性别时发生错误",
   update_name_error: "更新名字时发生错误",
   update_address_error: "更新地址是发生错误",
-  user_balance_error: "付款失败，余额不足"
+  user_balance_error: "付款失败，余额不足",
+  goods_name_required: "必须填写商品名称"
 }
 
 export default message

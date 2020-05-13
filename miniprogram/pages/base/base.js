@@ -12,7 +12,14 @@ module.exports = {
     language: {},
     locale: null,
     systemInfo: null,
-    settings: settings.config
+    settings: settings.config,
+    nvabarData: {
+      showCapsule: 1, //是否显示左上角图标   1表示显示    0表示不显示
+      title: ""
+    },
+
+    // 此页面 页面内容距最顶部的距离
+    height: app.globalData.height * 2 + 20 , 
   },
   checkSession() {
     let sessionid = wx.getStorageSync('sessionid')

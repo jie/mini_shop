@@ -1,6 +1,6 @@
 <wux-dialog id="wux-dialog" />
+<nav-bar navbar-data='{{nvabarData}}'></nav-bar>
 <view class="container">
-
   <view class="slide" wx:if="{{images}}">
     <image mode="widthFix" style="width: 100%" src="{{targetImage}}"></image>
   </view>

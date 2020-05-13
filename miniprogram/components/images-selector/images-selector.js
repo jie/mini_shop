@@ -10,12 +10,9 @@ import {
 } from '../../utils/async_tools/async_cloud_upload'
 
 import { $wuxActionSheet } from '../../components/wux-weapp/index'
-// import { $wuxDialog } from '../../components/wux-weapp/index'
 
 Component({
-  /**
-   * 组件的属性列表
-   */
+
   properties: {
     images: {
       type: Array,
@@ -27,9 +24,6 @@ Component({
     }
   },
 
-  /**
-   * 组件的初始数据
-   */
   data: {
     _images: []
   },
@@ -41,7 +35,6 @@ Component({
   },
   methods: {
     onClickImage(e) {
-      console.log('clickImage:', e)
       let that = this
       let curIndex = e.currentTarget.dataset.imageindex
       let curImage = that.data._images[curIndex]
@@ -60,8 +53,6 @@ Component({
           },
         ],
         buttonClicked(index, item) {
-          console.log('index:', index)
-          console.log('item:', item)
           if(index === 0) {
             wx.previewImage({
               urls: [curImage],
@@ -106,18 +97,21 @@ Component({
       this.triggerEvent('selectorUpdateImages', {images: this.data._images})
     },
     removeImage: function (curImage) {
-      console.log('currImage:', curImage)
       let images = this.data._images
       images.map((item, index) => {
         if (item == curImage) {
           images.splice(index, 1)
         }
       })
-      console.log('_images:', this.data._images)
       this.setData({
         _images: images
       })
       this.triggerEvent('selectorUpdateImages', {images: this.data._images})
+    },
+    setImages(images) {
+      this.setData({
+        _images: images
+      })
     },
     setGoodsCover: function(image) {
       this.triggerEvent('selectorSetCover', {cover: image})

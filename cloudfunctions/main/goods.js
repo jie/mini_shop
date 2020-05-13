@@ -2,7 +2,10 @@ const db = require('./db')
 
 const getGoods = async (event, wxContext) => {
   try {
-    const result = await db.collection('goods').where({ is_enable: true }).get()
+    const result = await db.collection('goods').where({
+      is_enable: true,
+      on_shelve: true
+    }).orderBy('seq', 'asc').get()
     return {
       status: true,
       data: {

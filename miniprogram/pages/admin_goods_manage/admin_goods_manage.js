@@ -1,9 +1,10 @@
-
 import regeneratorRuntime from '../../utils/regenerator-runtime/runtime'
 import BaseMixin from '../base/base'
 import mergePages from '../../utils/objectUtils'
 const moment = require('../../utils/moment.min.js')
-import { CallCloudFuncAPI } from '../../utils/async_cloudfunc.js'
+import {
+  CallCloudFuncAPI
+} from '../../utils/async_cloudfunc.js'
 
 
 const PageObject = mergePages({}, BaseMixin, {
@@ -18,30 +19,45 @@ const PageObject = mergePages({}, BaseMixin, {
       sell_num: '',
       images: [],
       cover: "",
-      media: []
-    }
+      media: [],
+      is_groupon: false,
+      groupon_start_at: "",
+      groupon_end_at: "",
+      groupon_limit_count: 0,
+      groupon_regulation: ""
+    },
   },
   onInited(options) {
-    if(options.goods_id) {
+    if (options.goods_id) {
       this.getGoods(options.goods_id)
     } else {
       let images = [];
-      if(options.images) {
+      let media = [];
+      if (options.images) {
         images = JSON.parse(options.images)
+        images.map((item) => {
+          media.push({
+            url: item,
+            type: "image",
+            summary: "",
+            summary_en: ""
+          })
+        })
       }
+
       this.setData({
-        "goods.images": images
+        "goods.images": images,
+        "goods.media": media
       })
 
-      if(images.length === 1) {
+      if (images.length === 1) {
         this.setData({
           "goods.cover": images[0]
         })
       }
-      console.log(this.data.goods)
     }
   },
-  async getGoods (goodsId) {
+  async getGoods(goodsId) {
     this.showLoading()
     let result = null
     try {
@@ -49,7 +65,7 @@ const PageObject = mergePages({}, BaseMixin, {
         apiName: 'goods.getGoods',
         goods_id: goodsId
       })
-    } catch(e) {
+    } catch (e) {
       console.error(e)
       this.showToast({
         title: e.message
@@ -67,18 +83,21 @@ const PageObject = mergePages({}, BaseMixin, {
     }
     let goods = result.result.data.entities[0]
     let images = []
-    if(goods.media) {
+    if (goods.media) {
       goods.media.map((item) => {
         images.push(item.url)
       })
     }
     goods.images = images
-    console.log('images:', images)
-    console.log('goods:', goods)
+
     this.setData({
       goods: goods
     })
-    this.hideLoading()
+    console.log('goods:', goods)
+    setTimeout(() => {
+      this.hideLoading()
+      this.selectComponent('#imageSelector').setImages(this.data.goods.images)
+    }, this.data.settings.shortTipDuration)
   },
   async getProfile() {
     this.showLoading()
@@ -88,15 +107,14 @@ const PageObject = mergePages({}, BaseMixin, {
     console.log('goods:', this.data.goods)
     let res = null
     let apiName;
-    if(this.data.goods._id) {
+    if (this.data.goods._id) {
       apiName = "goods.updateGoods"
     } else {
       apiName = "goods.createGoods"
     }
     try {
       res = await CallCloudFuncAPI(
-        "admin",
-        {
+        "admin", {
           apiName: apiName,
           goods: this.data.goods
         }
@@ -123,18 +141,23 @@ const PageObject = mergePages({}, BaseMixin, {
         icon: 'success',
         title: 'ok'
       })
+      setTimeout(() => {
+        wx.navigateTo({
+          url: '/pages/admin_goods/admin_goods',
+        })
+      }, this.data.settings.shortTipDuration)
     }
   },
-  selectorSetCover: function(e) {
+  selectorSetCover: function (e) {
     console.log(e)
     this.setData({
       "goods.cover": e.detail.cover
     })
   },
-  selectorUpdateImages: function(e) {
+  selectorUpdateImages: function (e) {
     console.log(e)
     let media = []
-    e.detail.images.map((item)=>{
+    e.detail.images.map((item) => {
       media.push({
         url: item,
         type: "image",
@@ -176,6 +199,36 @@ const PageObject = mergePages({}, BaseMixin, {
       'goods.sell_num': e.detail.value
     })
   },
+  bindToggleGroupon(e) {
+    console.log(e)
+    this.setData({
+      'goods.is_groupon': e.detail.value
+    })
+  },
+  bindInputGrouponStartAt(e) {
+    console.log(e)
+    this.setData({
+      'goods.groupon_start_at': e.detail.value
+    })
+  },
+  bindInputGrouponEndAt(e) {
+    console.log(e)
+    this.setData({
+      'goods.groupon_end_at': e.detail.value
+    })
+  },
+  bindInputGrouponLimitCount(e) {
+    console.log(e)
+    this.setData({
+      'goods.groupon_limit_count': e.detail.value
+    })
+  },
+  bindInputGrouponRegulation(e) {
+    console.log(e)
+    this.setData({
+      'goods.groupon_regulation': e.detail.value
+    })
+  }
 })
 
 Page(PageObject)

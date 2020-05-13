@@ -2,6 +2,7 @@
   "pages": [
     "pages/index/index",
     "pages/home/home",
+    "pages/groupon/groupon",
     "pages/goods/goods",
     "pages/me/me",
     "pages/regist/regist",
@@ -24,6 +25,7 @@
     "pages/admin_goods_manage/admin_goods_manage"
   ],
   "window": {
+    "navigationStyle": "custom",
     "backgroundColor": "#e67774",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#e67774",
@@ -42,6 +44,12 @@
         "text": "首页",
         "iconPath": "./assets/images/tabs/home.png",
         "selectedIconPath": "./assets/images/tabs/home-selected.png"
+      },
+      {
+        "pagePath": "pages/groupon/groupon",
+        "text": "拼团",
+        "iconPath": "./assets/images/tabs/groupon.png",
+        "selectedIconPath": "./assets/images/tabs/groupon-selected.png"
       },
       {
         "pagePath": "pages/goods/goods",

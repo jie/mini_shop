@@ -6,6 +6,17 @@ moment.locale('zh-cn');
 App({
   onLaunch: function (e) {
     console.log('onLaunch:', e)
+    if (e.scene == 1007 || e.scene == 1008) {
+      this.globalData.share = true
+    } else {
+      this.globalData.share = false
+    };
+
+    wx.getSystemInfo({
+      success: (res) => {
+        this.globalData.height = res.statusBarHeight
+      }
+    })
 
     this.loadSettings()
 
@@ -64,6 +75,8 @@ App({
   },
   globalData: {
     userInfo: null,
-    systemInfo: null
+    systemInfo: null,
+    share: false,  // 分享默认为false
+    height: 0
   }
 })

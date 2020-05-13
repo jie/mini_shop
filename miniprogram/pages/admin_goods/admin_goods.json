@@ -1,6 +1,7 @@
 {
   "enablePullDownRefresh": true,
   "usingComponents": {
-    "wux-dialog": "../../components/wux-weapp/dialog/index"
+    "wux-dialog": "../../components/wux-weapp/dialog/index",
+    "wux-actionsheet": "../../components/wux-weapp/actionsheet/index"
   }
 }

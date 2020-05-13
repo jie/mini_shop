@@ -45,6 +45,9 @@ exports.main = async (event, context) => {
     case 'goods.updateGoods':
       console.log('goods.updateGoods')
       return await goods.updateGoods(event, wxContext, admin)
+    case 'goods.updateGoodsProperties':
+        console.log('goods.updateGoodsProperties')
+        return await goods.updateGoodsProperties(event, wxContext, admin)
     case 'goods.offShelfGoods':
       console.log('goods.offShelfGoods')
       return await goods.offShelfGoods(event, wxContext, admin)
@@ -54,6 +57,9 @@ exports.main = async (event, context) => {
     case 'goods.getGoods':
       console.log('goods.getGoods')
       return await goods.getGoods(event, wxContext, admin)
+    case 'goods.deleteGoods':
+        console.log('goods.deleteGoods')
+        return await goods.deleteGoods(event, wxContext, admin)
     default:
       return {
         status: false,
