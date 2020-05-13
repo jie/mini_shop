@@ -103,7 +103,7 @@ Component({
       this.setData({
         _images: images
       })
-      this.triggerEvent('selectorSetCover', {images: this.data._images})
+      this.triggerEvent('selectorUpdateImages', {images: this.data._images})
     },
     removeImage: function (curImage) {
       console.log('currImage:', curImage)
@@ -117,7 +117,7 @@ Component({
       this.setData({
         _images: images
       })
-      this.triggerEvent('selectorSetCover', {images: this.data._images})
+      this.triggerEvent('selectorUpdateImages', {images: this.data._images})
     },
     setGoodsCover: function(image) {
       this.triggerEvent('selectorSetCover', {cover: image})

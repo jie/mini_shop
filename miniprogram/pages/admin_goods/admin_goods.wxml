@@ -1,12 +1,13 @@
 <view class="container">
 	<view class="goods">
 		<view class="goods-item" wx:for="{{entities}}" wx:key="{{item._id}}" bindtap="onClickGoods" data-goodsid="{{item._id}}">
-			<view class="goods-image">
-				<image class="img" src="{{item.cover}}" mode="aspectFill"></image>
+			<view class="goods-wrapper">
+				<view class="goods-image">
+					<image class="img" src="{{item.cover}}" mode="aspectFill"></image>
+				</view>
+				<view class="goods-desc ellipsis">{{item.name}}</view>
 			</view>
-			<view class="goods-desc ellipsis">{{item.name}}</view>
 		</view>
-
 	</view>
 	<view class="create-goods-btn" bindtap="goGoodsManage"><text class="iconfont icon-zengjia"></text>增加商品</view>
 </view>

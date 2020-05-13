@@ -98,16 +98,9 @@ function makeGoods(event, admin) {
   }
   goods.tags = tags
 
-  let category = {}
   if (event.goods.category) {
-    category = {
-      id: event.goods.category.id,
-      cover: event.goods.category.cover,
-      name: event.goods.category.name,
-      name_en: event.goods.category.name_en,
-    }
+    goods.category = event.goods.category
   }
-  goods.category = category
 
   let parameters = []
   if (event.goods.parameters) {
@@ -195,11 +188,9 @@ const updateGoods = async (event, wxContext, admin) => {
   goods.is_enable = event.goods.is_enable
 
   let goodsResult = null
+  console.log('goods:', goods)
   try {
-    goodsResult = await db.collection('goods').where({
-      _id: goods._id
-    })
-    .update({
+    goodsResult = await db.collection('goods').doc(event.goods._id).set({
       data: goods
     })
     console.log('goodsResult:', goodsResult)

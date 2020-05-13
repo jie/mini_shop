@@ -17,7 +17,7 @@ const PageObject = mergePages({}, BaseMixin, {
       num: '',
       sell_num: '',
       images: [],
-      cover: null,
+      cover: "",
       media: []
     }
   },
@@ -68,12 +68,13 @@ const PageObject = mergePages({}, BaseMixin, {
     let goods = result.result.data.entities[0]
     let images = []
     if(goods.media) {
-      goods.map((item) => {
+      goods.media.map((item) => {
         images.push(item.url)
       })
     }
     goods.images = images
     console.log('images:', images)
+    console.log('goods:', goods)
     this.setData({
       goods: goods
     })
@@ -125,6 +126,7 @@ const PageObject = mergePages({}, BaseMixin, {
     }
   },
   selectorSetCover: function(e) {
+    console.log(e)
     this.setData({
       "goods.cover": e.detail.cover
     })
