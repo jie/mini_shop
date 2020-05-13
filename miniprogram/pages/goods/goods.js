@@ -8,6 +8,11 @@ import { CallCloudFuncAPI } from '../../utils/async_cloudfunc'
 const PageObject = mergePages({}, BaseMixin, BuycartMixin, {
 
   data: {
+    navbarData: {
+      showCapsule: 1,
+      title: "商城",
+      isPage: false
+    },
     entities: [],
     colors: {
       one: '#ffc0d0',

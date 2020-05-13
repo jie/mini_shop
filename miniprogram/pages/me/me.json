@@ -1,6 +1,7 @@
 {
   "enablePullDownRefresh": true,
   "usingComponents": {
+    "nav-bar": "../../components/navigator_bar/navigator_bar",
     "myList": "../../components/list/list",
     "avatar": "../../components/avatar/avatar",
     "wux-dialog": "../../components/wux-weapp/dialog/index"

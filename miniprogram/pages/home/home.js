@@ -10,6 +10,11 @@ import { asyncPayment } from '../../utils/async_tools/async_payment.js'
 const PageObject = mergePages({}, BaseMixin, {
 
   data: {
+    navbarData: {
+      showCapsule: 1,
+      title: "首页",
+      isPage: false
+    },
     entities: [],
     images: [],
     targetImage: null,

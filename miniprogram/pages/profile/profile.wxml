@@ -1,5 +1,6 @@
+<nav-bar navbar-data='{{navbarData}}'></nav-bar>
 <wux-dialog id="wux-dialog" />
-<view class="container">
+<view class="container" style="margin-top: {{navHeight}}px">
 
   <view class="list-title">个人资料</view>
   <view class="list">

@@ -12,13 +12,13 @@ page {
   padding: 40rpx;
   /* background-color: #d9262f; */
   position: relative;
-  height: 120rpx;
+  height: 100px;
   box-sizing: border-box;
   /* border: solid 5px #000; */
   /* border-color: transparent transparent #000 transparent;
   border-radius: 0 0 1000rpx 90%/120rpx; */
   width: 100%;
-  background-color: #E67774
+  /* background-color: #E67774 */
 }
 
 .lucky-index-img {
@@ -84,7 +84,7 @@ page {
   font-weight: bold;
 }
 .nickname {
-  color: #fff;
+  color: #999;
 }
 .nickname {
   display: flex;
@@ -97,7 +97,7 @@ page {
 }
 
 .body {
-  margin-top: 100rpx;
+  /* margin-top: 100rpx; */
 }
 
 .round-button {

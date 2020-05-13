@@ -1,2 +1,2 @@
-<!--pages/groupon/groupon.wxml-->
-<text>pages/groupon/groupon.wxml</text>
+<nav-bar navbar-data='{{navbarData}}'></nav-bar>
+<view class="container" style="margin-top: {{navHeight}}px"></view>

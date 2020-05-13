@@ -1,6 +1,7 @@
 {
   "enablePullDownRefresh": true,
   "usingComponents": {
+    "nav-bar": "../../components/navigator_bar/navigator_bar",
     "wux-calendar": "../../components/wux-weapp/calendar/index",
     "wux-dialog": "../../components/wux-weapp/dialog/index"
   }

@@ -11,10 +11,14 @@ App({
     } else {
       this.globalData.share = false
     };
-
+    let menuButtonObject = wx.getMenuButtonBoundingClientRect()
     wx.getSystemInfo({
       success: (res) => {
-        this.globalData.height = res.statusBarHeight
+        let statusBarHeight = res.statusBarHeight
+        let navTop = menuButtonObject.top
+        let navHeight = statusBarHeight + menuButtonObject.height + (navTop - statusBarHeight) * 2
+        this.globalData.navHeight = navHeight
+        this.globalData.navTop = navTop
       }
     })
 
@@ -77,6 +81,7 @@ App({
     userInfo: null,
     systemInfo: null,
     share: false,  // 分享默认为false
-    height: 0
+    navTop: 0,
+    navHeight: 0
   }
 })

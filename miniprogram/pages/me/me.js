@@ -9,6 +9,11 @@ import { $wuxDialog } from '../../components/wux-weapp/index'
 
 const PageObject = mergePages({}, BaseMixin, {
   data: {
+    navbarData: {
+      showCapsule: 1,
+      title: "我的",
+      isPage: false
+    },
     sessionid: '',
     action: '',
     imagePath: null,

@@ -1,5 +1,6 @@
 {
   "usingComponents": {
+    "nav-bar": "../../components/navigator_bar/navigator_bar",
     "wux-dialog": "../../components/wux-weapp/dialog/index"
   }
 }

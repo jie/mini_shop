@@ -1,6 +1,6 @@
-<view class="container">
-
-  <view class="header">
+<nav-bar navbar-data='{{navbarData}}'></nav-bar>
+<view class="container" style="margin-top: {{navHeight}}px">
+  <view class="header" wx:if="{{false}}">
   </view>
   <view class="goods">
     <view class="goods-wrapper {{item.style}}" wx:for="{{entities}}" wx:key="{{item.id}}">

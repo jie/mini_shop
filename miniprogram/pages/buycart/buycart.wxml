@@ -1,6 +1,6 @@
 <wux-dialog id="wux-dialog" />
-<view class="container">
-
+<nav-bar navbar-data='{{navbarData}}'></nav-bar>
+<view class="container" style="margin-top: {{navHeight}}px">
   <view class="header">
     <view class="buycart-title">
       <text>购物车</text>

@@ -21,7 +21,7 @@ Component({
     })
     // 定义导航栏的高度   方便对齐
     this.setData({
-      height: app.globalData.height
+      height: app.globalData.navHeight
     })
   },
   methods: {

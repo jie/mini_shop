@@ -1,13 +1,15 @@
-<view class='nav-wrap' style='height: {{height*2 + 20}}px;'>
-  <view class='nav-title' style='line-height: {{height*2 + 44}}px;'>{{navbarData.title}}</view>
+<view class='nav-wrap' style='height: {{height + 10}}px;'>
+  <view class='nav-title' style='line-height: {{height + 44}}px;'>{{navbarData.title}}</view>
   <view style='display: flex; justify-content: space-around;flex-direction: column'>
-    <view class='nav-capsule' style='height: {{height*2 + 44}}px;' wx:if='{{navbarData.showCapsule}}'>
-      <view bindtap='_navback' wx:if='{{!share}}'>
-        <image src='../../assets/images/tabs/back.png' mode='aspectFill' class='back-pre'></image>
+    <view class='nav-capsule' style='height: {{height + 44}}px;' wx:if='{{navbarData.showCapsule}}'>
+      <view bindtap='_navback' wx:if='{{!share && navbarData.isPage}}'>
+        <!-- <image src='./back.png' mode='aspectFill' class='back-pre'></image> -->
+        <span class="back-pre iconfont icon-fanhui"></span>
       </view>
-      <view class='navbar-v-line' wx:if='{{!share}}'></view>
+      <view class='navbar-v-line' wx:if='{{!share && navbarData.isPage}}'></view>
       <view bindtap='_backhome'>
-        <image src='../../assets/images/tabs/home.png' mode='aspectFill' class='back-home'></image>
+        <!-- <image src='./home.png' mode='aspectFill' class='back-home'></image> -->
+        <span class="back-home iconfont icon-shouye"></span>
       </view>
     </view>
   </view>

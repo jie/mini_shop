@@ -1,5 +1,6 @@
 <wux-actionsheet id="wux-actionsheet" />
-<view class="container">
+<nav-bar navbar-data='{{navbarData}}'></nav-bar>
+<view class="container" style="margin-top: {{navHeight}}px">
 	<view class="section">
 		<view class="section__title">商品图片</view>
 		<view class="image-selector">

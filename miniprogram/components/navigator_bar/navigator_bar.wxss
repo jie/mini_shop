@@ -1,9 +1,22 @@
+@font-face {
+  font-family: 'iconfont';
+  src: url('../../assets/icons/iconfont.eot');
+  src: url('../../assets/icons/iconfont.eot?#iefix') format('embedded-opentype'),
+         url('../../assets/icons/iconfont.woff2') format('woff2'),
+         url('../../assets/icons/iconfont.woff') format('woff'),
+         url('../../assets/icons/iconfont.ttf') format('truetype'),
+         url('../../assets/icons/iconfont.svg#iconfont') format('svg');
+}
+@import '../../assets/icons/iconfont.wxss';
+
+
 /* 顶部要固定定位   标题要居中   自定义按钮和标题要和右边微信原生的胶囊上下对齐 */
 .nav-wrap {
   position: fixed;
   width: 100%;
   top: 0;
-  background: #fff;
+  background: rgba(255, 255, 255, 90%);
+  border-bottom: 1px solid rgba(0, 0, 0, 10%);
   color: #000;
   z-index: 9999999;
 }
@@ -45,6 +58,9 @@
    height: 36rpx;
   margin-top: 4rpx;
   padding: 10rpx;
+  font-size: 120%;
+  color: #999;
+  font-weight: bold;
 }
 .nav-capsule .back-home {
   width: 36rpx;

@@ -13,13 +13,13 @@ module.exports = {
     locale: null,
     systemInfo: null,
     settings: settings.config,
-    nvabarData: {
+    navbarData: {
       showCapsule: 1, //是否显示左上角图标   1表示显示    0表示不显示
-      title: ""
+      title: "",
+      isPage: true
     },
-
     // 此页面 页面内容距最顶部的距离
-    height: app.globalData.height * 2 + 20 , 
+    navHeight: app.globalData.navHeight, 
   },
   checkSession() {
     let sessionid = wx.getStorageSync('sessionid')
@@ -96,6 +96,7 @@ module.exports = {
     if (this.onInited) {
       this.onInited(options)
     }
+
   },
   getCurrentPath: function () {
     let pages = getCurrentPages();

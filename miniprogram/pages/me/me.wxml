@@ -1,6 +1,7 @@
 <wux-dialog id="wux-dialog" />
-<view class="container" wx:if="{{userInfo}}">
-  <view class="header">
+<nav-bar navbar-data='{{navbarData}}'></nav-bar>
+<view class="container" style="padding-top: {{navHeight}}px" wx:if="{{userInfo}}">
+  <view class="header" style="background-color: #f9f9f9;">
     <!-- <canvas class="lucky-index-round" canvas-id="canvas"></canvas> -->
     <image src="{{imagePath}}" class="lucky-index-img"></image>
     <view class="avatarWrap">

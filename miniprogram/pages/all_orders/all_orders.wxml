@@ -1,6 +1,7 @@
 <wux-calendar id="wux-calendar" />
 <wux-dialog id="wux-dialog" />
-<view class="container">
+<nav-bar navbar-data='{{navbarData}}'></nav-bar>
+<view class="container" style="margin-top: {{navHeight}}px">
 <view class="datebar">
   <view class="date-label">{{target_date}}</view>
   <view class="date-btn-wrapper">

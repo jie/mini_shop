@@ -1,4 +1,6 @@
 {
   "enablePullDownRefresh": true,
-  "usingComponents": {}
+  "usingComponents": {
+    "nav-bar": "../../components/navigator_bar/navigator_bar"
+  }
 }

@@ -1,5 +1,6 @@
 <wux-calendar id="wux-calendar" />
-<view class="container">
+<nav-bar navbar-data='{{navbarData}}'></nav-bar>
+<view class="container" style="margin-top: {{navHeight}}px">
   <view wx:if="status && status != 'prepeare'"></view>
   <view class="section">
     <view class="section__title">快递公司</view>

@@ -1,5 +1,6 @@
 <wux-dialog id="wux-dialog" />
-<view class="container">
+<nav-bar navbar-data='{{navbarData}}'></nav-bar>
+<view class="container" style="margin-top: {{navHeight}}px">
   <view class="note">
     为了更好的为您服务，我们需要获取您的手机号
   </view>

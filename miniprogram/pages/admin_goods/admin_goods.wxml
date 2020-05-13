@@ -1,6 +1,7 @@
 <wux-actionsheet id="wux-actionsheet" />
 <wux-dialog id="wux-dialog" />
-<view class="container">
+<nav-bar navbar-data='{{navbarData}}'></nav-bar>
+<view class="container" style="margin-top: {{navHeight}}px">
 	<view class="goods" wx:if="{{entities.length !== 0}}">
 		<view class="goods-item {{item.on_shelve?'':'gray'}}" wx:for="{{entities}}" wx:key="{{item._id}}" bindtap="onClickGoods" data-goodsid="{{item._id}}" bindlongpress="onLongTapGoods" data-itemindex="{{index}}">
 			<view class="goods-wrapper">

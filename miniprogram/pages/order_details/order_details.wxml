@@ -1,2 +1,2 @@
-<!--miniprogram/pages/order_details/order_details.wxml-->
-<text>miniprogram/pages/order_details/order_details.wxml</text>
+<nav-bar navbar-data='{{navbarData}}'></nav-bar>
+

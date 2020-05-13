@@ -1,66 +1,26 @@
-// pages/groupon/groupon.js
-Page({
 
-  /**
-   * 页面的初始数据
-   */
+import regeneratorRuntime from '../../utils/regenerator-runtime/runtime'
+import mergePages from '../../utils/objectUtils'
+import BaseMixin from '../base/base'
+import BuycartMixin from '../base/buycart'
+import { CallCloudFuncAPI } from '../../utils/async_cloudfunc'
+
+const PageObject = mergePages({}, BaseMixin, BuycartMixin, {
+
   data: {
-
+    navbarData: {
+      showCapsule: 1,
+      title: "拼团",
+      isPage: false
+    },
+    entities: []
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-
+  onInited: function (options) {
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  onPullDownRefresh: async function () {
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
 })
+
+
+Page(PageObject)
