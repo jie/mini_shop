@@ -106,6 +106,16 @@ const PageObject = mergePages({}, BaseMixin, {
         iconColor: '#07C160',
         titleColor: '#07C160',
         url: "/pages/admin_goods/admin_goods"
+      },
+      {
+        key: 'admin_groupon',
+        isLink: true,
+        title: '团购管理',
+        value: '',
+        color: '#07C160',
+        iconColor: '#07C160',
+        titleColor: '#07C160',
+        url: "/pages/admin_groupon/admin_groupon"
       }
     ]
   },

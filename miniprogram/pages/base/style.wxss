@@ -13,6 +13,10 @@
   background-color: #e67774;
 } */
 
+.container {
+  padding-top: 15px;
+}
+
 .round-button {
   padding-left: 30rpx;
   padding-right: 30rpx;

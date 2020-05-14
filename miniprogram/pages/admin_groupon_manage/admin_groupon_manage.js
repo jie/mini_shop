@@ -11,7 +11,7 @@ const PageObject = mergePages({}, BaseMixin, {
   data: {
     navbarData: {
       showCapsule: 1,
-      title: "商品管理"
+      title: "团购管理"
     },
     userInfo: null,
     goods: {
