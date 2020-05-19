@@ -98,6 +98,16 @@ const PageObject = mergePages({}, BaseMixin, {
         url: "/pages/admin_message/admin_message"
       },
       {
+        key: 'admin_deposit',
+        isLink: true,
+        title: '充值管理',
+        value: '',
+        color: '#07C160',
+        iconColor: '#07C160',
+        titleColor: '#07C160',
+        url: "/pages/admin_deposit/admin_deposit"
+      },
+      {
         key: 'admin_goods',
         isLink: true,
         title: '商品管理',

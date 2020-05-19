@@ -1,0 +1,21 @@
+@import '../../assets/animate.wxss';
+
+.panel {
+  width: 100%;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.animated {
+  animation-duration: 400ms;
+}
+
+/* .panel-overlay, .panel-header  {
+  
+} */
+
+.panel-close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}

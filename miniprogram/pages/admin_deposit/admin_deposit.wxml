@@ -1,0 +1,7 @@
+<wux-actionsheet id="wux-actionsheet" />
+<wux-dialog id="wux-dialog" />
+<nav-bar navbar-data='{{navbarData}}'></nav-bar>
+<view class="container" style="margin-top: {{navHeight}}px">
+  <list entities="{{entities}}" bind:onTapListItem="onTapListItem" />
+	<view class="create-entity-btn" bindtap="goCreate"><text class="iconfont icon-zengjia"></text>新增充值卡</view>
+</view>

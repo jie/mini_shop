@@ -1,0 +1,6 @@
+<view class="panel animated {{panel_animate_class}}" wx:if="{{isShowPanel}}" style="height: {{height}}px;top: 0;left: 0" catchtouchmove="true">
+  <view bindtap="closePanel" class="panel-header" style="height: {{blankheight||0}}px"></view>
+  <view class="panel-overlay animated {{animate_class}}">
+    <slot></slot>
+  </view>
+</view>

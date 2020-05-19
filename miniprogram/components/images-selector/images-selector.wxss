@@ -3,22 +3,30 @@
   flex-wrap: wrap;
 }
 
-.image {
+.img-wrapper {
   width: 80px;
   height: 80px;
-  border: 1px dashed #999;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-right: 15px;
   margin-bottom: 15px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  overflow: hidden;
 }
 
-.image .img {
-  width: 60px;
-  height: 60px;
+.img-wrapper .img {
+  width: 80px;
+  height: 80px;
 }
 
-.image.image-plus {
-  border: 1px border #999;
+
+.image-plus .img {
+  width: 50px;
+  height: 50px;
+}
+
+.image-plus {
+  border: 1px dashed #ddd;
 }

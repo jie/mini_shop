@@ -9,14 +9,14 @@
   interval="{{interval}}" 
   duration="{{duration}}">
   <block 
-    wx:for-items="{{images}}"
+    wx:for="{{images}}"
     wx:key="{{item.id}}">
     <swiper-item 
       bindtap="ontapItem" 
       style="height: {{height}}px" 
-      data-itemid="{{item.itemid}}">
+      data-image="{{item}}">
         <image 
-          src="{{item.url}}" 
+          src="{{item.src}}" 
           class="slide-image" 
           mode="aspectFill"
           data-itemid="{{item.itemid}}" />

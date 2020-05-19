@@ -179,6 +179,13 @@ async function initApp(config) {
 }
 
 async function initDatabase(accessToken, cloudenv) {
+
+  var result = await wechat.createCollections(accessToken, "groupon", cloudenv)
+  if (!result.status) {
+    console.error(`[FAIL]${result.code}, ${result.message}`)
+    return
+  }
+
   var result = await wechat.createCollections(accessToken, "goods", cloudenv)
   if (!result.status) {
     console.error(`[FAIL]${result.code}, ${result.message}`)

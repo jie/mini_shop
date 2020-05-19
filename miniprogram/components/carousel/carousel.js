@@ -50,11 +50,7 @@ Component({
   methods: {
     ontapItem: function(e) {
       console.log(e)
-      let url = '/pages/event_detail/event_detail' + '?actvtId=' + e.target.dataset.itemid
-      console.log(url)
-      wx.navigateTo({
-        url: url,
-      })
+      this.triggerEvent('carouselTapImage', e.detail)
     } 
   }
 })

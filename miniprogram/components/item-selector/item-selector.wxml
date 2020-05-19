@@ -1,0 +1,19 @@
+<view class="wrapper imageSelector" id="imageSelector">
+	<view class="img-wrapper" wx:for="{{selectedEntities}}" wx:key="{{item}}" bindtap="onClickImage" data-entityindex="{{index}}" data-entityid="{{item._id}}">
+		<image class="img" mode="aspectFill" src="{{item.cover}}"></image>
+	</view>
+	<view class="img-wrapper image-plus" bindtap="onTapPlus">
+		<image class="img" src="../../assets/images/plus.png"></image>
+	</view>
+</view>
+
+<panel init_status="{{isShowPanel}}" height="{{height}}" isShowCloseIcon="{{true}}" blankheight="220" bgColor="#fff" bind:PanelHide="onPanelHide">
+	<view class="entities-wrapper" style="background-color: #fff; height: {{height-200}}px;border-top-left-radius: 20px; border-top-right-radius: 20px;">
+		<view class="entities-header">{{helpTitle}}</view>
+		<view class="entities">
+			<view class="entity" wx:for="{{entities}}" wx:key="{{item._id}}" style="width: {{entityWidth}}px; height: {{entityWidth}}px" bindtap="ontapEntity" data-entityid="{{item._id}}" data-entityindex="{{index}}">
+				<image class="entity-cover" style="width: {{entityWidth-30}}px; height: {{entityWidth-30}}px" mode="aspectFill" src="{{item.cover}}"></image>
+			</view>
+		</view>
+	</view>
+</panel>

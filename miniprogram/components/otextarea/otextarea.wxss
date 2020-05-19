@@ -1,0 +1,9 @@
+.fake-textarea {
+  /* border: 2px solid #000; */
+  padding: 6px;
+  color: #828282;
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  font-size: 14px;
+}

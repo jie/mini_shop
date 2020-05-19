@@ -1,5 +1,5 @@
 <nav-bar navbar-data='{{navbarData}}'></nav-bar>
-<view class="container" style="padding-bottom:30px;">
+<view class="container" style="margin-top: {{navHeight}}px">
   <view class="section" style="padding-top: 30px" wx:for="{{templates}}" wx:key="{{item.templateId}}">
     <view class="message-title" style="text-align:center;">
       {{item.title}}

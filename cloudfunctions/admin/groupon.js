@@ -74,6 +74,22 @@ function makeGroupon(event, admin) {
   if (event.groupon.groupon_regulation) {
     groupon.groupon_regulation = event.groupon.groupon_regulation
   }
+
+  let goods = []
+  console.log('event.groupon.goods:', event.groupon.goods)
+  if(event.groupon.goods) {
+    event.groupon.goods.map((item) => {
+      if(item.is_groupon) {
+        goods.push(item)
+      }
+    })
+    groupon.goods = goods
+  }
+
+  return {
+    status: true,
+    data: groupon
+  }
 }
 
 
@@ -87,7 +103,7 @@ const createGroupon = async (event, wxContext, admin) => {
   let groupon = result.data
   groupon.create_at = new Date()
   groupon.update_at = new Date()
-
+  console.log('groupon obj:', groupon)
   let grouponResult = null
   try {
     grouponResult = await db.collection('groupon').add({
@@ -121,7 +137,7 @@ const updateGroupon = async (event, wxContext, admin) => {
 
   let getGrouponResult = null
   try {
-    getGrouponResult = await db.collection('groupon').doc(event.goods._id).get()
+    getGrouponResult = await db.collection('groupon').doc(event.groupon._id).get()
     console.log('getGrouponResult:', getGrouponResult)
   } catch (e) {
     console.error(e)

@@ -24,7 +24,11 @@
     "pages/admin_goods/admin_goods",
     "pages/admin_goods_manage/admin_goods_manage",
     "pages/admin_groupon/admin_groupon",
-    "pages/admin_groupon_manage/admin_groupon_manage"
+    "pages/admin_groupon_manage/admin_groupon_manage",
+    "pages/admin_deposit/admin_deposit",
+    "pages/admin_home/admin_home",
+    "pages/admin_deposit_manage/admin_deposit_manage",
+    "pages/admin_settings/admin_settings"
   ],
   "window": {
     "navigationStyle": "custom",

@@ -11,7 +11,8 @@ const PageObject = mergePages({}, BaseMixin, {
   data: {
     navbarData: {
       showCapsule: 1,
-      title: "商品管理"
+      title: "商品管理",
+      isPage: true
     },
     userInfo: null,
     goods: {
@@ -24,11 +25,7 @@ const PageObject = mergePages({}, BaseMixin, {
       images: [],
       cover: "",
       media: [],
-      is_groupon: false,
-      groupon_start_at: "",
-      groupon_end_at: "",
-      groupon_limit_count: 0,
-      groupon_regulation: ""
+      is_groupon: false
     },
   },
   onInited(options) {
@@ -207,30 +204,6 @@ const PageObject = mergePages({}, BaseMixin, {
     console.log(e)
     this.setData({
       'goods.is_groupon': e.detail.value
-    })
-  },
-  bindInputGrouponStartAt(e) {
-    console.log(e)
-    this.setData({
-      'goods.groupon_start_at': e.detail.value
-    })
-  },
-  bindInputGrouponEndAt(e) {
-    console.log(e)
-    this.setData({
-      'goods.groupon_end_at': e.detail.value
-    })
-  },
-  bindInputGrouponLimitCount(e) {
-    console.log(e)
-    this.setData({
-      'goods.groupon_limit_count': e.detail.value
-    })
-  },
-  bindInputGrouponRegulation(e) {
-    console.log(e)
-    this.setData({
-      'goods.groupon_regulation': e.detail.value
     })
   }
 })

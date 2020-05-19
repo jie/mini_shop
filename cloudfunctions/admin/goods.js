@@ -124,26 +124,9 @@ function makeGoods(event, admin) {
 
   // 团购设置
   goods.is_groupon = event.goods.is_groupon ? true : false
-  if (goods.is_groupon !== true) {
-    return {
-      status: true,
-      data: goods
-    }
-  }
-
-  if (event.goods.groupon_start_at) {
-    goods.groupon_start_at = event.goods.groupon_start_at
-  }
-  if (event.goods.groupon_end_at) {
-    goods.groupon_end_at = event.goods.groupon_end_at
-  }
-  if (event.goods.groupon_regulation) {
-    goods.groupon_regulation = event.goods.groupon_regulation
-  }
-  if (event.goods.groupon_limit_count) {
-    goods.groupon_limit_count = event.goods.groupon_limit_count
-  } else {
-    goods.groupon_limit_count = 0
+  return {
+    status: true,
+    data: goods
   }
 }
 
@@ -337,10 +320,15 @@ const getGoods = async (event, wxContext, admin) => {
       }
     }
   } else {
+    let query = {is_enable: true}
+    if(event.query) {
+      for(let item of event.query) {
+        query[item.key] = item.value
+      }
+    }
+    console.log('query:', query)
     try {
-      result = await db.collection('goods').where({
-        is_enable: true
-      }).orderBy('seq', 'asc').get()
+      result = await db.collection('goods').where(query).orderBy('seq', 'asc').get()
       return {
         status: true,
         data: {

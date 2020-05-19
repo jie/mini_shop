@@ -51,31 +51,6 @@
 			<switch checked="{{goods.is_groupon}}" bindchange="bindToggleGroupon" />
 		</view>
 	</view>
-	<view class="section" wx:if="{{goods.is_groupon}}">
-		<view class="section__title">开团时间</view>
-		<view class="section__field">
-			<input bindinput="bindInputGrouponStartAt" placeholder="请填写开团时间" value="{{goods.groupon_start_at}}" />
-		</view>
-	</view>
-	<view class="section" wx:if="{{goods.is_groupon}}">
-		<view class="section__title">闭团时间</view>
-		<view class="section__field">
-			<input bindinput="bindInputGrouponEndAt" placeholder="请填写闭团时间" value="{{goods.groupon_end_at}}" />
-		</view>
-	</view>
-	<view class="section" wx:if="{{goods.is_groupon}}">
-		<view class="section__title">开团数量</view>
-		<view class="section__field">
-			<input bindinput="bindInputGrouponLimitCount" placeholder="请填写开团数量" value="{{goods.groupon_limit_count}}" />
-		</view>
-		<view class="section__help">设置开团数量后，未达到开团数量则开团失败</view>
-	</view>
-	<view class="section" wx:if="{{goods.is_groupon}}">
-		<view class="section__title">团购规则</view>
-		<view class="section__field">
-			<textarea placeholder="请填写闭团时间" name="textarea" bindinput="bindInputGrouponRegulation" value="{{goods.groupon_regulation}}"/>
-		</view>
-	</view>
 	<view class="section">
 		<view class="round-button" style="width: 100%" bindtap="submitForm">提交</view>
 	</view>

@@ -14,10 +14,11 @@ const constant = require('./constant')
 
 
 
-const getCards = async () => {
+const getSystemSettings = async () => {
   let cards = []
+  let result = null
   try {
-    const result = await db.collection('deposit_card').where({
+    result = await db.collection('deposit_card').where({
       is_enable: true
     }).get()
     cards = result.data
@@ -30,27 +31,33 @@ const getCards = async () => {
   }
 
   try {
-    const result = await db.collection('slide').where({
+    result = await db.collection('home').where({
       is_enable: true
     }).get()
-    return {
-      status: true,
-      data: {
-        entities: cards,
-        images: result.data
+
+    if(result.data) {
+      return {
+        status: true,
+        data: {
+          entities: cards,
+          entity: result.data[0]
+        }
+      }
+    } else {
+      return {
+        status: false,
+        message: 'settings_not_found'
       }
     }
+
   } catch (e) {
     console.error(e)
     return {
       status: false,
-      message: e.message
+      message: 'fail_get_system_settings'
     }
   }
 }
-
-
-
 
 const getUser = async (openid) => {
   try {
@@ -149,8 +156,8 @@ exports.main = async (event, context) => {
 
   let user = await getUser(wxContext.OPENID)
   switch (event.apiName) {
-      case 'getCards':
-        return await getCards()
+      case 'getSystemSettings':
+        return await getSystemSettings()
       case 'depositAPI.deposit':
         if (!user || user.errMsg !== 'document.get:ok') {
           return {

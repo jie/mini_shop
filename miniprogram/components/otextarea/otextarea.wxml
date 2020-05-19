@@ -1,0 +1,13 @@
+<view class="otextarea">
+  <textarea 
+    value="{{content}}" 
+    auto-focus="{{autoFocus}}" 
+    bindinput='onInputChange' 
+    auto-height 
+    placeholder="{{placeholder}}" 
+    style="min-height: {{minheight}}px" 
+    wx:if="{{isShowTextarea}}" 
+    bindblur="onBlur" 
+    bindfocus="bindfocus"/>
+  <text class="fake-textarea" style="min-height: {{minheight}}px; color: {{content?'#333333':'#828282'}};" bindtap="onTapFakeArea" wx:else>{{content||placeholder}}</text>
+</view>

@@ -1,8 +1,8 @@
 <view class="wrapper imageSelector" id="imageSelector">
-  <view class="image" wx:for="{{_images}}" wx:key="{{item}}" bindtap="onClickImage" data-imageindex="{{index}}">
+  <view class="img-wrapper" wx:for="{{_images}}" wx:key="{{item}}" bindtap="onClickImage" data-imageindex="{{index}}">
     <image class="img" mode="aspectFill" src="{{item}}"></image>
   </view>
-  <view class="image image-plus" bindtap="addImage">
-    <image class="img" src="./plus.png"></image>
+  <view class="img-wrapper image-plus" bindtap="addImage">
+    <image class="img" src="../../assets/images/plus.png"></image>
   </view>
 </view>

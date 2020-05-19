@@ -1,43 +1,39 @@
 <wux-actionsheet id="wux-actionsheet" />
 <nav-bar navbar-data='{{navbarData}}'></nav-bar>
+
+<wux-date-picker mode="datetime" visible="{{ isDatePickVisiable }}" value="{{selectedDateValue}}" controlled lang="zh_CN" data-index="2" data-mode="datetime" bind:confirm="onConfirmDatePicker" bind:cancel="onCancelDatePicker"/>
 <view class="container" style="margin-top: {{navHeight}}px">
 	<view class="section">
 		<view class="section__title">团购图片</view>
 		<view class="image-selector">
-			<images-selector bind:selectorSetCover="selectorSetCover" id="imageSelector" bind:selectorUpdateImages="selectorUpdateImages" bucket="{{settings.cloud_goods_image_base_path}}" images="{{goods.images}}"/>
+			<images-selector bind:selectorSetCover="selectorSetCover" id="imageSelector" bind:selectorUpdateImages="selectorUpdateImages" bucket="{{settings.cloud_goods_image_base_path}}" images="{{entity.images}}" />
 		</view>
 	</view>
-
 	<view class="section">
+		<view class="section__title">团购商品</view>
+		<view class="image-selector">
+			<item-selector bind:selectorSetCover="selectorSetCover" id="goodsSelector" bind:itemSelectorShowPanel="itemSelectorShowPanel" bind:itemSelectorClosePanel="itemSelectorClosePanel" bind:itemSelectorPushItem="itemSelectorPushItem" bucket="{{settings.cloud_goods_image_base_path}}" screenWidth="{{systemInfo.windowWidth}}" height="{{systemInfo.windowHeight}}" helpTitle="点击选择要添加的商品" />
+		</view>
+	</view>
+	<view class="section" wx:if="{{editMode=='page'}}">
 		<view class="section__title">* 团购名称</view>
 		<view class="section__field">
-			<input bindinput="bindInputGoodsName" placeholder="请填商品名称" value="{{goods.name}}" />
+			<input bindinput="bindInputGoodsName" placeholder="请填商品名称" value="{{entity.name}}" />
 		</view>
 	</view>
 	<view class="section">
 		<view class="section__title">开团时间</view>
-		<view class="section__field">
-			<input bindinput="bindInputGrouponStartAt" placeholder="请填写开团时间" value="{{goods.groupon_start_at}}" />
-		</view>
+		<view class="section__field" bindtap="onFocusStartAt">{{entity.groupon_start_at}}</view>
 	</view>
 	<view class="section">
 		<view class="section__title">闭团时间</view>
-		<view class="section__field">
-			<input bindinput="bindInputGrouponEndAt" placeholder="请填写闭团时间" value="{{goods.groupon_end_at}}" />
-		</view>
+		<view class="section__field" bindtap="onFocusEndAt">{{entity.groupon_end_at}}</view>
 	</view>
-	<view class="section">
-		<view class="section__title">开团数量</view>
-		<view class="section__field">
-			<input bindinput="bindInputGrouponLimitCount" placeholder="请填写开团数量" value="{{goods.groupon_limit_count}}" />
-		</view>
-		<view class="section__help">设置开团数量后，未达到开团数量则开团失败</view>
-	</view>
-	<view class="section">
+	<view class="section" wx:if="{{editMode=='page'}}">
 		<view class="section__title">团购规则</view>
 		<view class="section__field">
-			<textarea placeholder="请填写闭团时间" name="textarea" bindinput="bindInputGrouponRegulation" value="{{goods.groupon_regulation}}"/>
-		</view>
+			<textarea placeholder="请填写团购规则" name="textarea" bindinput="bindInputGrouponRegulation" value="{{entity.groupon_regulation}}" />
+			</view>
 	</view>
 	<view class="section">
 		<view class="round-button" style="width: 100%" bindtap="submitForm">提交</view>

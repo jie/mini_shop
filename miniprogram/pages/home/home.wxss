@@ -3,6 +3,8 @@
 .cards {
   padding: 20px;
   box-sizing: border-box;
+  height: 400px;
+  overflow-y: hidden;
 }
 .card-note {
   font-size: 120%;
@@ -29,6 +31,9 @@
   grid-template-areas: "a a a a b b" "a a a a c c" "f f f f c c" "d d e e c c" "g g g g g g" "g g g g g g";
 }
 
+.grid .item {
+  overflow: hidden;
+}
 .grid .item, .card-free {
   min-height: 60px;
   border-radius: 20px;
@@ -81,3 +86,7 @@
   font-size: 100%;
 }
 
+
+.section-title {
+  color: #666
+}

@@ -11,63 +11,41 @@ const PageObject = mergePages({}, BaseMixin, {
   data: {
     navbarData: {
       showCapsule: 1,
-      title: "团购管理"
+      title: "团购管理",
+      isPage: true
     },
     userInfo: null,
-    goods: {
+    entity: {
       name: '',
-      name_en: '',
-      display_price: '',
-      price: '',
-      num: '',
-      sell_num: '',
       images: [],
       cover: "",
       media: [],
-      is_groupon: false,
       groupon_start_at: "",
       groupon_end_at: "",
-      groupon_limit_count: 0,
-      groupon_regulation: ""
+      groupon_regulation: "",
+      goods: []
     },
+    editMode: 'page',
+    goods: [],
+    entity_id: null,
+    isDatePickVisiable: false,
+    selectedDateValue: '',
+    currentDatetimePickerType: null
   },
   onInited(options) {
-    if (options.goods_id) {
-      this.getGoods(options.goods_id)
-    } else {
-      let images = [];
-      let media = [];
-      if (options.images) {
-        images = JSON.parse(options.images)
-        images.map((item) => {
-          media.push({
-            url: item,
-            type: "image",
-            summary: "",
-            summary_en: ""
-          })
-        })
-      }
-
-      this.setData({
-        "goods.images": images,
-        "goods.media": media
-      })
-
-      if (images.length === 1) {
-        this.setData({
-          "goods.cover": images[0]
-        })
-      }
-    }
+    this.setData({
+      entity_id: options.entity_id
+    })
+    this.getGoods()
   },
-  async getGoods(goodsId) {
+  async getEntity(entityId) {
     this.showLoading()
     let result = null
     try {
       result = await CallCloudFuncAPI('admin', {
-        apiName: 'goods.getGoods',
-        goods_id: goodsId
+        apiName: 'groupon.getGroupon',
+        groupon_id: entityId,
+
       })
     } catch (e) {
       console.error(e)
@@ -85,42 +63,110 @@ const PageObject = mergePages({}, BaseMixin, {
       this.hideLoading()
       return
     }
-    let goods = result.result.data.entities[0]
+    let entity = result.result.data.entities[0]
     let images = []
-    if (goods.media) {
-      goods.media.map((item) => {
+    if (entity.media) {
+      entity.media.map((item) => {
         images.push(item.url)
       })
     }
-    goods.images = images
+    entity.images = images
 
     this.setData({
-      goods: goods
+      entity: entity
     })
-    console.log('goods:', goods)
+    console.log('entity:', entity)
     setTimeout(() => {
       this.hideLoading()
-      this.selectComponent('#imageSelector').setImages(this.data.goods.images)
+      this.selectComponent('#imageSelector').setImages(this.data.entity.images)
+      let selected = []
+      this.data.entity.goods.map((item) => {
+        selected.push(item._id)
+      })
+      let goods = []
+      this.data.goods.map((item) => {
+        if(!selected.includes(item._id)) {
+          goods.push(item)
+        }
+      })
+      this.selectComponent('#goodsSelector').updateSelectedEntities(this.data.entity.goods)
+      this.selectComponent('#goodsSelector').updateEntities(goods)
     }, this.data.settings.shortTipDuration)
   },
   async getProfile() {
     this.showLoading()
   },
+  async getGoods() {
+    this.showLoading()
+    let result = null
+    try {
+      result = await CallCloudFuncAPI('admin', {
+        apiName: 'goods.getGoods',
+        query: [
+          {key: "is_groupon", value: true}
+        ]
+      })
+      console.log('getGoods:', result)
+    } catch (e) {
+      console.error(e)
+      this.showToast({
+        title: e.message
+      })
+      this.hideLoading()
+      return
+    }
+
+    if (result.result.status !== true) {
+      this.showToast({
+        title: result.result.message
+      })
+      this.hideLoading()
+      return
+    }
+
+    this.setData({
+      goods: result.result.data.entities,
+    })
+
+    
+    this.hideLoading()
+    if(this.data.entity_id) {
+      this.getEntity()
+    } else {
+      this.selectComponent('#goodsSelector').updateEntities(result.result.data.entities)
+    }
+    
+  },
+  itemSelectorShowPanel() {
+    this.setData({
+      editMode: 'panel'
+    })
+  },
+  itemSelectorClosePanel() {
+    this.setData({
+      editMode: 'page'
+    })
+  },
   async submitForm() {
     this.showLoading()
-    console.log('goods:', this.data.goods)
+    console.log('entity:', this.data.entity)
+    let goods = this.selectComponent('#goodsSelector').getSelectedEntities()
+    console.log('submitgoodls:', goods)
+    this.setData({
+      "entity.goods": goods
+    })
     let res = null
     let apiName;
-    if (this.data.goods._id) {
-      apiName = "goods.updateGoods"
+    if (this.data.entity._id) {
+      apiName = "groupon.updateGroupon"
     } else {
-      apiName = "goods.createGoods"
+      apiName = "groupon.createGroupon"
     }
     try {
       res = await CallCloudFuncAPI(
         "admin", {
           apiName: apiName,
-          goods: this.data.goods
+          groupon: this.data.entity
         }
       )
     } catch (e) {
@@ -147,7 +193,7 @@ const PageObject = mergePages({}, BaseMixin, {
       })
       setTimeout(() => {
         wx.navigateTo({
-          url: '/pages/admin_goods/admin_goods',
+          url: '/pages/admin_groupon/admin_groupon',
         })
       }, this.data.settings.shortTipDuration)
     }
@@ -155,7 +201,7 @@ const PageObject = mergePages({}, BaseMixin, {
   selectorSetCover: function (e) {
     console.log(e)
     this.setData({
-      "goods.cover": e.detail.cover
+      "entity.cover": e.detail.cover
     })
   },
   selectorUpdateImages: function (e) {
@@ -170,67 +216,66 @@ const PageObject = mergePages({}, BaseMixin, {
       })
     })
     this.setData({
-      "goods.media": media
+      "entity.media": media
     })
   },
   bindInputGoodsName(e) {
     this.setData({
-      'goods.name': e.detail.value
-    })
-  },
-  bindInputGoodsNameEn(e) {
-    this.setData({
-      'goods.name_en': e.detail.value
-    })
-  },
-  bindInputDisplayPrice(e) {
-    this.setData({
-      'goods.display_price': e.detail.value
-    })
-  },
-  bindInputPrice(e) {
-    this.setData({
-      'goods.price': e.detail.value
-    })
-  },
-  bindInputNickName(e) {
-    this.setData({
-      'goods.num': e.detail.value
-    })
-  },
-  bindInputSellNum(e) {
-    this.setData({
-      'goods.sell_num': e.detail.value
-    })
-  },
-  bindToggleGroupon(e) {
-    console.log(e)
-    this.setData({
-      'goods.is_groupon': e.detail.value
+      'entity.name': e.detail.value
     })
   },
   bindInputGrouponStartAt(e) {
     console.log(e)
     this.setData({
-      'goods.groupon_start_at': e.detail.value
+      'entity.groupon_start_at': e.detail.value
     })
   },
   bindInputGrouponEndAt(e) {
     console.log(e)
     this.setData({
-      'goods.groupon_end_at': e.detail.value
-    })
-  },
-  bindInputGrouponLimitCount(e) {
-    console.log(e)
-    this.setData({
-      'goods.groupon_limit_count': e.detail.value
+      'entity.groupon_end_at': e.detail.value
     })
   },
   bindInputGrouponRegulation(e) {
     console.log(e)
     this.setData({
-      'goods.groupon_regulation': e.detail.value
+      'entity.groupon_regulation': e.detail.value
+    })
+  },
+  onConfirmDatePicker(e) {
+    console.log(e)
+    if(this.data.currentDatetimePickerType == 'startAt') {
+      this.setData({
+        'entity.groupon_start_at': e.detail.label,
+        'isDatePickVisiable': false
+      })
+    } else {
+      this.setData({
+        'entity.groupon_end_at': e.detail.label,
+        'isDatePickVisiable': false
+      })
+    }
+  },
+  onCancelDatePicker() {
+    this.setData({
+      isDatePickVisiable: false,
+      currentDatetimePickerType: null
+    })
+  },
+  onFocusStartAt(e) {
+    let curDate = moment().format('YYYY-MM-DD HH:mm:ss')
+    this.setData({
+      isDatePickVisiable: true,
+      currentDatetimePickerType: 'startAt',
+      selectedDateValue: this.data.entity.groupon_start_at || curDate
+    })
+  },
+  onFocusEndAt(e) {
+    let curDate = moment().format('YYYY-MM-DD HH:mm:ss')
+    this.setData({
+      isDatePickVisiable: true,
+      currentDatetimePickerType: 'endAt',
+      selectedDateValue: this.data.entity.groupon_end_at || curDate
     })
   }
 })

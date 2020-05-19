@@ -2,15 +2,15 @@
 <wux-dialog id="wux-dialog" />
 <nav-bar navbar-data='{{navbarData}}'></nav-bar>
 <view class="container" style="margin-top: {{navHeight}}px">
-	<view class="goods" wx:if="{{entities.length !== 0}}">
-		<view class="goods-item {{item.on_shelve?'':'gray'}}" wx:for="{{entities}}" wx:key="{{item._id}}" bindtap="onClickGoods" data-goodsid="{{item._id}}" bindlongpress="onLongTapGoods" data-itemindex="{{index}}">
-			<view class="goods-wrapper">
-				<view class="goods-image">
+	<view class="entities" wx:if="{{entities.length !== 0}}">
+		<view class="entity-item {{item.on_shelve?'':'gray'}}" wx:for="{{entities}}" wx:key="{{item._id}}" bindtap="onClickEntity" data-entityid="{{item._id}}" bindlongpress="onLongTapEntity" data-itemindex="{{index}}">
+			<view class="entity-wrapper">
+				<view class="entity-image">
 					<image class="img" src="{{item.cover}}" mode="aspectFill"></image>
 				</view>
-				<view class="goods-desc ellipsis"><text wx:if="{{item.is_groupon}}" class="iconfont icon-tuangou" style="color: red"></text>{{item.name}}</view>
+				<view class="entity-desc ellipsis"><text wx:if="{{item.is_groupon}}" class="iconfont icon-tuangou" style="color: red"></text>{{item.name}}</view>
 			</view>
 		</view>
 	</view>
-	<view class="create-goods-btn" bindtap="goGoodsManage"><text class="iconfont icon-zengjia"></text>增加商品</view>
+	<view class="create-entity-btn" bindtap="goGrouponManage"><text class="iconfont icon-zengjia"></text>新增团购</view>
 </view>

@@ -1,11 +1,11 @@
 @import '../base/style.wxss';
 
 page {
-  background-color: #fff;
+  background-color: #f9f9f9;
 }
 
 .container {
-  background-color: #fff;
+  background-color: #f9f9f9;
 }
 
 .header {

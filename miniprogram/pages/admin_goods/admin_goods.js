@@ -25,7 +25,8 @@ const PageObject = mergePages({}, BaseMixin, {
   data: {
     navbarData: {
       showCapsule: 1,
-      title: "商品列表"
+      title: "商品列表",
+      isPage: true
     },
     entities: [],
     colors: {
@@ -59,7 +60,8 @@ const PageObject = mergePages({}, BaseMixin, {
     let result = null
     try {
       result = await CallCloudFuncAPI('admin', {
-        apiName: 'goods.getGoods'
+        apiName: 'goods.getGoods',
+        query: [{key: 'is_groupon', value: false}]
       })
     } catch (e) {
       console.error(e)

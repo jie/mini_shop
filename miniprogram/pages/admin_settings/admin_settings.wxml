@@ -1,0 +1,54 @@
+<wux-actionsheet id="wux-actionsheet" />
+<nav-bar navbar-data='{{navbarData}}'></nav-bar>
+
+<view class="container" style="margin-top: {{navHeight}}px">
+	<view class="section">
+		<view class="section__title">封面图片</view>
+    <images-selector size="1" bind:selectorSetCover="selectorSetCover" id="imageSelector" bind:selectorUpdateImages="selectorUpdateImages" bucket="{{settings.cloud_goods_image_base_path}}" />
+	</view>
+	<view class="section">
+		<view class="section__title">* 名称</view>
+		<view class="section__field">
+			<input data-field="name" bindinput="bindInputValue" placeholder="请填名称" value="{{entity.name}}" />
+		</view>
+	</view>
+	<view class="section">
+		<view class="section__title">英文名称</view>
+		<view class="section__field">
+			<input data-field="name_en" bindinput="bindInputValue" placeholder="请填英文名称" value="{{entity.name_en}}" />
+		</view>
+	</view>
+	<view class="section">
+		<view class="section__title">显示金额</view>
+		<view class="section__field">
+			<input data-field="value" bindinput="bindInputValue" placeholder="请填显示金额" value="{{entity.value}}" />
+		</view>
+	</view>
+	<view class="section">
+		<view class="section__title">充值金额</view>
+		<view class="section__field">
+			<input data-field="real_value" bindinput="bindInputValue" placeholder="请填充值金额" value="{{entity.real_value}}" />
+		</view>
+	</view>
+	<view class="section">
+		<view class="section__title">卡片样式</view>
+    <picker bindchange="bindPickerChange" value="{{entity.style}}" range="{{cardStyle}}">
+		<view class="section__field">{{entity.style}}</view>
+    </picker>
+	</view>
+	<view class="section">
+		<view class="section__title">充值提示信息</view>
+		<view class="section__field">
+			<textarea placeholder="请填写充值提示信息" name="textarea" data-field="summary" bindinput="bindInputValue" value="{{entity.summary}}" />
+			</view>
+	</view>
+	<view class="section">
+		<view class="section__title">备注</view>
+		<view class="section__field">
+			<textarea placeholder="请填写备注" name="textarea" data-field="remark" bindinput="bindInputValue" value="{{entity.remark}}" />
+			</view>
+	</view>
+	<view class="section">
+		<view class="round-button" style="width: 100%" bindtap="submitForm">提交</view>
+	</view>
+</view>

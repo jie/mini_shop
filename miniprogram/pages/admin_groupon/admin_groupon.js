@@ -25,7 +25,8 @@ const PageObject = mergePages({}, BaseMixin, {
   data: {
     navbarData: {
       showCapsule: 1,
-      title: "团购列表"
+      title: "团购列表",
+      isPage: true
     },
     entities: [],
     colors: {
@@ -35,14 +36,12 @@ const PageObject = mergePages({}, BaseMixin, {
     },
     buycart: null,
     images: [],
-    goodsOperations: [{
-        text: '设置排序'
-      },
+    operations: [
       {
         text: '上架商品'
       },
       {
-        text: '删除商品'
+        text: '移除团购'
       }
     ]
   },
@@ -51,15 +50,15 @@ const PageObject = mergePages({}, BaseMixin, {
     wx.startPullDownRefresh()
   },
   onPullDownRefresh: async function () {
-    await this.getGoods()
+    await this.getEntities()
     wx.stopPullDownRefresh()
   },
-  async getGoods() {
+  async getEntities() {
     this.showLoading()
     let result = null
     try {
       result = await CallCloudFuncAPI('admin', {
-        apiName: 'goods.getGoods'
+        apiName: 'groupon.getGroupon'
       })
     } catch (e) {
       console.error(e)
@@ -83,64 +82,29 @@ const PageObject = mergePages({}, BaseMixin, {
     })
     this.hideLoading()
   },
-  ontapCard(e) {
-    console.log('ontapCard')
-  },
-  onCatchTap(e) {
-    let index = e.currentTarget.dataset.index
-    this.addGoodsToCart(this.data.entities[index])
-  },
-  async goGoodsManage() {
-    // wx.navigateTo({
-    //   url: '/pages/admin_goods_manage/admin_goods_manage',
-    // })
-    let result = null
-    try {
-      result = await asyncCallFunc("chooseImage", {
-        count: 5,
-        sizeType: ['compressed'],
-        sourceType: ['album', 'camera'],
-      })
-    } catch (e) {
-      console.error(e)
-    }
-    if (!result) {
-      return
-    }
-
-    let imagesUpload = []
-    for (let item of result.tempFiles) {
-      let cloudPath = getGoodsImageName(item.path, this.data.settings.cloud_goods_image_base_path)
-      var uploadResult = await cloudUploadAPI(cloudPath, item.path)
-      imagesUpload.push(uploadResult.fileID)
-    }
-    console.log('imagesUpload:', imagesUpload)
-    if (imagesUpload.length !== 0) {
-      wx.navigateTo({
-        url: `/pages/admin_goods_manage/admin_goods_manage?images=${JSON.stringify(imagesUpload)}`,
-      })
-    }
-  },
-  onClickGoods: function (e) {
-    console.log(e)
+  async goGrouponManage() {
     wx.navigateTo({
-      url: `/pages/admin_goods_manage/admin_goods_manage?goods_id=${e.currentTarget.dataset.goodsid}`,
+      url: '/pages/admin_groupon_manage/admin_groupon_manage',
     })
   },
-  async toggleShelveGoods(item) {
+  onClickEntity: function (e) {
+    console.log(e)
+    wx.navigateTo({
+      url: `/pages/admin_groupon_manage/admin_groupon_manage?entity_id=${e.currentTarget.dataset.entityid}`,
+    })
+  },
+  async toggleShelveGroupon(item) {
     this.showLoading()
     let result = null;
-    let apiName;
-    if(item.on_shelve) {
-      apiName = "goods.offShelfGoods"
-    } else {
-      apiName = "goods.upShelfGoods"
-    }
 
     try {
       result = await CallCloudFuncAPI('admin', {
-        apiName: apiName,
-        goods_id: item._id
+        apiName: "groupon.updateGrouponProperties",
+        groupon_id: item._id,
+        groupon: {
+          on_shelve: !item.on_shelve
+        }
+
       })
     } catch (e) {
       console.error(e)
@@ -160,18 +124,18 @@ const PageObject = mergePages({}, BaseMixin, {
     }
 
     this.hideLoading()
-    await this.getGoods()
+    await this.getEntities()
 
   },
 
-  async deleteGoods(item) {
+  async deleteGroupon(item) {
     this.showLoading()
     let result = null;
 
     try {
       result = await CallCloudFuncAPI('admin', {
-        apiName: "goods.deleteGoods",
-        goods_id: item._id
+        apiName: "groupon.deleteGroupon",
+        groupon_id: item._id
       })
     } catch (e) {
       console.error(e)
@@ -191,38 +155,35 @@ const PageObject = mergePages({}, BaseMixin, {
     }
 
     this.hideLoading()
-    await this.getGoods()
+    await this.getEntities()
 
   },
 
-  onLongTapGoods(e) {
+  onLongTapEntity(e) {
     let that = this;
     let index = e.currentTarget.dataset.itemindex;
-    let goods = this.data.entities[index]
-    let goodsOperations = this.data.goodsOperations
-    if(goods.on_shelve) {
-      goodsOperations[goodsOperations.length - 2].text = '下架商品'
+    let entity = this.data.entities[index]
+    let operations = this.data.operations
+    if(entity.on_shelve) {
+      operations[0].text = '下架团购'
     } else {
-      goodsOperations[goodsOperations.length - 2].text = '上架商品'
+      operations[0].text = '上架团购'
     }
     $wuxActionSheet().showSheet({
       theme: 'wx',
       titleText: '操作商品',
-      buttons: goodsOperations,
+      buttons: operations,
       buttonClicked(index, item) {
-        if (index === 0) {
-          that.showSortDialog(goods)
+        if(index === 0) {
+          that.toggleShelveGroupon(entity)
         }
-        if(index === (goodsOperations.length - 2)) {
-          that.toggleShelveGoods(goods)
-        }
-        if (index === (goodsOperations.length -1)) {
+        if (index === 1) {
           $wuxDialog().confirm({
             resetOnClose: true,
             title: '',
-            content: '请确定是否删除该商品',
+            content: '请确定是否删除',
             onConfirm: (e, response) => {
-              that.deleteGoods(goods)
+              that.deleteGroupon(entity)
             }
           })
         }
@@ -230,7 +191,7 @@ const PageObject = mergePages({}, BaseMixin, {
       },
     })
   },
-  async setGoodsSeq(goods, seq) {
+  async setEntitySeq(groupon, seq) {
     this.showLoading()
     let result = null;
     if(seq === '') {
@@ -238,9 +199,9 @@ const PageObject = mergePages({}, BaseMixin, {
     }
     try {
       result = await CallCloudFuncAPI('admin', {
-        apiName: "goods.updateGoodsProperties",
-        goods_id: goods._id,
-        goods: {
+        apiName: "groupon.updateGrouponProperties",
+        groupon_id: groupon._id,
+        groupon: {
           seq: parseInt(seq)
         }
       })
@@ -267,22 +228,22 @@ const PageObject = mergePages({}, BaseMixin, {
         icon: 'success',
         title: 'ok'
       })
-      this.getGoods()
+      this.getEntities()
     }, this.data.settings.shortTipDuration)
   },
-  showSortDialog(goods) {
+  showSortDialog(entity) {
     let that = this
-    console.log(goods)
+    console.log(entity)
     $wuxDialog().prompt({
       resetOnClose: true,
       title: '设置商品排序',
       content: '数字越小商品越靠前',
       fieldtype: 'number',
-      defaultText: goods.seq || 0,
+      defaultText: entity.seq || 0,
       placeholder: '请输入排序数字',
       maxlength: 8,
       onConfirm(e, response) {
-        that.setGoodsSeq(goods, response)
+        that.setEntitySeq(entity, response)
       },
     })
   },

@@ -1,0 +1,10 @@
+{
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "nav-bar": "../../components/navigator_bar/navigator_bar",
+    "panel": "../../components/panel/panel",
+    "list": "../../components/list/list",
+    "wux-dialog": "../../components/wux-weapp/dialog/index",
+    "wux-actionsheet": "../../components/wux-weapp/actionsheet/index"
+  }
+}

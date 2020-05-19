@@ -16,6 +16,7 @@
   </view>
   <view class="body">
     <myList entities="{{myList}}" bind:onTapListItem="onTapListItem" />
+    <view style="height: 20px;"></view>
     <myList wx:if="{{admin}}" entities="{{staffList}}" bind:onTapListItem="onTapStaffListItem" />
   </view>
 </view>

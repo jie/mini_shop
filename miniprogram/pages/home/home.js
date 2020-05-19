@@ -23,6 +23,9 @@ const PageObject = mergePages({}, BaseMixin, {
       one: '#ffc0d0',
       two: '#ffe0e0',
       three: '#ffedff'
+    },
+    entity: {
+
     }
   },
 
@@ -30,15 +33,15 @@ const PageObject = mergePages({}, BaseMixin, {
     wx.startPullDownRefresh()
   },
   onPullDownRefresh: async function () {
-    await this.getCards()
+    await this.getSystemSettings()
     wx.stopPullDownRefresh()
   },
-  async getCards() {
+  async getSystemSettings() {
     this.showLoading()
     let res = null
     try {
       res = await CallCloudFuncAPI('main', {
-        apiName: 'getCards'
+        apiName: 'getSystemSettings'
       })
     } catch (e) {
       console.error(e)
@@ -58,24 +61,25 @@ const PageObject = mergePages({}, BaseMixin, {
     } else {
       this.setData({
         entities: res.result.data.entities,
-        images: res.result.data.images,
+        entity: res.result.data.entity,
         
       })
-      if(this.data.images && this.data.images.length !== 0 ) {
-        this.setData({
-          targetImage: this.data.images[0].url
-        })
-        console.log(this.data.targetImage)
-      }
     }
     wx.stopPullDownRefresh()
+  },
+  carouselTapImage(e) {
+    console.log(e)
   },
   ontapCard(e) {
     let that = this
     let card = e.currentTarget.dataset.card
+    let summary = `充值${card.value}元实际得到${card.real_value}元`
+    if(card.summary) {
+      summary = card.summary
+    }
     $wuxDialog().confirm({
       resetOnClose: true,
-      title: `您正在购买充值卡，支付${card.value}元实际得到${card.real_value}元`,
+      title: summary,
       content: '确定是否提交订单',
       onConfirm: (e, response) => {
         that.setData({

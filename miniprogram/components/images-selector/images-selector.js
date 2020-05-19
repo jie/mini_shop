@@ -16,11 +16,15 @@ Component({
   properties: {
     images: {
       type: Array,
-      value: true
+      value: []
     },
     bucket: {
       type: String,
       value: ""
+    },
+    size: {
+      type: Number,
+      value: 0
     }
   },
 
@@ -43,13 +47,16 @@ Component({
         theme: 'wx',
         titleText: '操作图片',
         buttons: [{
-            text: '预览图片'
+            text: '预览图片',
+            key: '1'
           },
           {
-            text: '删除图片'
+            text: '删除图片',
+            key: '2'
           },
           {
-            text: '设置封面'
+            text: '设置封面',
+            key: '3'
           },
         ],
         buttonClicked(index, item) {
@@ -72,9 +79,13 @@ Component({
     },
     async addImage() {
       let result = null
+      let maxSize = 5
+      if(this.data.size !== 0) {
+        maxSize = this.data.size
+      }
       try {
         result = await asyncCallFunc("chooseImage", {
-          count: 5,
+          count: maxSize,
           sizeType: ['compressed'],
           sourceType: ['album', 'camera'],
         })
@@ -89,11 +100,25 @@ Component({
       for (let item of result.tempFiles) {
         let cloudPath = getGoodsImageName(item.path, this.data.bucket)
         var uploadResult = await cloudUploadAPI(cloudPath, item.path)
-        images.push(uploadResult.fileID)
+        images.splice(0, 0, uploadResult.fileID)
       }
-      this.setData({
-        _images: images
-      })
+      if(this.data.size === 0) {
+        console.log('1')
+        this.setData({
+          _images: images
+        })
+      } else {
+        console.log('2')
+        let __images = []
+        images.forEach((value, index) => {
+          if(index < this.data.size) {
+            __images.splice(0, 0, value)
+          }
+          
+        })
+        this.setData({_images:__images})
+      }
+
       this.triggerEvent('selectorUpdateImages', {images: this.data._images})
     },
     removeImage: function (curImage) {

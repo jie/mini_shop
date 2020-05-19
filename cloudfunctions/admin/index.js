@@ -2,6 +2,9 @@ const settings = require('./cloud_settings.json')
 const db = require('./db')
 // const constant = require('./constant')
 const goods = require('./goods')
+const groupon = require('./groupon')
+const deposit = require('./deposit')
+const home = require('./home')
 const cloud = require('wx-server-sdk')
 
 
@@ -39,6 +42,7 @@ exports.main = async (event, context) => {
 
   console.log(event)
   switch (event.apiName) {
+    // goods api start
     case 'goods.createGoods':
       console.log('goods.createGoods')
       return await goods.createGoods(event, wxContext, admin)
@@ -46,8 +50,8 @@ exports.main = async (event, context) => {
       console.log('goods.updateGoods')
       return await goods.updateGoods(event, wxContext, admin)
     case 'goods.updateGoodsProperties':
-        console.log('goods.updateGoodsProperties')
-        return await goods.updateGoodsProperties(event, wxContext, admin)
+      console.log('goods.updateGoodsProperties')
+      return await goods.updateGoodsProperties(event, wxContext, admin)
     case 'goods.offShelfGoods':
       console.log('goods.offShelfGoods')
       return await goods.offShelfGoods(event, wxContext, admin)
@@ -58,12 +62,52 @@ exports.main = async (event, context) => {
       console.log('goods.getGoods')
       return await goods.getGoods(event, wxContext, admin)
     case 'goods.deleteGoods':
-        console.log('goods.deleteGoods')
-        return await goods.deleteGoods(event, wxContext, admin)
+      console.log('goods.deleteGoods')
+      return await goods.deleteGoods(event, wxContext, admin)
+      // goods api end
+      // groupon api start
+    case 'groupon.createGroupon':
+      console.log('groupon.createGroupon')
+      return await groupon.createGroupon(event, wxContext, admin)
+    case 'groupon.updateGroupon':
+      console.log('groupon.updateGroupon')
+      return await groupon.updateGroupon(event, wxContext, admin)
+    case 'groupon.updateGrouponProperties':
+      console.log('groupon.updateGrouponProperties')
+      return await groupon.updateGrouponProperties(event, wxContext, admin)
+    case 'groupon.getGroupon':
+      console.log('groupon.getGroupon')
+      return await groupon.getGroupon(event, wxContext, admin)
+    case 'groupon.deleteGroupon':
+      console.log('groupon.deleteGroupon')
+      return await groupon.deleteGroupon(event, wxContext, admin)
+      // groupon api end
+      // deposit card start
+    case 'deposit.createEntity':
+      console.log('deposit.createEntity')
+      return await deposit.createEntity(event, wxContext, admin)
+    case 'deposit.updateEntity':
+      console.log('deposit.updateEntity')
+      return await deposit.updateEntity(event, wxContext, admin)
+    case 'deposit.setEntity':
+      console.log('deposit.setEntity')
+      return await deposit.setEntity(event, wxContext, admin)
+    case 'deposit.deleteEntity':
+      console.log('deposit.deleteEntity')
+      return await deposit.deleteEntity(event, wxContext, admin)
+    case 'deposit.getEntity':
+      console.log('deposit.getEntity')
+      return await deposit.getEntity(event, wxContext, admin)
+      // deposit card end
+      // home start
+    case 'home.setProperties':
+      console.log('home.setProperties')
+      return await home.setProperties(event, wxContext, admin)
+      // home end
     default:
       return {
         status: false,
-        message: 'api_not_found'
+          message: 'api_not_found'
       }
   }
 }
