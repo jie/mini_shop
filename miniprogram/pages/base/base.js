@@ -2,6 +2,9 @@ import regeneratorRuntime from '../../utils/regenerator-runtime/runtime'
 import settings from '../../settings/index'
 import moment from '../../utils/moment.min.js'
 import message from './message'
+import {
+  CallCloudFuncAPI
+} from '../../utils/async_cloudfunc'
 import { $wuxDialog } from '../../components/wux-weapp/index'
 import {requestSubscribeMessage} from '../../utils/async_tools/async_subscribemsg'
 const app = getApp()
@@ -154,7 +157,7 @@ module.exports = {
     let res = null
     try {
       res = await CallCloudFuncAPI('main', {
-        apiName: 'user.getSubscribeMsg',
+        apiName: 'adminAPI.getSubscribeMessageTpls',
         slugs: slugs
       })
     } catch (e) {
@@ -163,7 +166,10 @@ module.exports = {
       this.showToast({
         title: e.message
       })
-      return
+      return {
+        status: false,
+        message: 'fail_to_get_subscribe_msg'
+      }
     }
 
     this.hideLoading()
@@ -172,6 +178,10 @@ module.exports = {
         title: res.result.message,
       })
       return
+    }
+    return {
+      status: true, 
+      data: res.result.data
     }
   },
   async getUserSubscribeMsg(slugs) {
@@ -182,12 +192,14 @@ module.exports = {
       console.error(e)
       return
     }
-
+    console.log('result:', result)
     let targetTplIds = []
-    result.data.entities.map((item) => {
-      targetTplIds.push(item.templateId)
+    result.data.templates.map((item) => {
+      if(slugs.includes(item.slug)) {
+        targetTplIds.push(item.templateId)
+      }
     })
-
+    console.log('targetTplIds:', targetTplIds)
     await requestSubscribeMessage(targetTplIds)
   }
 }
