@@ -1,0 +1,60 @@
+@import '../base/style.wxss';
+@import '../groupon/groupon.wxss';
+
+
+.goods-item {
+  display: flex;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+  min-height: 100px;
+}
+
+.goods-item:last-child {
+  border: 0;
+}
+
+.goods-image {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+.goods-details {
+  flex: 1;
+  padding-left: 10px;
+  box-sizing: border-box;
+}
+.name {
+  display: flex;
+}
+
+.name-wrapper {
+  font-weight: bold;
+  font-size: 120%;
+  flex: 1;
+
+}
+
+.summary {
+  color: #999;
+  word-break: break-all;
+}
+
+.buynum {
+  width: 60px;
+  text-align: right;
+  color: #ED0025
+}
+
+.price {
+  margin-top: 10px;
+  color: #999;
+}
+
+
+.price-num {
+  color: #ED0025;
+  font-weight: bold;
+}

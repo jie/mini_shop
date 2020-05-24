@@ -8,22 +8,17 @@ import {
   CallCloudFuncAPI
 } from '../../utils/async_cloudfunc'
 
-const PageObject = mergePages({}, BaseMixin, PulldownMixin, {
+const PageObject = mergePages({}, BaseMixin, {
   data: {
     navbarData: {
       showCapsule: 1,
       title: "拼团",
-      isPage: false
+      isPage: true
     },
-    reqData: {
-      page: 1,
-      pagesize: 10
-    },
-    entityIdField: '_id',
-    apiModule: 'main',
-    apiName: "grouponAPI.getGroupons",
-    isCloudFunc: true,
-    itemWidth: null,
+    itemWidth: '',
+    paddingWidth: '',
+    entity: null,
+    entity_id: null,
     orders: [{
       goods: [{
         name: "经典全麦吐司",
@@ -54,46 +49,52 @@ const PageObject = mergePages({}, BaseMixin, PulldownMixin, {
       avatar: "cloud://testenv-am2lh.7465-testenv-am2lh-1259778713/goods/202005151030334964901740.jpg"
     }]
   },
+  getEntity: async function() {
+    let result = null
+    try {
+      result = await CallCloudFuncAPI('main', {
+        apiName: 'grouponAPI.getGroupons',
+        goods_id: this.data.entity_id
+      })
+    } catch (e) {
+      console.error(e)
+      this.showToast({
+        title: e.message
+      })
+      return
+    }
 
+    if (result.result.status !== true) {
+      this.showToast({
+        title: result.result.message
+      })
+      return
+    }
+    let entity = result.result.data.entities[0]
+    let goods = []
+    entity.goods.map((item, index) => {
+      item.display_price = item.display_price.toFixed(2)
+      goods.push(item)
+    })
+    this.setData({
+      entity: entity
+    })
+    console.log('entity:', this.data.entity)
+  },
   onInited: function (options) {
     let paddingWidth = 15;
-    let orders = []
-
-    this.data.orders.map((item) => {
-      item.goodsName = this.joinString(item.goods, 'name')
-      orders.push(item)
-    })
-
     this.setData({
+      entity_id: options.entity_id,
       itemWidth: this.data.systemInfo.windowWidth - paddingWidth * 2,
-      paddingWidth: paddingWidth,
-      orders: orders
+      paddingWidth: paddingWidth
     })
     wx.startPullDownRefresh()
   },
-  onFinishedPageRequest() {
-    let now = moment()
-    let entities = []
-    this.data.entities.map((item) => {
-      if(now < moment(item.groupon_start_at)) {
-        item.grouponStatus = '未开始'
-      }
-      if(now > moment(item.groupon_end_at)) {
-        item.grouponStatus = '已结束'
-      }
-      entities.push(item)
-    })
-    this.setData({
-      entities: entities
-    })
-  },
-  onShareAppMessage() {
-    return {
-      title: '',
-      path: 'page/component/pages/button/button'
-    }
-  },
-
+  onPullDownRefresh: async function () {
+    this.showLoading()
+    await this.getEntity()
+    this.hideLoading()
+  }
 })
 
 

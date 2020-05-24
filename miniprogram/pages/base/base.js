@@ -201,5 +201,12 @@ module.exports = {
     })
     console.log('targetTplIds:', targetTplIds)
     await requestSubscribeMessage(targetTplIds)
-  }
+  },
+  joinString: function(alist, field) {
+    let strs = []
+    alist.map((item)=>{
+      strs.push(item[field])
+    })
+    return strs.join(',')
+  },
 }

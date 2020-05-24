@@ -1,2 +1,31 @@
 <nav-bar navbar-data='{{navbarData}}'></nav-bar>
-<view class="container" style="margin-top: {{navHeight}}px"></view>
+<view class="container" style="margin-top: {{navHeight}}px">
+  <navigator class="entities" wx:for="{{entities}}" wx:key="{{item._id}}" url="/pages/groupon_detail/groupon_detail?entity_id={{item._id}}">
+  
+    <view class="groupon-wrapper">
+      <view class="groupon-item" style="margin: {{paddingWidth}}px; width: {{itemWidth}}px">
+        <view class="title">
+          <view class="title-wrapper ellipsis">
+          {{item.name}} <span class="price">$6-$24</span>
+          </view>
+          <button class="title-share" catchtap="ontapShareBtn" open-type="share">
+            <span class="iconfont icon-fenxiang1" style="font-size: 100%"></span>
+          </button>
+        </view>
+        <view class="cover">
+          <image src="{{item.cover}}" mode="aspectFill" style="width: 120px; height: 120px; border-radius: 5px;" />
+        </view>
+        <view class="orderlogs">
+          <view class="log" wx:for="{{orders}}" wx:for-item="order" wx:for-index="aIndex">
+            <view class="sip index log-item">{{orders.length - aIndex}}.</view>
+            <image class="avatar sip log-item" src="{{order.goods[0].cover}}" />
+            <view class="sip user-name log-item ellipsis">{{order.name}}</view>
+            <view class="sip create_at log-item">前天</view>
+            <view class="goods-name log-item ellipsis">{{order.goodsName}}</view>
+          </view>
+        </view>
+        <view class="groupon-status">{{item.grouponStatus}}</view>
+      </view>
+    </view>
+  </navigator>
+</view>

@@ -36,6 +36,7 @@ Component({
   methods: {
     onClickItem: function(e) {
       let currentItem = this.data.entities[e.currentTarget.dataset.index]
+      console.log('currentItem:', currentItem)
       if (currentItem.isLink && currentItem.url) {
         wx.navigateTo({
           url: currentItem.url,

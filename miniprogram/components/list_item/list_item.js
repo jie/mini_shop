@@ -65,6 +65,7 @@ Component({
 
   methods: {
     onClickItem: function (e) {
+      console.log()
       if(this.data.url && this.data.url.startsWith('/pages')) {
         wx.navigateTo({
           url: this.data.url,

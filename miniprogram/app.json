@@ -28,7 +28,8 @@
     "pages/admin_deposit/admin_deposit",
     "pages/admin_home/admin_home",
     "pages/admin_deposit_manage/admin_deposit_manage",
-    "pages/admin_settings/admin_settings"
+    "pages/admin_settings/admin_settings",
+    "pages/groupon_detail/groupon_detail"
   ],
   "window": {
     "navigationStyle": "custom",

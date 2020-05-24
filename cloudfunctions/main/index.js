@@ -10,6 +10,7 @@ const goodsAPI = require('./goods')
 const depositAPI = require('./deposit')
 const payAPI = require('./pay')
 const adminAPI = require('./admin_funcs')
+const grouponAPI = require('./groupon')
 const constant = require('./constant')
 
 
@@ -158,6 +159,14 @@ exports.main = async (event, context) => {
   switch (event.apiName) {
       case 'getSystemSettings':
         return await getSystemSettings()
+      case 'grouponAPI.getGroupons':
+        if (!user || user.errMsg !== 'document.get:ok') {
+          return {
+            status: false,
+            message: 'user_not_found'
+          }
+        }
+        return await grouponAPI.getGroupons(event, wxContext, user.data)
       case 'depositAPI.deposit':
         if (!user || user.errMsg !== 'document.get:ok') {
           return {

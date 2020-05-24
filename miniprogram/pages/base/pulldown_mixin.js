@@ -76,6 +76,7 @@ export default {
         })
       }
 
+
       if (this.data.lastId === null && this.data.entities.length !== 0) {
         this.setData({
           lastId: this.data.entities[this.data.entities.length - 1][this.data.entityIdField],
@@ -85,6 +86,9 @@ export default {
     } catch (e) {
       console.error(e)
     }
+    if(this.onFinishedPageRequest) {
+      this.onFinishedPageRequest()
+    }
     this.hideLoading()
   },
   getEntitiesApiUrl: function () {
@@ -92,13 +96,13 @@ export default {
   },
 
   callEntitiesAPI: async function (reqData) {
+    console.log('reqData:', reqData)
+    console.log('apiName:', this.data.apiName)
+    console.log(this.getEntitiesApiUrl())
     if(!this.data.isCloudFunc) {
       return await ApiRequest(this.getEntitiesApiUrl(), reqData)
     } else {
-      return await CallCloudFuncAPI(this.getEntitiesApiUrl(), {
-        apiName: this.data.apiName,
-        ...reqData
-      })
+      return await CallCloudFuncAPI(this.data.apiModule || 'main',{apiName:  this.data.apiName, ...reqData})
     }
   },
   _getEntitiesAPI: async function () {
@@ -146,6 +150,10 @@ export default {
         'reqData.page': this.data.reqData.page + 1
       })
     }
+    if(this.onFinishedPageRequest) {
+      this.onFinishedPageRequest()
+    }
+
   },
   _getEntitiyIds: function () {
     let entityIds = []

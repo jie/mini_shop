@@ -33,6 +33,7 @@ const PageObject = mergePages({}, BaseMixin, {
     currentDatetimePickerType: null
   },
   onInited(options) {
+    console.log('options.entity_id:', options.entity_id)
     this.setData({
       entity_id: options.entity_id
     })
@@ -131,7 +132,7 @@ const PageObject = mergePages({}, BaseMixin, {
     
     this.hideLoading()
     if(this.data.entity_id) {
-      this.getEntity()
+      this.getEntity(this.data.entity_id)
     } else {
       this.selectComponent('#goodsSelector').updateEntities(result.result.data.entities)
     }
