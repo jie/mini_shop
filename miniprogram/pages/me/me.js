@@ -67,7 +67,7 @@ const PageObject = mergePages({}, BaseMixin, {
       {
         key: 'users',
         isLink: true,
-        title: '客户',
+        title: '用户管理',
         value: '',
         color: '#07C160',
         iconColor: '#07C160',
@@ -78,7 +78,7 @@ const PageObject = mergePages({}, BaseMixin, {
       {
         key: 'all_orders',
         isLink: true,
-        title: '订单',
+        title: '订单管理',
         value: '',
         color: '#07C160',
         iconColor: '#07C160',
@@ -89,7 +89,7 @@ const PageObject = mergePages({}, BaseMixin, {
       {
         key: 'admin_message',
         isLink: true,
-        title: '订阅消息',
+        title: '推送管理',
         value: '',
         color: '#07C160',
         iconColor: '#07C160',
