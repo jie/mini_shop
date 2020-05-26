@@ -14,22 +14,22 @@ const PageObject = mergePages({}, BaseMixin, {
       title: "系统设置",
       isPage: true
     },
-    entity: {
-    }
+    entity: {},
+    slideTitle: '',
+    cardTitle: '',
+    sectionTypes: [
+      'slide', 'deposit_card'
+    ]
   },
   onInited(options) {
-    this.setData({
-      'entity._id': options.entity_id
-    })
     this.getEntity(options.entity_id)
   },
   async getEntity(entityId) {
     this.showLoading()
-    let result = null
+    let res = null
     try {
-      result = await CallCloudFuncAPI('admin', {
-        apiName: 'deposit.getEntity',
-        entity_id: entityId
+      res = await CallCloudFuncAPI('main', {
+        apiName: 'getSystemSettings'
       })
     } catch (e) {
       console.error(e)
@@ -37,39 +37,61 @@ const PageObject = mergePages({}, BaseMixin, {
         title: e.message
       })
       this.hideLoading()
-      return
-    }
-
-    if (result.result.status !== true) {
-      this.showToast({
-        title: result.result.message
-      })
-      this.hideLoading()
+      wx.stopPullDownRefresh()
       return
     }
     this.hideLoading()
-    let entity = result.result.data.entities[0]
-    this.setData({
-      entity: entity
-    })
-    if(entity.image) {
-      this.selectComponent('#imageSelector').setImages([entity.image])
+    console.log(res)
+    if (!res.result.status) {
+      this.showToast({
+        title: res.result.message
+      })
+    } else {
+      if (res.result.data.entity) {
+
+        this.setData({
+          entity: res.result.data.entity
+        })
+
+        if (res.result.data.entity.sections) {
+          let slideTitle = ''
+          let cardTitle = ''
+          res.result.data.entity.sections.map((item, index) => {
+            if (item.type == 'slide') {
+              slideTitle = item.title
+            }
+            if (item.type == 'deposit_card') {
+              cardTitle = item.title
+            }
+          })
+          this.setData({
+            slideTitle: slideTitle,
+            cardTitle: cardTitle
+          })
+        }
+      }
+
     }
-    
+    wx.stopPullDownRefresh()
+    let images = []
+    if (this.data.entity.slide) {
+      this.data.entity.slide.map((item, index) => {
+        images.push(item)
+      })
+    }
+    console.log('images:', images)
+    if (images) {
+      this.selectComponent('#imageSelector').setImages(images)
+    }
+
   },
   async submitForm() {
     this.showLoading()
     let res = null
-    let apiName;
-    if (this.data.entity._id) {
-      apiName = "deposit.updateEntity"
-    } else {
-      apiName = "deposit.createEntity"
-    }
     try {
       res = await CallCloudFuncAPI(
         "admin", {
-          apiName: apiName,
+          apiName: 'home.setProperties',
           entity: this.data.entity
         }
       )
@@ -96,34 +118,85 @@ const PageObject = mergePages({}, BaseMixin, {
         title: 'ok'
       })
       setTimeout(() => {
-        wx.navigateTo({
-          url: '/pages/admin_deposit/admin_deposit',
+        wx.navigateBack({
+          complete: (res) => {},
         })
       }, this.data.settings.shortTipDuration)
     }
   },
-  bindInputValue(e) {
-    let field = e.currentTarget.dataset.field
-    let entity = this.data.entity
-    entity[field] = e.detail.value
+  bindSlideInputValue(e) {
+    let targetItem = null
+    if (this.data.entity.sections) {
+      this.data.entity.sections.map((item, index) => {
+        if (item.type == 'slide') {
+          targetItem = item
+          targetItem.title = e.detail.value
+        }
+      })
+    }
+    if (!targetItem) {
+      if (!this.data.entity.sections) {
+        this.setData({
+          'entity.sections': []
+        })
+
+        this.data.entity.sections.push({
+          title: e.detail.value,
+          type: 'slide'
+        })
+      } else {
+        this.data.entity.sections.push({
+          title: e.detail.value,
+          type: 'slide'
+        })
+      }
+    }
     this.setData({
-      entity: entity
+      entity: this.data.entity
+    })
+  },
+  bindCardInputValue(e) {
+    let targetItem = null
+    if (this.data.entity.sections) {
+      this.data.entity.sections.map((item, index) => {
+        if (item.type == 'deposit_card') {
+          targetItem = item
+          targetItem.title = e.detail.value
+        }
+      })
+    }
+    if (!targetItem) {
+      if (!this.data.entity.sections) {
+        this.setData({
+          'entity.sections': []
+        })
+        this.data.entity.sections.push({
+          title: e.detail.value,
+          type: 'deposit_card'
+        })
+      } else {
+        this.data.entity.sections.push({
+          title: e.detail.value,
+          type: 'deposit_card'
+        })
+      }
+    }
+    this.setData({
+      entity: this.data.entity
     })
   },
   selectorSetCover(e) {
-    this.setData({
-      "entity.image": e.detail.cover
-    })
+    console.log(e)
   },
   selectorUpdateImages(e) {
     console.log(e)
-    if(e.detail.images && e.detail.images.length !== 0) {
+    if (e.detail.images && e.detail.images.length !== 0) {
       this.setData({
-        "entity.image": e.detail.images[0]
+        "entity.slide": e.detail.images
       })
     } else {
       this.setData({
-        "entity.image": ""
+        "entity.slide": []
       })
     }
 
