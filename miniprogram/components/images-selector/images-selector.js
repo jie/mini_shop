@@ -29,12 +29,13 @@ Component({
   },
 
   data: {
-    _images: []
+    _images: [],
+    isObject: false
   },
 
   ready() {
     this.setData({
-      _images: this.data.images
+      _images: this.data.images,
     })
   },
   methods: {
@@ -97,18 +98,34 @@ Component({
       }
 
       let images = this.data._images
-      for (let item of result.tempFiles) {
-        let cloudPath = getGoodsImageName(item.path, this.data.bucket)
-        var uploadResult = await cloudUploadAPI(cloudPath, item.path)
-        images.splice(0, 0, uploadResult.fileID)
+      if(this.data.isObject) {
+        let startId = 0
+        if(this.data._images.length !== 0) {
+          startId = parseInt(this.data._images[this.data._images.length - 1].id) + 1
+        }
+        for (let item of result.tempFiles) {
+          let cloudPath = getGoodsImageName(item.path, this.data.bucket)
+          var uploadResult = await cloudUploadAPI(cloudPath, item.path)
+          images.splice(0, 0, {
+            id: startId.toString(),
+            src: uploadResult.fileID,
+            summary: ''
+          })
+          startId += 1
+        }
+      } else {
+        for (let item of result.tempFiles) {
+          let cloudPath = getGoodsImageName(item.path, this.data.bucket)
+          var uploadResult = await cloudUploadAPI(cloudPath, item.path)
+          images.splice(0, 0, uploadResult.fileID)
+        }
       }
+
       if(this.data.size === 0) {
-        console.log('1')
         this.setData({
           _images: images
         })
       } else {
-        console.log('2')
         let __images = []
         images.forEach((value, index) => {
           if(index < this.data.size) {
@@ -134,8 +151,14 @@ Component({
       this.triggerEvent('selectorUpdateImages', {images: this.data._images})
     },
     setImages(images) {
+      let isObject = false;
+      if((typeof images === 'object')) {
+        isObject = true
+      }
+      console.log(typeof images)
       this.setData({
-        _images: images
+        _images: images,
+        isObject: isObject
       })
     },
     setGoodsCover: function(image) {

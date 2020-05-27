@@ -13,7 +13,7 @@ const setProperties = async (event, wxContext, admin) => {
   } catch (e) {
     console.error(e)
   }
-  if (!entityResult || !entityResult.result) {
+  if (!entityResult) {
     return {
       status: false,
       message: 'fail_get_home'
@@ -21,13 +21,15 @@ const setProperties = async (event, wxContext, admin) => {
   }
 
   let result = null
-  if (entityResult.result.data) {
-    let entity = entityResult.result.data[0]
+  if (entityResult.data && entityResult.data.length !== 0) {
+    console.log('***********:')
+    console.log( entityResult.data)
+    let entity = entityResult.data[0]
     try {
-      result = await db.collection('home').doc(entity._id).set({
+      result = await db.collection('home').doc(entity._id).update({
         data: {
-          sections: event.sections,
-          slide: event.slide,
+          sections: event.entity.sections,
+          slide: event.entity.slide,
           update_at: new Date()
         }
       })
@@ -39,8 +41,8 @@ const setProperties = async (event, wxContext, admin) => {
     try {
       result = await db.collection('home').add({
         data: {
-          sections: event.sections,
-          slide: event.slide,
+          sections: event.entity.sections,
+          slide: event.entity.slide,
           update_at: new Date(),
           create_at: new Date(),
           is_enable: true
