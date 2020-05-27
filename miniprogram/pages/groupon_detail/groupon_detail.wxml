@@ -26,12 +26,12 @@
 							<view class="buynum">已购4</view>
 						</view>
 						<view class="summary ellipsis2">{{g.content}}</view>
-						<view class="price">
-							<span class="price-num">{{g.display_price}}</span><span class="price-unit"> /个</span>
-							<view class="goods-button" catchtap="ontapAddEntity" data-index="{{gIndex}}">
-								<span class="goods-price" data-index="{{gIndex}}">¥{{item.display_price}}</span>
-								<span class="goods-buycart" data-index="{{gIndex}}">购买</span>
-							</view>
+						<view class="price-meta">
+							<view class="price-meta-text"><span class="price-num">{{g.display_price}}</span><span class="price-unit"> /个</span></view>
+							<view class="goods-button" catchtap="ontapAddEntity" data-idx="{{gIndex}}" data-index="{{gIndex}}">
+                <span>购买</span>
+                <span id="small-top-img" class="small-top-img {{isFly?'animate':''}} iconfont icon-zengjia" style="{{translateStyle}}"></span>
+              </view>
 						</view>
 					</view>
 				</view>
@@ -47,5 +47,11 @@
 		<text class="iconfont icon-gouwuchekong" wx:if="{{buycart.entities.length === 0}}"></text>
 		<text class="iconfont icon-gouwucheman" wx:else></text>
 	</view>
+
+
+  <!-- 加购物车时飞的图片 -->
+  <view class="good_box" hidden="{{hide_good_box}}"  style="left: {{bus_x}}px; top: {{bus_y}}px;">
+    <image src="{{feiBox}}"></image>
+  </view>
 
 </view>

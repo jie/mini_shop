@@ -51,6 +51,7 @@
 .price {
   margin-top: 10px;
   color: #999;
+  display: flex;
 }
 
 
@@ -59,21 +60,25 @@
   font-weight: bold;
 }
 
+.price-meta {
+  display: flex;
+  width: 100%;
+  margin-top: 15px;
+  align-items: center;
+}
+
 .goods-button {
+  width: 70px;
   height: 30px;
   line-height: 30px;
   border-radius: 15px;
   background-color: #fa8282;
-  margin-top: 10px;
-  margin-right: 5px;
+  text-align: center;
+  color: #fff;
+  font-size: 90%;
+  align-self: flex-end;
 }
 
-.goods-button .goods-price {
-  padding-left: 10px;
-  padding-right: 5px;
-  font-size: 120%;
-}
-
-.goods-button .goods-buycart {
-  padding-right: 10px;
+.price-meta-text {
+  flex: 1;
 }

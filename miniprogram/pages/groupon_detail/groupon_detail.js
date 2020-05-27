@@ -89,6 +89,7 @@ const PageObject = mergePages({}, BaseMixin, BuycartMixin, {
       itemWidth: this.data.systemInfo.windowWidth - paddingWidth * 2,
       paddingWidth: paddingWidth
     })
+    this.getBusPos()
     wx.startPullDownRefresh()
   },
   onPullDownRefresh: async function () {
@@ -99,6 +100,7 @@ const PageObject = mergePages({}, BaseMixin, BuycartMixin, {
   ontapAddEntity(e) {
     let index = e.currentTarget.dataset.index
     this.addGoodsToCart(this.data.entity.goods[index])
+    this.touchOnGoods(e)
   },
 })
 
