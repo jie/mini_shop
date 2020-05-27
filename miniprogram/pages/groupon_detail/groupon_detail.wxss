@@ -1,6 +1,6 @@
 @import '../base/style.wxss';
 @import '../groupon/groupon.wxss';
-
+@import '../base/buycart.wxss';
 
 .goods-item {
   display: flex;
@@ -57,4 +57,23 @@
 .price-num {
   color: #ED0025;
   font-weight: bold;
+}
+
+.goods-button {
+  height: 30px;
+  line-height: 30px;
+  border-radius: 15px;
+  background-color: #fa8282;
+  margin-top: 10px;
+  margin-right: 5px;
+}
+
+.goods-button .goods-price {
+  padding-left: 10px;
+  padding-right: 5px;
+  font-size: 120%;
+}
+
+.goods-button .goods-buycart {
+  padding-right: 10px;
 }

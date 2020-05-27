@@ -10,26 +10,42 @@
 					<span class="iconfont icon-fenxiang1" style="font-size: 100%"></span>
 				</button>
 			</view>
-      <view class="regulation">{{entity.regulation}}</view>
+			<view class="regulation">{{entity.regulation}}</view>
 			<view class="cover">
 				<image src="{{entity.cover}}" mode="aspectFill" style="width: 100%; border-radius: 5px;" />
 			</view>
-      <view class="content">{{entity.content}}</view>
-      <view class="goods" wx:if="{{entity.goods}}">
-        <view class="goods-item" wx:for="{{entity.goods}}" wx:key="{{entity._id}}" wx:for-item="g">
-          <view class="goods-image">
-            <image class="goods-img" mode="aspectFill" src="{{g.cover}}" style="width: 100px; height: 100px"/>
-          </view>
-          <view class="goods-details">
-            <view class="name">
-              <view class="name-wrapper ellipsis">{{g.name}}</view>
-              <view class="buynum">已购4</view>
-            </view>
-            <view class="summary ellipsis2">{{g.content}}</view>
-            <view class="price"><span class="price-num">{{g.display_price}}</span><span class="price-unit"> /个</span></view>
-          </view>
-        </view>
-      </view>
+			<view class="content">{{entity.content}}</view>
+			<view class="goods" wx:if="{{entity.goods}}">
+				<view class="goods-item" wx:for="{{entity.goods}}" wx:key="{{entity._id}}" wx:for-item="g" wx:for-index="gIndex">
+					<view class="goods-image">
+						<image class="goods-img" mode="aspectFill" src="{{g.cover}}" style="width: 100px; height: 100px" />
+					</view>
+					<view class="goods-details">
+						<view class="name">
+							<view class="name-wrapper ellipsis">{{g.name}}</view>
+							<view class="buynum">已购4</view>
+						</view>
+						<view class="summary ellipsis2">{{g.content}}</view>
+						<view class="price">
+							<span class="price-num">{{g.display_price}}</span><span class="price-unit"> /个</span>
+							<view class="goods-button" catchtap="ontapAddEntity" data-index="{{gIndex}}">
+								<span class="goods-price" data-index="{{gIndex}}">¥{{item.display_price}}</span>
+								<span class="goods-buycart" data-index="{{gIndex}}">购买</span>
+							</view>
+						</view>
+					</view>
+				</view>
+			</view>
 		</view>
 	</view>
+
+	<view class="display-total" wx:if="{{entities.length!==0&&buycart.entities.length !== 0}}" bindtap="ontapBuycart">
+		<text style="font-size: 18px;">¥{{buycart.display_total}}</text>
+		<text style="font-size: 12px;">{{buycart.count}}件商品</text>
+	</view>
+	<view class="buycart" bindtap="ontapBuycart" wx:if="{{entities.length!==0&&buycart.entities.length !== 0}}">
+		<text class="iconfont icon-gouwuchekong" wx:if="{{buycart.entities.length === 0}}"></text>
+		<text class="iconfont icon-gouwucheman" wx:else></text>
+	</view>
+
 </view>

@@ -3,12 +3,13 @@ import PulldownMixin from '../base/pulldown_mixin'
 import OrdersMixin from '../base/orders_mixin'
 import mergePages from '../../utils/objectUtils'
 import BaseMixin from '../base/base'
+import BuycartMixin from '../base/buycart'
 const moment = require('../../utils/moment.min.js')
 import {
   CallCloudFuncAPI
 } from '../../utils/async_cloudfunc'
 
-const PageObject = mergePages({}, BaseMixin, {
+const PageObject = mergePages({}, BaseMixin, BuycartMixin, {
   data: {
     navbarData: {
       showCapsule: 1,
@@ -94,7 +95,11 @@ const PageObject = mergePages({}, BaseMixin, {
     this.showLoading()
     await this.getEntity()
     this.hideLoading()
-  }
+  },
+  ontapAddEntity(e) {
+    let index = e.currentTarget.dataset.index
+    this.addGoodsToCart(this.data.entity.goods[index])
+  },
 })
 
 

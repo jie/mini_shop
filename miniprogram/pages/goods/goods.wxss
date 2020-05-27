@@ -1,5 +1,5 @@
 @import '../base/style.wxss';
-
+@import '../base/buycart.wxss';
 .container {
   /* background-color: #e67774; */
   position: relative;
@@ -69,49 +69,4 @@
 .header {
   padding: 10px;
   /* border-bottom: 1px solid #f9f9f9; */
-}
-
-.buycart {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #fa8282;
-  border-radius: 30px;
-  box-sizing: border-box;
-  background-color: #fae3d9;
-  border: 3px solid #fff;
-  z-index: 20;
-}
-
-.buycart text {
-  font-size: 30px;
-}
-
-.display-total {
-  position: fixed;
-  bottom: 20px;
-  left: 50px;
-  height: 60px;
-  width: 120px;
-  border-top-right-radius: 30px;
-  border-bottom-right-radius: 30px;
-  padding-left: 15px;
-  box-sizing: border-box;
-  z-index: 10;
-  background-color: #f9f9f9;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
-}
-
-.display-total text {
-  display: block;
-  font-size: 13px;
 }
