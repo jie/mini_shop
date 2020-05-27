@@ -3,8 +3,6 @@ import moment from '../../utils/moment.min.js'
 
 module.exports = {
   data: {
-    hideCount: true, //角标初始是隐藏的
-    count: 0, //角标数
     hide_good_box: true,
     feiBox: ""
   },
@@ -13,11 +11,9 @@ module.exports = {
     this.loadBuycart()
   },
   getBusPos() {
-    var that = this;
-    //可视窗口x,y坐标
     this.busPos = {};
-    this.busPos['x'] = 20;
-    this.busPos['y'] = this.data.systemInfo.windowHeight - 20;
+    this.busPos['x'] = 30;
+    this.busPos['y'] = this.data.systemInfo.windowHeight - 80;
   },
   ontapBuycart() {
     wx.navigateTo({
@@ -137,123 +133,98 @@ module.exports = {
     })
     wx.setStorageSync('buycart', this.data.buycart)
   },
-  //点击商品触发的事件
+
   touchOnGoods: function (e) {
-    //把点击每一项的对应的商品图保存下来，就是飞向购物车的图片
     this.setData({
       feiBox: this.data.entity.goods[e.currentTarget.dataset.idx].cover
     })
-    // 如果good_box正在运动
-    if (!this.data.hide_good_box) return;
-    //当前点击位置的x，y坐标
+
     this.finger = {};
     var topPoint = {};
-    this.finger['x'] = e.touches["0"].clientX;
+    this.finger['x'] = e.touches["0"].clientX; //点击的位置
     this.finger['y'] = e.touches["0"].clientY;
-    console.log(this.finger)
+
     if (this.finger['y'] < this.busPos['y']) {
       topPoint['y'] = this.finger['y'] - 150;
     } else {
       topPoint['y'] = this.busPos['y'] - 150;
     }
+    topPoint['x'] = Math.abs(this.finger['x'] - this.busPos['x']) / 2;
 
-    if (this.finger['x'] < this.busPos['x']) {
-      topPoint['x'] = Math.abs(this.finger['x'] - this.busPos['x']) / 2 + this.finger['x'];
-    } else {
-      topPoint['x'] = this.busPos['x'];
-      this.finger['x'] = this.busPos['x']
+    if (this.finger['x'] > this.busPos['x']) {
+      topPoint['x'] = (this.finger['x'] - this.busPos['x']) / 2 + this.busPos['x'];
+    } else { //
+      topPoint['x'] = (this.busPos['x'] - this.finger['x']) / 2 + this.finger['x'];
     }
 
-    console.log('finger:', this.finger)
-    console.log('topPoint:', topPoint)
-    console.log('busPos:', this.busPos)
-    this.linePos = this.bezier([this.finger, topPoint, this.busPos], 30);
-    this.startAnimation();
-
+    this.linePos = this.bezier([this.busPos, topPoint, this.finger], 30);
+    this.startAnimation(e);
   },
-  //开始动画
-  startAnimation: function () {
-    var index = 0,
-      that = this,
-      bezier_points = that.linePos['bezier_points'];
+  startAnimation(e) {
+    let bezier_points = this.linePos['bezier_points'],
+      len = bezier_points.length,
+      index = len;
     this.setData({
       hide_good_box: false,
-      bus_x: that.finger['x'],
-      bus_y: that.finger['y']
+      bus_x: this.finger['x'],
+      bus_y: this.finger['y']
     })
-    this.timer = setInterval(function () {
-      index++;
-      that.setData({
-        bus_x: bezier_points[index]['x'],
-        bus_y: bezier_points[index]['y']
-      })
-      if (index >= 28) {
-        clearInterval(that.timer);
-        that.setData({
-          hide_good_box: true,
-          hideCount: false,
-          count: that.data.count += 1
+    this.timer && clearInterval(this.timer);
+    this.timer = setInterval(() => {
+      index--;
+      if (index < 0) {
+        clearInterval(this.timer);
+        this.setData({
+          hide_good_box: true
+        })
+      } else {
+        this.setData({
+          bus_x: bezier_points[index]['x'],
+          bus_y: bezier_points[index]['y']
         })
       }
-    }, 33);
+    }, 20)
   },
-  bezier: function (points, times) {
-    // 0、以3个控制点为例，点A,B,C,AB上设置点D,BC上设置点E,DE连线上设置点F,则最终的贝塞尔曲线是点F的坐标轨迹。
-    // 1、计算相邻控制点间距。
-    // 2、根据完成时间,计算每次执行时D在AB方向上移动的距离，E在BC方向上移动的距离。
-    // 3、时间每递增100ms，则D,E在指定方向上发生位移, F在DE上的位移则可通过AD/AB = DF/DE得出。
-    // 4、根据DE的正余弦值和DE的值计算出F的坐标。
-    // 邻控制AB点间距
-    var bezier_points = [];
-    var points_D = [];
-    var points_E = [];
-    const DIST_AB = Math.sqrt(Math.pow(points[1]['x'] - points[0]['x'], 2) + Math.pow(points[1]['y'] - points[0]['y'], 2));
-    // 邻控制BC点间距
-    const DIST_BC = Math.sqrt(Math.pow(points[2]['x'] - points[1]['x'], 2) + Math.pow(points[2]['y'] - points[1]['y'], 2));
-    // D每次在AB方向上移动的距离
-    const EACH_MOVE_AD = DIST_AB / times;
-    // E每次在BC方向上移动的距离 
-    const EACH_MOVE_BE = DIST_BC / times;
-    // 点AB的正切
-    const TAN_AB = (points[1]['y'] - points[0]['y']) / (points[1]['x'] - points[0]['x']);
-    // 点BC的正切
-    const TAN_BC = (points[2]['y'] - points[1]['y']) / (points[2]['x'] - points[1]['x']);
-    // 点AB的弧度值
-    const RADIUS_AB = Math.atan(TAN_AB);
-    // 点BC的弧度值
-    const RADIUS_BC = Math.atan(TAN_BC);
-    // 每次执行
-    for (var i = 1; i <= times; i++) {
-      // AD的距离
-      var dist_AD = EACH_MOVE_AD * i;
-      // BE的距离
-      var dist_BE = EACH_MOVE_BE * i;
-      // D点的坐标
-      var point_D = {};
-      point_D['x'] = dist_AD * Math.cos(RADIUS_AB) + points[0]['x'];
-      point_D['y'] = dist_AD * Math.sin(RADIUS_AB) + points[0]['y'];
-      points_D.push(point_D);
-      // E点的坐标
-      var point_E = {};
-      point_E['x'] = dist_BE * Math.cos(RADIUS_BC) + points[1]['x'];
-      point_E['y'] = dist_BE * Math.sin(RADIUS_BC) + points[1]['y'];
-      points_E.push(point_E);
-      // 此时线段DE的正切值
-      var tan_DE = (point_E['y'] - point_D['y']) / (point_E['x'] - point_D['x']);
-      // tan_DE的弧度值
-      var radius_DE = Math.atan(tan_DE);
-      // 地市DE的间距
-      var dist_DE = Math.sqrt(Math.pow((point_E['x'] - point_D['x']), 2) + Math.pow((point_E['y'] - point_D['y']), 2));
-      // 此时DF的距离
-      var dist_DF = (dist_AD / DIST_AB) * dist_DE;
-      // 此时DF点的坐标
-      var point_F = {};
-      point_F['x'] = dist_DF * Math.cos(radius_DE) + point_D['x'];
-      point_F['y'] = dist_DF * Math.sin(radius_DE) + point_D['y'];
-      bezier_points.push(point_F);
+
+  bezier: function (pots, amount) {
+    var pot;
+    var lines;
+    var ret = [];
+    var points;
+    for (var i = 0; i <= amount; i++) {
+      points = pots.slice(0);
+      lines = [];
+      while (pot = points.shift()) {
+        if (points.length) {
+          lines.push(pointLine([pot, points[0]], i / amount));
+        } else if (lines.length > 1) {
+          points = lines;
+          lines = [];
+        } else {
+          break;
+        }
+      }
+      ret.push(lines[0]);
+    }
+    function pointLine(points, rate) {
+      var pointA, pointB, pointDistance, xDistance, yDistance, tan, radian, tmpPointDistance;
+      var ret = [];
+      pointA = points[0];//点击
+      pointB = points[1];//中间
+      xDistance = pointB.x - pointA.x;
+      yDistance = pointB.y - pointA.y;
+      pointDistance = Math.pow(Math.pow(xDistance, 2) + Math.pow(yDistance, 2), 1 / 2);
+      tan = yDistance / xDistance;
+      radian = Math.atan(tan);
+      tmpPointDistance = pointDistance * rate;
+      ret = {
+        x: pointA.x + tmpPointDistance * Math.cos(radian),
+        y: pointA.y + tmpPointDistance * Math.sin(radian)
+      };
+      return ret;
     }
     return {
-      'bezier_points': bezier_points
-    };
-  },
+      'bezier_points': ret
+    }
+  }
 }

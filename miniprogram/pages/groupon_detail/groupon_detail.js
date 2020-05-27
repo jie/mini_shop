@@ -95,6 +95,9 @@ const PageObject = mergePages({}, BaseMixin, BuycartMixin, {
   onPullDownRefresh: async function () {
     this.showLoading()
     await this.getEntity()
+    wx.stopPullDownRefresh({
+      complete: (res) => {},
+    })
     this.hideLoading()
   },
   ontapAddEntity(e) {
