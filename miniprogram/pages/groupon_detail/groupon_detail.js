@@ -55,7 +55,7 @@ const PageObject = mergePages({}, BaseMixin, BuycartMixin, {
     try {
       result = await CallCloudFuncAPI('main', {
         apiName: 'grouponAPI.getGroupons',
-        goods_id: this.data.entity_id
+        groupon_id: this.data.entity_id
       })
     } catch (e) {
       console.error(e)

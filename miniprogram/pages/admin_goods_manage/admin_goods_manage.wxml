@@ -21,6 +21,18 @@
 		</view>
 	</view>
 	<view class="section">
+		<view class="section__title">* 单位</view>
+		<view class="section__field">
+			<input bindinput="bindInputGoodsUnit" placeholder="请填商品单位" value="{{goods.unit}}" />
+		</view>
+	</view>
+	<view class="section">
+		<view class="section__title">英文单位</view>
+		<view class="section__field">
+			<input bindinput="bindInputGoodsUnitEn" placeholder="请填商品英文单位" value="{{goods.unit_en}}" />
+		</view>
+	</view>
+	<view class="section">
 		<view class="section__title">* 显示价格</view>
 		<view class="section__field">
 			<input bindinput="bindInputDisplayPrice" placeholder="请填写商品显示价格" value="{{goods.display_price}}" />

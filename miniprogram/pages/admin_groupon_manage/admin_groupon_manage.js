@@ -79,7 +79,7 @@ const PageObject = mergePages({}, BaseMixin, {
     console.log('entity:', entity)
     setTimeout(() => {
       this.hideLoading()
-      this.selectComponent('#imageSelector').setImages(this.data.entity.images)
+      this.selectComponent('#imageSelector').setImages(this.data.entity.media)
       let selected = []
       this.data.entity.goods.map((item) => {
         selected.push(item._id)

@@ -29,8 +29,7 @@
 						<view class="price-meta">
 							<view class="price-meta-text"><span class="price-num">{{g.display_price}}</span><span class="price-unit"> /个</span></view>
 							<view class="goods-button" catchtap="ontapAddEntity" data-idx="{{gIndex}}" data-index="{{gIndex}}">
-                <span>购买</span>
-                <span id="small-top-img" class="small-top-img {{isFly?'animate':''}} iconfont icon-zengjia" style="{{translateStyle}}"></span>
+								<span id="small-top-img" class="small-top-img {{isFly?'animate':''}} iconfont icon-zengjia" style="{{translateStyle}}"></span> <span>购买</span>
               </view>
 						</view>
 					</view>

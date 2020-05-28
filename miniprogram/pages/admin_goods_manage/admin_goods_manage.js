@@ -25,7 +25,9 @@ const PageObject = mergePages({}, BaseMixin, {
       images: [],
       cover: "",
       media: [],
-      is_groupon: false
+      is_groupon: false,
+      unit: '个',
+      unit_en: ''
     },
   },
   onInited(options) {
@@ -204,6 +206,16 @@ const PageObject = mergePages({}, BaseMixin, {
     console.log(e)
     this.setData({
       'goods.is_groupon': e.detail.value
+    })
+  },
+  bindInputGoodsUnit(e) {
+    this.setData({
+      'goods.unit': e.detail.value
+    })
+  },
+  bindInputGoodsUnitEn(e) {
+    this.setData({
+      'goods.unit_en': e.detail.value
     })
   }
 })

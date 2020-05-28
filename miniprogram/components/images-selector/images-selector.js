@@ -25,16 +25,28 @@ Component({
     size: {
       type: Number,
       value: 0
+    },
+    objectArray: {
+      type: Boolean,
+      value: false
+    },
+    objectKey: {
+      type: String,
+      value: ''
     }
   },
 
   data: {
     _images: [],
-    isObject: false
+    isObject: false,
+    obKey: ''
   },
 
   ready() {
+    console.log('objectArray:', this.data.objectArray)
     this.setData({
+      obKey: this.data.objectKey || 'src',
+      isObject: this.data.objectArray,
       _images: this.data.images,
     })
   },
@@ -151,14 +163,8 @@ Component({
       this.triggerEvent('selectorUpdateImages', {images: this.data._images})
     },
     setImages(images) {
-      let isObject = false;
-      if((typeof images === 'object')) {
-        isObject = true
-      }
-      console.log(typeof images)
       this.setData({
         _images: images,
-        isObject: isObject
       })
     },
     setGoodsCover: function(image) {

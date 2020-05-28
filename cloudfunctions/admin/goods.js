@@ -122,6 +122,18 @@ function makeGoods(event, admin) {
     goods.seq = 0
   }
 
+  if(event.goods.unit) {
+    goods.unit = event.goods.unit
+  } else {
+    goods.unit = ''
+  }
+
+  if(event.goods.unit_en) {
+    goods.unit_en = event.goods.unit_en
+  } else {
+    goods.unit_en = ''
+  }
+
   // 团购设置
   goods.is_groupon = event.goods.is_groupon ? true : false
   return {

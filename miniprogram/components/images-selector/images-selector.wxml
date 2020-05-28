@@ -1,7 +1,7 @@
 <view class="wrapper imageSelector" id="imageSelector">
 	<block wx:if="{{isObject}}">
 		<view class="img-wrapper" wx:for="{{_images}}" wx:key="{{item.src}}" bindtap="onClickImage" data-imageindex="{{index}}">
-			<image class="img" mode="aspectFill" src="{{item.src}}"></image>
+			<image class="img" mode="aspectFill" src="{{item[obKey]}}"></image>
 		</view>
 	</block>
 	<block wx:else>

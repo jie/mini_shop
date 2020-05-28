@@ -77,6 +77,8 @@
   color: #fff;
   font-size: 90%;
   align-self: flex-end;
+  display: flex;
+  justify-content: center;
 }
 
 .price-meta-text {
